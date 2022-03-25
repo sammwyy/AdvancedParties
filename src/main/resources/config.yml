@@ -1,0 +1,8 @@
+settings:
+  mongo-uri: "mongodb://localhost/minecraft"
+  redis-uri: "redis://localhost/0"
+
+parties:
+  disband-keepalive: 60
+  disband-timeout: 300
+  max-members: 10
