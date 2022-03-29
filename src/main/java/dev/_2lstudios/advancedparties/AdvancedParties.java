@@ -1,21 +1,32 @@
 package dev._2lstudios.advancedparties;
 
+import com.dotphin.milkshakeorm.MilkshakeORM;
+import com.dotphin.milkshakeorm.providers.Provider;
+import com.dotphin.milkshakeorm.repository.Repository;
+
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev._2lstudios.advancedparties.commands.CommandListener;
-import dev._2lstudios.advancedparties.commands.PartyCommand;
+import dev._2lstudios.advancedparties.commands.impl.PartyCommand;
 import dev._2lstudios.advancedparties.config.ConfigManager;
 import dev._2lstudios.advancedparties.config.Configuration;
 import dev._2lstudios.advancedparties.i18n.LanguageManager;
 import dev._2lstudios.advancedparties.listeners.PlayerJoinListener;
 import dev._2lstudios.advancedparties.listeners.PlayerQuitListener;
+import dev._2lstudios.advancedparties.parties.PartyData;
+import dev._2lstudios.advancedparties.parties.PartyManager;
+import dev._2lstudios.advancedparties.players.PartyPlayerData;
 import dev._2lstudios.advancedparties.players.PartyPlayerManager;
 
 public class AdvancedParties extends JavaPlugin {
     private ConfigManager configManager;
     private LanguageManager languageManager;
+    private PartyManager partyManager;
     private PartyPlayerManager playerManager;
+
+    private Repository<PartyData> partyDataRepository;
+    private Repository<PartyPlayerData> playerDataRepository;
 
     private void addCommand(CommandListener command) {
         command.register(this, false);
@@ -30,7 +41,14 @@ public class AdvancedParties extends JavaPlugin {
         // Instantiate managers.
         this.configManager = new ConfigManager(this);
         this.languageManager = new LanguageManager(this.getConfig().getString("settings.default-lang"), this.getDataFolder());
+        this.partyManager = new PartyManager(this);
         this.playerManager = new PartyPlayerManager(this);
+
+
+        // Connect to database.
+        Provider provider = MilkshakeORM.connect(this.getConfig().getString("settings.mongo-uri"));
+        this.partyDataRepository = MilkshakeORM.addRepository(PartyData.class, provider, "Parties");
+        this.playerDataRepository = MilkshakeORM.addRepository(PartyPlayerData.class, provider, "PartyPlayers");
 
         // Load data.
         this.languageManager.loadLanguagesSafe();
@@ -54,7 +72,20 @@ public class AdvancedParties extends JavaPlugin {
         return this.languageManager;
     }
 
+    public PartyManager getPartyManager() {
+        return this.partyManager;
+    }
+
     public PartyPlayerManager getPlayerManager() {
         return this.playerManager;
+    }
+
+    // Repository getters
+    public Repository<PartyData> getPartyRepository() {
+        return this.partyDataRepository;
+    }
+
+    public Repository<PartyPlayerData> getPlayerRepository() {
+        return this.playerDataRepository;
     }
 }

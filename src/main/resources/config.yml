@@ -3,6 +3,11 @@ settings:
   mongo-uri: "mongodb://localhost/minecraft"
   redis-uri: "redis://localhost/0"
 
+cache:
+  enabled: true
+  time-after-read: 120
+  time-after-write: 120
+
 parties:
   disband-keepalive: 60
   disband-timeout: 300

@@ -24,14 +24,32 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>2lstudios-repo</id>
+            <url>https://ci.2lstudios.dev/plugin/repository/everything/</url>
+        </repository>
     </repositories>
 
     <!-- Dependencies imports -->
     <dependencies>
+        <!-- Spigot/Bukkit API -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.18.1-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Plugin dependencies -->
+        <dependency>
+            <groupId>dev._2lstudios</groupId>
+            <artifactId>Jedis-Wrapper</artifactId>
+            <version>4.1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev._2lstudios</groupId>
+            <artifactId>Milkshake-Bukkit</artifactId>
+            <version>0.3-BETA</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

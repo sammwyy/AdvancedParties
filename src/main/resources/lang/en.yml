@@ -1,1 +1,22 @@
-test: uwu
+common:
+  no-permission: "&cNo permissions for run this command."
+  no-by-console: "&cThis command cannot be executed in the console."
+  already-in-party: "&cYou are already in a party."
+  other-already-in-party: "&cThis player is already in a party."
+  not-in-party: "&cYou aren't in a party."
+  other-not-in-party: "&cThis player isn't in a party."
+
+create:
+  success: "&aYou has create a party, use &b/party invite <player> &ato invite others players to your party."
+
+disband:
+  not-leader: "&cOnly the leader can disband the party."
+  disbanded: "&aYou has disolved your party."
+
+help: |-
+  &7
+  &5=========== &d&lParties&r &5===========
+  &d/party create &8- &7Create a party.
+  &d/party disband &8- &7Disolve your party.
+  &d/party info &8- &7Get info about your party.
+  &7
