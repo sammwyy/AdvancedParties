@@ -1,4 +1,5 @@
 settings:
+  default-lang: "en"
   mongo-uri: "mongodb://localhost/minecraft"
   redis-uri: "redis://localhost/0"
 
