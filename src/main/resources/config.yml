@@ -1,5 +1,6 @@
 settings:
   default-lang: "en"
+  gc-time: 43200
   mongo-uri: "mongodb://localhost/minecraft"
   redis-uri: "redis://localhost/0"
 
@@ -9,6 +10,7 @@ cache:
   time-after-write: 120
 
 parties:
-  disband-keepalive: 60
-  disband-timeout: 300
   max-members: 10
+
+requests:
+  expiration: 30

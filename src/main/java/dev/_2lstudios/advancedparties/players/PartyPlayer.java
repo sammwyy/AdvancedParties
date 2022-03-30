@@ -1,5 +1,7 @@
 package dev._2lstudios.advancedparties.players;
 
+import java.util.List;
+
 import com.dotphin.milkshakeorm.utils.MapFactory;
 
 import org.bukkit.entity.Player;
@@ -7,6 +9,7 @@ import org.bukkit.entity.Player;
 import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.commands.CommandExecutor;
 import dev._2lstudios.advancedparties.parties.Party;
+import dev._2lstudios.advancedparties.requests.PartyRequest;
 
 public class PartyPlayer extends CommandExecutor {
     private Player bukkitPlayer;
@@ -25,6 +28,14 @@ public class PartyPlayer extends CommandExecutor {
 
     public String getLowerName() {
         return this.bukkitPlayer.getName().toLowerCase();
+    }
+
+    public List<PartyRequest> getPendingRequests() {
+        return this.getPlugin().getRequestManager().getPendingByPlayer(this.getLowerName());
+    }
+
+    public List<PartyRequest> getRequests() {
+        return this.getPlugin().getRequestManager().getRequestsForPlayer(this.getLowerName());
     }
 
     public void setParty(Party party) {
