@@ -14,6 +14,7 @@ import dev._2lstudios.advancedparties.players.PartyPlayer;
 public class Party {
     private AdvancedParties plugin;
     private PartyData data;
+    private int disbandCount = 0;
 
     public Party(AdvancedParties plugin, PartyData data) {
         this.plugin = plugin;
@@ -27,6 +28,15 @@ public class Party {
 
         this.plugin.getPlayerRepository().deleteMany(MapFactory.create("party", this.getID()));
         this.data.delete();
+    }
+
+    public int getDisbandCount() {
+        return this.disbandCount;
+    }
+
+    public int bumpDisbandCount() {
+        this.disbandCount++;
+        return this.disbandCount;
     }
 
     public String getID() {
