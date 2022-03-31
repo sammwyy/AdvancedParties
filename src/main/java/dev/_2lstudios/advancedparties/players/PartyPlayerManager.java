@@ -33,7 +33,7 @@ public class PartyPlayerManager {
     }
 
     public PartyPlayer getPlayer(String name) {
-        Player bukkitPlayer = this.plugin.getServer().getPlayer(name);
+        Player bukkitPlayer = this.plugin.getServer().getPlayerExact(name);
         if (bukkitPlayer != null && bukkitPlayer.isOnline()) {
             return this.getPlayer(bukkitPlayer);
         } else {
