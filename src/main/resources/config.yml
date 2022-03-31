@@ -2,7 +2,7 @@ settings:
   default-lang: "en"
   gc-time: 43200
   mongo-uri: "mongodb://localhost/minecraft"
-  redis-uri: "redis://localhost/0"
+  redis-uri: "redis://localhost:6379/0"
 
 cache:
   enabled: true

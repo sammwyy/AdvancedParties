@@ -5,9 +5,11 @@ import dev._2lstudios.advancedparties.commands.Argument;
 import dev._2lstudios.advancedparties.commands.Command;
 import dev._2lstudios.advancedparties.commands.CommandContext;
 import dev._2lstudios.advancedparties.commands.CommandListener;
+import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
 import dev._2lstudios.advancedparties.parties.Party;
 import dev._2lstudios.advancedparties.players.OfflinePlayer;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
+import dev._2lstudios.advancedparties.requests.PartyRequest;
 
 @Command(
   name = "invite",
@@ -33,7 +35,10 @@ public class PartyInviteCommand extends CommandListener {
                     player.getI18nMessage("invite.sent")
                         .replace("{target}", targetName)
                 );
-                plugin.getRequestManager().createRequest(party, targetName);
+
+                PartyRequest request = plugin.getRequestManager().createRequest(party, targetName);
+                PartyInvitePacket packet = new PartyInvitePacket(request);
+                plugin.getPubSub().publish(packet);
             }
         } else {
             player.sendI18nMessage("common.not-in-party");

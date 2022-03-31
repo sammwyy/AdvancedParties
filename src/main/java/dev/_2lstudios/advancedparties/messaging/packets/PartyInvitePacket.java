@@ -27,7 +27,7 @@ public class PartyInvitePacket implements Packet {
   }
 
   @Override
-  public RedisChannel getChannel() {
+  public String getChannel() {
     return RedisChannel.PARTY_INVITE;
   }
 }

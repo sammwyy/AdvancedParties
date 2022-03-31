@@ -25,7 +25,7 @@ public class PartyRequestManager {
         }
     }
 
-    public void createRequest(Party party, String target) {
+    public PartyRequest createRequest(Party party, String target) {
         PartyRequest request = new PartyRequest();
         request.party = party.getID();
         request.source = party.getLeader();
@@ -34,6 +34,7 @@ public class PartyRequestManager {
         request.save();
 
         this.queued.add(request);
+        return request;
     }
 
     public List<PartyRequest> getPendingByPlayer(String player) {

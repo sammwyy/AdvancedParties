@@ -14,6 +14,7 @@ import dev._2lstudios.advancedparties.config.Configuration;
 import dev._2lstudios.advancedparties.i18n.LanguageManager;
 import dev._2lstudios.advancedparties.listeners.PlayerJoinListener;
 import dev._2lstudios.advancedparties.listeners.PlayerQuitListener;
+import dev._2lstudios.advancedparties.messaging.RedisPubSub;
 import dev._2lstudios.advancedparties.parties.PartyData;
 import dev._2lstudios.advancedparties.parties.PartyManager;
 import dev._2lstudios.advancedparties.players.PartyPlayerData;
@@ -28,6 +29,8 @@ public class AdvancedParties extends JavaPlugin {
     private PartyManager partyManager;
     private PartyPlayerManager playerManager;
     private PartyRequestManager requestManager;
+
+    private RedisPubSub pubsub;
 
     private Repository<PartyData> partyDataRepository;
     private Repository<PartyPlayerData> playerDataRepository;
@@ -57,6 +60,9 @@ public class AdvancedParties extends JavaPlugin {
         this.partyManager = new PartyManager(this);
         this.playerManager = new PartyPlayerManager(this);
         this.requestManager = new PartyRequestManager(this);
+        
+        // Connect to redis.
+        this.pubsub = new RedisPubSub(this, this.getConfig().getString("settings.redis-uri"));
 
         // Connect to database.
         Provider provider = MilkshakeORM.connect(this.getConfig().getString("settings.mongo-uri"));
@@ -99,6 +105,11 @@ public class AdvancedParties extends JavaPlugin {
 
     public PartyRequestManager getRequestManager() {
         return this.requestManager;
+    }
+
+    // Redis getters
+    public RedisPubSub getPubSub() {
+        return this.pubsub;
     }
 
     // Repository getters
