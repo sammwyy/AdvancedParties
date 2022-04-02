@@ -30,6 +30,24 @@ public class Party {
         this.data.delete();
     }
 
+    public void removeMember(String player) {
+        this.data.members.remove(player);
+        this.data.save();
+    }
+
+    public void removeMember(PartyPlayer player) {
+        this.removeMember(player.getLowerName());
+    }
+
+    public void addMember(String player) {
+        this.data.members.add(player);
+        this.data.save();
+    }
+
+    public void addMember(PartyPlayer player) {
+        this.addMember(player.getLowerName());
+    }
+
     public int getDisbandCount() {
         return this.disbandCount;
     }

@@ -31,6 +31,7 @@ public class PartyAcceptCommand extends CommandListener {
             if (party == null) {
                 player.sendI18nMessage("common.invalid-or-expired");
             } else {
+                party.addMember(player);
                 player.setParty(party);
                 player.sendI18nMessage("accept.accepted");
                 request.delete();

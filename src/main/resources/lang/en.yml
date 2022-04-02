@@ -32,6 +32,7 @@ help: |-
   &d/party disband &8- &7Disolve your party.
   &d/party info &8- &7Get info about your party.
   &d/party invite <player> &8- &7Invite a player to your party.
+  &d/party leave &8- &7Leave your current party.
   &d/party pending &8- &7Get pending invites you've sent.
   &d/party requests &8- &7Get pending invites that have been sent to you.
   &7
@@ -50,3 +51,6 @@ invite:
     &7
     &7What would you like to do? {actions}
     &7
+
+leave:
+  leaved: "&aYou has leaved your current party."
