@@ -4,6 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyKickPacket;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
 import dev._2lstudios.advancedparties.utils.ComponentUtils;
 
@@ -14,6 +15,24 @@ public class RedisHandler {
 
     public RedisHandler(AdvancedParties plugin) {
         this.plugin = plugin;
+    }
+
+    public void handle(PartyKickPacket packet) {
+        PartyPlayer target = this.plugin.getPlayerManager().getPlayer(packet.getTargetName());
+
+        if (target != null) {
+            target.setParty(null);
+            target.sendI18nMessage("kick.kick-notify");
+        }
+
+        for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
+            if (player.getParty().getID().equals(packet.getPartyID())) {
+                player.sendMessage(
+                    player.getI18nMessage("kick-notify-other")
+                        .replace("{player}", packet.getTargetName())  
+                );
+            }
+        }
     }
 
     public void handle(PartyInvitePacket packet) {

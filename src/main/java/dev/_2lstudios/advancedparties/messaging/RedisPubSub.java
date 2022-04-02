@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.messaging.packets.Packet;
 import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
-
+import dev._2lstudios.advancedparties.messaging.packets.PartyKickPacket;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
@@ -17,7 +17,8 @@ public class RedisPubSub {
     private JedisPubSub pubsub;
 
     private String[] channels = new String[] {
-            RedisChannel.PARTY_INVITE
+        RedisChannel.PARTY_INVITE,
+        RedisChannel.PARTY_KICK
     };
 
     public RedisPubSub(AdvancedParties plugin, String redisURI) {
@@ -42,6 +43,9 @@ public class RedisPubSub {
     private void process(String channel, String message) {
         if (channel.equalsIgnoreCase(RedisChannel.PARTY_INVITE)) {
             handler.handle(gson.fromJson(message, PartyInvitePacket.class));
+        }
+        else if (channel.equalsIgnoreCase(RedisChannel.PARTY_KICK)) {
+            handler.handle(gson.fromJson(message, PartyKickPacket.class));
         }
     }
 

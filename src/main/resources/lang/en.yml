@@ -32,6 +32,7 @@ help: |-
   &d/party disband &8- &7Disolve your party.
   &d/party info &8- &7Get info about your party.
   &d/party invite <player> &8- &7Invite a player to your party.
+  &d/party kick <player> &8- &7Kick a player from your party.
   &d/party leave &8- &7Leave your current party.
   &d/party pending &8- &7Get pending invites you've sent.
   &d/party requests &8- &7Get pending invites that have been sent to you.
@@ -52,5 +53,14 @@ invite:
     &7What would you like to do? {actions}
     &7
 
+kick:
+  usage: "&7Usage: &d/party kick <player>&7."
+  not-leader: "&cOnly the leader can kick players from the party."
+  not-in-your-party: "&cThis player isn't in your party."
+  kicked: "&eYou has kicked &b{player} &efrom the party."
+  kick-notify: "&eYou has been kicked from the party."
+  kick-notify-other: "&b{player} &ehas been kicked from the party."
+
 leave:
+  leader-cannot-leave: "&cLeader cannot leave the party, use /party disband instead to delete it."
   leaved: "&aYou has leaved your current party."
