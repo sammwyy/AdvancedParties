@@ -32,10 +32,13 @@ help: |-
   &d/party disband &8- &7Disolve your party.
   &d/party info &8- &7Get info about your party.
   &d/party invite <player> &8- &7Invite a player to your party.
+  &d/party pending &8- &7Get pending invites you've sent.
+  &d/party requests &8- &7Get pending invites that have been sent to you.
   &7
 
 invite:
   usage: "&7Usage: &d/party invite <player>&7."
+  not-leader: "&cOnly the leader can invite players to the party."
   target-already-in-party: "&cThis player is already in a party."
   already-pending: "&cThis player already has a pending party request."
   sent: "&aParty request sent to &b{target}&a."

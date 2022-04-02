@@ -25,7 +25,9 @@ public class PartyInviteCommand extends CommandListener {
         String targetName = ctx.getArguments().getString(0);
 
         if (party != null) {
-            if (player.hasAlreadyRequestTo(targetName)) {
+            if (!party.isLeader(player)) {
+                player.sendI18nMessage("invite.not-leader");
+            } else if (player.hasAlreadyRequestTo(targetName)) {
                 player.sendI18nMessage("invite.already-pending");
             } else {
                 OfflinePlayer target = new OfflinePlayer(plugin, targetName);
