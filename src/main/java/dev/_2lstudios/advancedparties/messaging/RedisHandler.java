@@ -1,5 +1,7 @@
 package dev._2lstudios.advancedparties.messaging;
 
+import org.bukkit.configuration.ConfigurationSection;
+
 import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
@@ -32,15 +34,27 @@ public class RedisHandler {
             } else {
                 ComponentBuilder builder = new ComponentBuilder();
                 builder.append(header);
-                builder.append(ComponentUtils.createClickeableText(
-                    target.formatMessage(target.getI18nMessage("common.accept")),
-                    "/party accept " + packet.getPartyID()
-                ));
-                builder.append(" ");
-                builder.append(ComponentUtils.createClickeableText(
-                    target.formatMessage(target.getI18nMessage("common.deny")),
-                    "/party deny " + packet.getPartyID()
-                ));
+
+                ConfigurationSection section = plugin.getConfig().getConfigurationSection("requests.actions");
+                for (String key : section.getKeys(false)) {
+                    String[] parts = section.getString(key + ".text").split(":");
+
+                    String text = null;
+                    String command = section.getString(key + ".command")
+                        .replace("{party}", packet.getPartyID())
+                        .replace("{source}", packet.getSourceName())
+                        .replace("{player}", packet.getTargetName());
+
+                    if (parts[0].equalsIgnoreCase("i18n")) {
+                        text = target.getI18nMessage(parts[1]);
+                    } else if (parts[0].equalsIgnoreCase("text")) {
+                        text = parts[1];
+                    }
+
+                    builder.append(ComponentUtils.createClickeableText(target.formatMessage(text), command));
+                    builder.append(" ");
+                }
+                
                 builder.append(footer);
                 target.sendMessage(builder.create());
             }

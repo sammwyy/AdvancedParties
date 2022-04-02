@@ -25,20 +25,24 @@ public class PartyInviteCommand extends CommandListener {
         String targetName = ctx.getArguments().getString(0);
 
         if (party != null) {
-            OfflinePlayer target = new OfflinePlayer(plugin, targetName);
-            target.download();
-            
-            if (target.isInParty()) {
-                player.sendI18nMessage("invite.target-already-in-party");
+            if (player.hasAlreadyRequestTo(targetName)) {
+                player.sendI18nMessage("invite.already-pending");
             } else {
-                player.sendMessage(
-                    player.getI18nMessage("invite.sent")
-                        .replace("{target}", targetName)
-                );
-
-                PartyRequest request = plugin.getRequestManager().createRequest(party, targetName);
-                PartyInvitePacket packet = new PartyInvitePacket(request);
-                plugin.getPubSub().publish(packet);
+                OfflinePlayer target = new OfflinePlayer(plugin, targetName);
+                target.download();
+                
+                if (target.isInParty()) {
+                    player.sendI18nMessage("invite.target-already-in-party");
+                } else {
+                    player.sendMessage(
+                        player.getI18nMessage("invite.sent")
+                            .replace("{target}", targetName)
+                    );
+    
+                    PartyRequest request = plugin.getRequestManager().createRequest(party, targetName);
+                    PartyInvitePacket packet = new PartyInvitePacket(request);
+                    plugin.getPubSub().publish(packet);
+                }
             }
         } else {
             player.sendI18nMessage("common.not-in-party");

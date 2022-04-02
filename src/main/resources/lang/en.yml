@@ -28,6 +28,7 @@ help: |-
 invite:
   usage: "&7Usage: &d/party invite <player>&7."
   target-already-in-party: "&cThis player is already in a party."
+  already-pending: "&cThis player already has a pending party request."
   sent: "&aParty request sent to &b{target}&a."
   received: |-
     &7

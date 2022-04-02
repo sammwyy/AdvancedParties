@@ -43,6 +43,24 @@ public class PartyPlayer extends CommandExecutor {
         return this.getPlugin().getRequestManager().getRequestsForPlayer(this.getLowerName());
     }
 
+    public boolean hasAlreadyRequestTo(String player) {
+        for (PartyRequest request : this.getPendingRequests()) {
+            if (request.target.equalsIgnoreCase(player)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasPendingRequestForParty(String party) {
+        for (PartyRequest request : this.getRequests()) {
+            if (request.party.equalsIgnoreCase(party)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void setParty(Party party) {
         if (party == null) {
             this.party = null;
