@@ -1,9 +1,13 @@
+# Common messages
 common:
   no-permission: "&cNo permissions for run this command."
   no-by-console: "&cThis command cannot be executed in the console."
   already-in-party: "&cYou are already in a party."
   not-in-party: "&cYou aren't in a party."
+  accept: "&a&lACCEPT"
+  deny: "&c&lDENY"
 
+# Commands messages
 create:
   success: "&aYou has create a party, use &b/party invite <player> &ato invite others players to your party."
 
@@ -24,3 +28,10 @@ invite:
   usage: "&7Usage: &d/party invite <player>&7."
   target-already-in-party: "&cThis player is already in a party."
   sent: "&aParty request sent to &b{target}&a."
+  received: |-
+    &7
+    &5=========== &d&lParties&r &5===========
+    &b{player} &7has invited you to his party.
+    &7
+    {actions}
+    &7

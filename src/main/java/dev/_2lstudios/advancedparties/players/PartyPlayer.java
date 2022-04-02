@@ -10,6 +10,10 @@ import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.commands.CommandExecutor;
 import dev._2lstudios.advancedparties.parties.Party;
 import dev._2lstudios.advancedparties.requests.PartyRequest;
+import dev._2lstudios.advancedparties.utils.PacketUtils;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.chat.ComponentSerializer;
 
 public class PartyPlayer extends CommandExecutor {
     private Player bukkitPlayer;
@@ -72,5 +76,25 @@ public class PartyPlayer extends CommandExecutor {
         if (this.data != null) {
             this.party = this.getPlugin().getPartyManager().getParty(this.data.party);
         }
+    }
+
+    public void sendRawMessage(String component, byte type) {
+        PacketUtils.sendJSON(this.getBukkitPlayer(), component, type);
+    }
+
+    public void sendRawMessage(String component) {
+        this.sendRawMessage(component, (byte) 0);
+    }
+
+    public void sendActionBar(String text) {
+        this.sendRawMessage(ComponentSerializer.toString(new ComponentBuilder(text).create()), (byte) 2);
+    }
+
+    public void sendMessage(BaseComponent component) {
+        this.sendRawMessage(ComponentSerializer.toString(component));
+    }
+
+    public void sendMessage(BaseComponent[] components) {
+        this.sendRawMessage(ComponentSerializer.toString(components));
     }
 }
