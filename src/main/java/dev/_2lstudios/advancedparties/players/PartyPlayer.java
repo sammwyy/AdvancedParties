@@ -52,13 +52,13 @@ public class PartyPlayer extends CommandExecutor {
         return false;
     }
 
-    public boolean hasPendingRequestForParty(String party) {
+    public PartyRequest getPendingRequestForParty(String party) {
         for (PartyRequest request : this.getRequests()) {
             if (request.party.equalsIgnoreCase(party)) {
-                return true;
+                return request;
             }
         }
-        return false;
+        return null;
     }
 
     public void setParty(Party party) {

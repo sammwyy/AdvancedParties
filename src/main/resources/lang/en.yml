@@ -4,12 +4,21 @@ common:
   no-by-console: "&cThis command cannot be executed in the console."
   already-in-party: "&cYou are already in a party."
   not-in-party: "&cYou aren't in a party."
+  invalid-or-expired: "&cThis party is invalid or has expired."
   accept: "&8[&a&lAccept&8]"
   deny: "&8[&c&lDeny&8]"
 
 # Commands messages
+accept:
+  usage: "&7Usage: &d/party accept <party>&7."
+  accepted: "&aYou have accepted the invitation to the party!"
+
 create:
   success: "&aYou has create a party, use &b/party invite <player> &ato invite others players to your party."
+
+deny:
+  usage: "&7Usage: &d/party deny <party>&7."
+  denied: "&aYou has denied the party invitation."
 
 disband:
   not-leader: "&cOnly the leader can disband the party."

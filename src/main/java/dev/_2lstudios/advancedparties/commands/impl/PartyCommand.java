@@ -9,7 +9,9 @@ import dev._2lstudios.advancedparties.commands.CommandListener;
 )
 public class PartyCommand extends CommandListener {
   public PartyCommand() {
+    this.addSubcommand(new PartyAcceptCommand());
     this.addSubcommand(new PartyCreateCommand());
+    this.addSubcommand(new PartyDenyCommand());
     this.addSubcommand(new PartyDisbandCommand());
     this.addSubcommand(new PartyInfoCommand());
     this.addSubcommand(new PartyInviteCommand());

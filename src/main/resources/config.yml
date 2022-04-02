@@ -20,7 +20,7 @@ requests:
       command: "/party accept {party}"
     deny:
       text: "i18n:common.deny"
-      command: "/party deny {parte}"
+      command: "/party deny {party}"
     # custom:
     #   text: "text:&8[&e&lIgnore&8]"
     #  command: "/ignore {source}"

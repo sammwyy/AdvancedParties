@@ -28,8 +28,8 @@ public class PartyRequestManager {
     public PartyRequest createRequest(Party party, String target) {
         PartyRequest request = new PartyRequest();
         request.party = party.getID();
-        request.source = party.getLeader();
-        request.target = target;
+        request.source = party.getLeader().toLowerCase();
+        request.target = target.toLowerCase();
         request.timestamp = System.currentTimeMillis();
         request.save();
 
@@ -39,7 +39,7 @@ public class PartyRequestManager {
 
     public List<PartyRequest> getPendingByPlayer(String player) {
         List<PartyRequest> requests = new ArrayList<>();
-        for (PartyRequest request : this.plugin.getRequestsRepository().findMany(MapFactory.create("source", player))) {
+        for (PartyRequest request : this.plugin.getRequestsRepository().findMany(MapFactory.create("source", player.toLowerCase()))) {
             if (request.getTimeAgo() > this.plugin.getConfig().getInt("requests.expiration") * 1000) {
                 request.delete();
             } else {
@@ -51,7 +51,7 @@ public class PartyRequestManager {
 
     public List<PartyRequest> getRequestsForPlayer(String player) {
         List<PartyRequest> requests = new ArrayList<>();
-        for (PartyRequest request : this.plugin.getRequestsRepository().findMany(MapFactory.create("target", player))) {
+        for (PartyRequest request : this.plugin.getRequestsRepository().findMany(MapFactory.create("target", player.toLowerCase()))) {
             if (request.getTimeAgo() > this.plugin.getConfig().getInt("requests.expiration") * 1000) {
                 request.delete();
             } else {
