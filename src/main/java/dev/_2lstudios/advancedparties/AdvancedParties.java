@@ -85,6 +85,11 @@ public class AdvancedParties extends JavaPlugin {
         this.addTaskTimer(new RequestExpirationTask(this), 30 * 20);
     }
 
+    @Override
+    public void onDisable() {
+        this.pubsub.disconnect();
+    }
+
     // Configuration getters
     public Configuration getConfig() {
         return this.configManager.getConfig("config.yml");

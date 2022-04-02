@@ -4,7 +4,8 @@ import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
 import dev._2lstudios.advancedparties.utils.ComponentUtils;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+
+import lib__net.md_5.bungee.api.chat.ComponentBuilder;
 
 public class RedisHandler {
     private AdvancedParties plugin;
@@ -17,11 +18,11 @@ public class RedisHandler {
         PartyPlayer target = this.plugin.getPlayerManager().getPlayer(packet.getTargetName());
 
         if (target != null) {
-            String header = target.getI18nMessage("invite.received");
+            String header = target.formatMessage(target.getI18nMessage("invite.received")).replace("{player}", packet.getSourceName());
             String footer = null;
 
             if (header.contains("{actions}")) {
-                String[] parts = header.split("{actions}");
+                String[] parts = header.split("\\{actions\\}");
                 header = parts[0];
                 footer = parts[1];
             }
@@ -37,7 +38,7 @@ public class RedisHandler {
                 ));
                 builder.append(" ");
                 builder.append(ComponentUtils.createClickeableText(
-                    target.formatMessage(target.getI18nMessage("common.accept")),
+                    target.formatMessage(target.getI18nMessage("common.deny")),
                     "/party deny " + packet.getPartyID()
                 ));
                 builder.append(footer);

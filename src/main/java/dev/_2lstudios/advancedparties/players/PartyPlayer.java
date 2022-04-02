@@ -11,9 +11,10 @@ import dev._2lstudios.advancedparties.commands.CommandExecutor;
 import dev._2lstudios.advancedparties.parties.Party;
 import dev._2lstudios.advancedparties.requests.PartyRequest;
 import dev._2lstudios.advancedparties.utils.PacketUtils;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.chat.ComponentSerializer;
+
+import lib__net.md_5.bungee.api.chat.BaseComponent;
+import lib__net.md_5.bungee.api.chat.ComponentBuilder;
+import lib__net.md_5.bungee.chat.ComponentSerializer;
 
 public class PartyPlayer extends CommandExecutor {
     private Player bukkitPlayer;

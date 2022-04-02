@@ -1,8 +1,8 @@
 package dev._2lstudios.advancedparties.utils;
 
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
+import lib__net.md_5.bungee.api.chat.BaseComponent;
+import lib__net.md_5.bungee.api.chat.ClickEvent;
+import lib__net.md_5.bungee.api.chat.ComponentBuilder;
 
 public class ComponentUtils {
     public static BaseComponent[] createClickeableText(String text, String command) {
