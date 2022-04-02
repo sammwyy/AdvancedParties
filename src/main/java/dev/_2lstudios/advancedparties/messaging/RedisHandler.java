@@ -4,6 +4,7 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyKickPacket;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
 import dev._2lstudios.advancedparties.utils.ComponentUtils;
@@ -17,6 +18,17 @@ public class RedisHandler {
         this.plugin = plugin;
     }
 
+    public void handle(PartyJoinPacket packet) {
+        for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
+            if (player.isInParty() && player.getParty().getID().equals(packet.getPartyID())) {
+                player.sendMessage(
+                    player.getI18nMessage("accept.join-notify")
+                        .replace("{player}", packet.getPlayerName())  
+                );
+            }
+        }
+    }
+
     public void handle(PartyKickPacket packet) {
         PartyPlayer target = this.plugin.getPlayerManager().getPlayer(packet.getTargetName());
 
@@ -26,7 +38,7 @@ public class RedisHandler {
         }
 
         for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
-            if (player.getParty().getID().equals(packet.getPartyID())) {
+            if (player.isInParty() && player.getParty().getID().equals(packet.getPartyID())) {
                 player.sendMessage(
                     player.getI18nMessage("kick-notify-other")
                         .replace("{player}", packet.getTargetName())  

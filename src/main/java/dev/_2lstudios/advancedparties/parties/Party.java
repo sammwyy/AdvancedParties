@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
+import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
 
 public class Party {
@@ -31,21 +32,21 @@ public class Party {
     }
 
     public void removeMember(String player) {
-        this.data.members.remove(player);
+        this.data.members.remove(player.toLowerCase());
         this.data.save();
     }
 
     public void removeMember(PartyPlayer player) {
-        this.removeMember(player.getLowerName());
+        this.removeMember(player.getBukkitPlayer().getName());
     }
 
     public void addMember(String player) {
-        this.data.members.add(player);
+        this.data.members.add(player.toLowerCase());
         this.data.save();
     }
 
     public void addMember(PartyPlayer player) {
-        this.addMember(player.getLowerName());
+        this.addMember(player.getBukkitPlayer().getName());
     }
 
     public int getDisbandCount() {
@@ -84,5 +85,13 @@ public class Party {
 
     public boolean isLeader(PartyPlayer player) {
         return player.getLowerName().equals(this.getLeader());
+    }
+
+    public void announcePlayerJoin(String playerName) {
+        this.plugin.getPubSub().publish(new PartyJoinPacket(playerName, this.getID()));
+    }
+
+    public void sendPartyUpdate() {
+
     }
 }

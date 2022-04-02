@@ -5,4 +5,5 @@ public class RedisChannel {
 
   public static String PARTY_INVITE = prefix + "invite";
   public static String PARTY_KICK = prefix + "kick";
+  public static String PARTY_JOIN = prefix + "join";
 }

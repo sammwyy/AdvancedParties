@@ -12,6 +12,7 @@ common:
 accept:
   usage: "&7Usage: &d/party accept <party>&7."
   accepted: "&aYou have accepted the invitation to the party!"
+  join-notify: "&b{player} &ahas joined to the party."
 
 create:
   success: "&aYou has create a party, use &b/party invite <player> &ato invite others players to your party."
