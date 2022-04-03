@@ -38,6 +38,7 @@ help: |-
   &d/party leave &8- &7Leave your current party.
   &d/party pending &8- &7Get pending invites you've sent.
   &d/party requests &8- &7Get pending invites that have been sent to you.
+  &d/party send <server> &8- &7Send all party members to other server.
   &7
 
 invite:
@@ -67,3 +68,8 @@ kick:
 leave:
   leader-cannot-leave: "&cLeader cannot leave the party, use /party disband instead to delete it."
   leaved: "&aYou has leaved your current party."
+
+send:
+  usage: "&7Usage: &d/party send <server>&7."
+  not-leader: "&cOnly the leader can send members to others servers."
+  sending: "&eSending you and your party members to &b{server}&e..."

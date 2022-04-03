@@ -1,9 +1,12 @@
 package dev._2lstudios.advancedparties.players;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.util.List;
 
 import com.dotphin.milkshakeorm.utils.MapFactory;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
@@ -18,7 +21,7 @@ import lib__net.md_5.bungee.chat.ComponentSerializer;
 
 public class PartyPlayer extends CommandExecutor {
     private Player bukkitPlayer;
-    
+
     private PartyPlayerData data;
     private String partyId;
 
@@ -82,7 +85,11 @@ public class PartyPlayer extends CommandExecutor {
     }
 
     public Party getParty() {
-        return this.getPlugin().getPartyManager().getParty(this.partyId);
+        if (this.partyId == null) {
+            return null;
+        } else {
+            return this.getPlugin().getPartyManager().getParty(this.partyId);
+        }
     }
 
     public String getPartyID() {
@@ -119,5 +126,19 @@ public class PartyPlayer extends CommandExecutor {
 
     public void sendMessage(BaseComponent[] components) {
         this.sendRawMessage(ComponentSerializer.toString(components));
+    }
+
+    public void sendToServer(String server) {
+        try {
+            ByteArrayOutputStream b = new ByteArrayOutputStream();
+            DataOutputStream out = new DataOutputStream(b);
+            out.writeUTF("Connect");
+            out.writeUTF(server);
+            this.getBukkitPlayer().sendPluginMessage(this.getPlugin(), "BungeeCord", b.toByteArray());
+            b.close();
+            out.close();
+        } catch (Exception e) {
+            this.getBukkitPlayer().sendMessage(ChatColor.RED + "Error when trying to connect to " + server);
+        }
     }
 }

@@ -19,6 +19,7 @@ public class PartyCommand extends CommandListener {
     this.addSubcommand(new PartyLeaveCommand());
     this.addSubcommand(new PartyPendingCommand());
     this.addSubcommand(new PartyRequestsCommand());
+    this.addSubcommand(new PartySendCommand());
   }
 
   @Override

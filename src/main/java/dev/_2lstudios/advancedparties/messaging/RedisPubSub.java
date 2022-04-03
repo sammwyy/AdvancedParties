@@ -8,6 +8,7 @@ import dev._2lstudios.advancedparties.messaging.packets.PartyDisbandPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyKickPacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartySendPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyUpdatePacket;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
@@ -24,7 +25,8 @@ public class RedisPubSub {
         RedisChannel.PARTY_KICK,
         RedisChannel.PARTY_JOIN,
         RedisChannel.PARTY_UPDATE,
-        RedisChannel.PARTY_DISBAND
+        RedisChannel.PARTY_DISBAND,
+        RedisChannel.PARTY_SEND
     };
 
     public RedisPubSub(AdvancedParties plugin, String redisURI) {
@@ -61,6 +63,9 @@ public class RedisPubSub {
         }
         else if (channel.equalsIgnoreCase(RedisChannel.PARTY_DISBAND)) {
             handler.handle(gson.fromJson(message, PartyDisbandPacket.class));
+        }
+        else if (channel.equalsIgnoreCase(RedisChannel.PARTY_SEND)) {
+            handler.handle(gson.fromJson(message, PartySendPacket.class));
         }
     }
 

@@ -7,6 +7,7 @@ import com.dotphin.milkshakeorm.repository.Repository;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import dev._2lstudios.advancedparties.api.PartyAPI;
 import dev._2lstudios.advancedparties.commands.CommandListener;
 import dev._2lstudios.advancedparties.commands.impl.PartyCommand;
 import dev._2lstudios.advancedparties.config.ConfigManager;
@@ -51,9 +52,19 @@ public class AdvancedParties extends JavaPlugin {
     private void addTaskTimer(Runnable task, long period) {
         this.addTaskTimer(task, 0, period);
     }
+
+    private void registerOutgoingChannel(String channel) {
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, channel);
+    }
     
     @Override
     public void onEnable () {
+        // Initialize API
+        new PartyAPI(this);
+
+        // Register plugin channels.
+        this.registerOutgoingChannel("BungeeCord");
+
         // Instantiate managers.
         this.configManager = new ConfigManager(this);
         this.languageManager = new LanguageManager(this.getConfig().getString("settings.default-lang"), this.getDataFolder());
