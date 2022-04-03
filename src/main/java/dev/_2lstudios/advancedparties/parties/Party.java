@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
+import dev._2lstudios.advancedparties.messaging.packets.PartyDisbandPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyUpdatePacket;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
@@ -30,6 +31,7 @@ public class Party {
 
         this.plugin.getPlayerRepository().deleteMany(MapFactory.create("party", this.getID()));
         this.data.delete();
+        this.plugin.getPubSub().publish(new PartyDisbandPacket(this.getID()));
     }
 
     public void removeMember(String player) {

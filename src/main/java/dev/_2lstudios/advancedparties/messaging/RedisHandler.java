@@ -25,7 +25,7 @@ public class RedisHandler {
         this.plugin.getPartyManager().delete(packet.getPartyID());
 
         for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
-            if (player.getPartyID().equals(packet.getPartyID())) {
+            if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
                 player.setParty(null);
             }
         }
