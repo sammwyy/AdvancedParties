@@ -3,6 +3,7 @@ package dev._2lstudios.advancedparties.messaging;
 import org.bukkit.configuration.ConfigurationSection;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
+import dev._2lstudios.advancedparties.messaging.packets.PartyDisbandPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyKickPacket;
@@ -20,6 +21,16 @@ public class RedisHandler {
         this.plugin = plugin;
     }
 
+    public void handle(PartyDisbandPacket packet) {
+        this.plugin.getPartyManager().delete(packet.getPartyID());
+
+        for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
+            if (player.getPartyID().equals(packet.getPartyID())) {
+                player.setParty(null);
+            }
+        }
+    }
+
     public void handle(PartyUpdatePacket packet) {
         Party party = this.plugin.getPartyManager().getPartyIfCached(packet.getPartyID());
         if (party != null) {
@@ -29,7 +40,7 @@ public class RedisHandler {
 
     public void handle(PartyJoinPacket packet) {
         for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
-            if (player.isInParty() && player.getParty().getID().equals(packet.getPartyID())) {
+            if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
                 player.sendMessage(
                     player.getI18nMessage("accept.join-notify")
                         .replace("{player}", packet.getPlayerName())  
@@ -47,7 +58,7 @@ public class RedisHandler {
         }
 
         for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
-            if (player.isInParty() && player.getParty().getID().equals(packet.getPartyID())) {
+            if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
                 player.sendMessage(
                     player.getI18nMessage("kick-notify-other")
                         .replace("{player}", packet.getTargetName())  

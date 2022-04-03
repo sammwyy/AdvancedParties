@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.messaging.packets.Packet;
+import dev._2lstudios.advancedparties.messaging.packets.PartyDisbandPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyKickPacket;
@@ -22,7 +23,8 @@ public class RedisPubSub {
         RedisChannel.PARTY_INVITE,
         RedisChannel.PARTY_KICK,
         RedisChannel.PARTY_JOIN,
-        RedisChannel.PARTY_UPDATE
+        RedisChannel.PARTY_UPDATE,
+        RedisChannel.PARTY_DISBAND
     };
 
     public RedisPubSub(AdvancedParties plugin, String redisURI) {
@@ -56,6 +58,9 @@ public class RedisPubSub {
         }
         else if (channel.equalsIgnoreCase(RedisChannel.PARTY_UPDATE)) {
             handler.handle(gson.fromJson(message, PartyUpdatePacket.class));
+        }
+        else if (channel.equalsIgnoreCase(RedisChannel.PARTY_DISBAND)) {
+            handler.handle(gson.fromJson(message, PartyDisbandPacket.class));
         }
     }
 

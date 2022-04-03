@@ -20,9 +20,11 @@ public class PartyLeaveCommand extends CommandListener {
             if (party.isLeader(player)) {
                 player.sendI18nMessage("leave.leader-cannot-leave");
             } else {
-                party.removeMember(player);
                 player.setParty(null);
                 player.sendI18nMessage("leave.leaved");
+
+                party.removeMember(player);
+                party.sendPartyUpdate();
             }
         } else {
             player.sendI18nMessage("common.not-in-party");

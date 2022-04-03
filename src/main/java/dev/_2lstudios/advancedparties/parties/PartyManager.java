@@ -16,17 +16,15 @@ public class PartyManager {
 
     public PartyManager(AdvancedParties plugin) {
         this.plugin = plugin;
-        if (plugin.getConfig().getBoolean("cache.enabled")) {
-            this.cache = CacheBuilder.newBuilder()
-                .expireAfterAccess(plugin.getConfig().getInt("cache.time-after-read"), TimeUnit.SECONDS)
-                .expireAfterWrite(plugin.getConfig().getInt("cache.time-after-write"), TimeUnit.SECONDS)
-                .build(new CacheLoader<String, Party>() {
-                    @Override
-                    public Party load(final String id) throws Exception {
-                        return lookupParty(id);
-                    }
-                });
-        }
+        this.cache = CacheBuilder.newBuilder()
+            .expireAfterAccess(plugin.getConfig().getInt("cache.time-after-read"), TimeUnit.SECONDS)
+            .expireAfterWrite(plugin.getConfig().getInt("cache.time-after-write"), TimeUnit.SECONDS)
+            .build(new CacheLoader<String, Party>() {
+                @Override
+                public Party load(final String id) throws Exception {
+                    return lookupParty(id);
+                }
+            });
     }
 
     public Party lookupParty(String id) {
@@ -50,19 +48,19 @@ public class PartyManager {
     }
 
     public Party getParty(String id) {
-        if (this.cache == null) {
-            return this.lookupParty(id);
-        } else {
-            try {
-                return this.cache.get(id);
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-                return null;
-            }
+        try {
+            return this.cache.get(id);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
     public Party getPartyIfCached(String id) {
         return this.cache.getIfPresent(id);
+    }
+
+    public void delete(String id) {
+        this.cache.invalidate(id);
     }
 }

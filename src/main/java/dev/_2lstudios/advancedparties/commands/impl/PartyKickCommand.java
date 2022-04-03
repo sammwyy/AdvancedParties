@@ -25,6 +25,7 @@ public class PartyKickCommand extends CommandListener {
             if (party.isLeader(player)) {
                 if (party.getMembers().contains(target.toLowerCase())) {
                     party.removeMember(target.toLowerCase());
+                    party.sendPartyUpdate();
                     player.sendMessage(
                         player.getI18nMessage("kick.kicked")
                             .replace("{player}", target)  

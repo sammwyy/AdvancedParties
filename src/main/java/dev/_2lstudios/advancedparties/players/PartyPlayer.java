@@ -20,7 +20,7 @@ public class PartyPlayer extends CommandExecutor {
     private Player bukkitPlayer;
     
     private PartyPlayerData data;
-    private Party party;
+    private String partyId;
 
     public PartyPlayer(AdvancedParties plugin, Player bukkitPlayer) {
         super(plugin, bukkitPlayer);
@@ -63,15 +63,15 @@ public class PartyPlayer extends CommandExecutor {
 
     public void setParty(Party party) {
         if (party == null) {
-            this.party = null;
+            this.partyId = null;
             if (this.data != null) {
                 this.data.delete();
             }
         } else {
-            this.party = party;
+            this.partyId = party.getID();
             this.data = new PartyPlayerData();
             this.data.username = this.getLowerName();
-            this.data.party = party.getID();
+            this.data.party = this.partyId;
             this.data.save();
         }
     }
@@ -82,18 +82,22 @@ public class PartyPlayer extends CommandExecutor {
     }
 
     public Party getParty() {
-        return this.party;
+        return this.getPlugin().getPartyManager().getParty(this.partyId);
+    }
+
+    public String getPartyID() {
+        return this.partyId;
     }
 
     public boolean isInParty() {
-        return this.party != null;
+        return this.partyId != null;
     }
 
     public void download() {
         this.data = this.getPlugin().getPlayerRepository().findOne(MapFactory.create("username", this.getLowerName()));
 
         if (this.data != null) {
-            this.party = this.getPlugin().getPartyManager().getParty(this.data.party);
+            this.partyId = this.data.party;
         }
     }
 
