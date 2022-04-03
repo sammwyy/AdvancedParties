@@ -6,6 +6,8 @@ import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyKickPacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyUpdatePacket;
+import dev._2lstudios.advancedparties.parties.Party;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
 import dev._2lstudios.advancedparties.utils.ComponentUtils;
 
@@ -16,6 +18,13 @@ public class RedisHandler {
 
     public RedisHandler(AdvancedParties plugin) {
         this.plugin = plugin;
+    }
+
+    public void handle(PartyUpdatePacket packet) {
+        Party party = this.plugin.getPartyManager().getPartyIfCached(packet.getPartyID());
+        if (party != null) {
+            party.sync();
+        }
     }
 
     public void handle(PartyJoinPacket packet) {

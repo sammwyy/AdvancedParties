@@ -61,4 +61,8 @@ public class PartyManager {
             }
         }
     }
+
+    public Party getPartyIfCached(String id) {
+        return this.cache.getIfPresent(id);
+    }
 }

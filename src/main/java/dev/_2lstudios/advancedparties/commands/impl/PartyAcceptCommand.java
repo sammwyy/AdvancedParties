@@ -4,7 +4,6 @@ import dev._2lstudios.advancedparties.commands.Argument;
 import dev._2lstudios.advancedparties.commands.Command;
 import dev._2lstudios.advancedparties.commands.CommandContext;
 import dev._2lstudios.advancedparties.commands.CommandListener;
-import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
 import dev._2lstudios.advancedparties.parties.Party;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
 import dev._2lstudios.advancedparties.requests.PartyRequest;
@@ -36,8 +35,8 @@ public class PartyAcceptCommand extends CommandListener {
                 player.sendI18nMessage("accept.accepted");
 
                 party.addMember(player);
+                party.sendPartyUpdate();
                 party.announcePlayerJoin(player.getBukkitPlayer().getName());
-                
 
                 request.delete();
             }

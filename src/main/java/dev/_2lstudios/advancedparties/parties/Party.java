@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyUpdatePacket;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
 
 public class Party {
@@ -92,6 +93,10 @@ public class Party {
     }
 
     public void sendPartyUpdate() {
+        this.plugin.getPubSub().publish(new PartyUpdatePacket(this.getID()));
+    }
 
+    public void sync() {
+        this.data.refresh();
     }
 }
