@@ -30,6 +30,8 @@ public class PartyAcceptCommand extends CommandListener {
 
             if (party == null) {
                 player.sendI18nMessage("common.invalid-or-expired");
+            } else if (party.isMaxMembersReached()) {
+                player.sendI18nMessage("accept.limit-reached");
             } else {
                 player.setParty(party);
                 player.sendI18nMessage("accept.accepted");

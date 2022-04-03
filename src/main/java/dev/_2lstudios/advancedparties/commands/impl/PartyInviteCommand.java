@@ -27,6 +27,8 @@ public class PartyInviteCommand extends CommandListener {
         if (party != null) {
             if (!party.isLeader(player)) {
                 player.sendI18nMessage("invite.not-leader");
+            } else if (party.isMaxMembersReached()) {
+                player.sendI18nMessage("invite.limit-reached");
             } else if (player.hasAlreadyRequestTo(targetName)) {
                 player.sendI18nMessage("invite.already-pending");
             } else {

@@ -94,6 +94,10 @@ public class Party {
         this.plugin.getPubSub().publish(new PartyJoinPacket(playerName, this.getID()));
     }
 
+    public boolean isMaxMembersReached() {
+        return this.getMembers().size() >= this.plugin.getConfig().getInt("parties.max-members");
+    }
+
     public void sendPartyUpdate() {
         this.plugin.getPubSub().publish(new PartyUpdatePacket(this.getID()));
     }

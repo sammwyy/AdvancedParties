@@ -11,6 +11,7 @@ common:
 # Commands messages
 accept:
   usage: "&7Usage: &d/party accept <party>&7."
+  limit-reached: "This party has already exceeded the limit of possible members."
   accepted: "&aYou have accepted the invitation to the party!"
   join-notify: "&b{player} &ahas joined to the party."
 
@@ -44,6 +45,7 @@ invite:
   not-leader: "&cOnly the leader can invite players to the party."
   target-already-in-party: "&cThis player is already in a party."
   already-pending: "&cThis player already has a pending party request."
+  limit-reached: "&cYou have reached the limit of members in the party"
   sent: "&aParty request sent to &b{target}&a."
   received: |-
     &7
