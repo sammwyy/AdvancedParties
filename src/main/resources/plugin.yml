@@ -4,8 +4,9 @@ author: ${author}
 main: ${mainClass}
 version: ${version}
 url: ${url}
-depends: ["Milkshake-Bukkit", "Jedis"]
-softdepends: ["PlaceholderAPI", "InterfaceMaker"]
+depend: ["Milkshake-Bukkit", "Jedis"]
+softdepend: ["PlaceholderAPI", "InterfaceMaker"]
+api-version: 1.18
 commands:
   advancedparties:
     aliases: ["party"]

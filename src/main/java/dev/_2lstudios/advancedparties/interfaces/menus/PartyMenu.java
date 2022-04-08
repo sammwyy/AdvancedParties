@@ -26,7 +26,7 @@ public class PartyMenu extends PageMenu {
         InterfaceItem[] heads = new InterfaceItem[MAX_ENTRY_COUNT];
         int playerNamesSize = playerNames.size();
         int page = getPage();
-        int skip = ((page - 1) * MAX_ENTRY_COUNT) - 1;
+        int skip = Math.max(0, ((page - 1) * MAX_ENTRY_COUNT) - 1);
 
         for (int i = skip; i < MAX_ENTRY_COUNT && i < playerNamesSize; i++) {
             String playerName = playerNames.get(i);
