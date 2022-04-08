@@ -67,7 +67,7 @@ public class AdvancedParties extends JavaPlugin {
 
         // Instantiate managers.
         this.configManager = new ConfigManager(this);
-        this.languageManager = new LanguageManager(this.getConfig().getString("settings.default-lang"), this.getDataFolder());
+        this.languageManager = new LanguageManager(this);
         this.partyManager = new PartyManager(this);
         this.playerManager = new PartyPlayerManager(this);
         this.requestManager = new PartyRequestManager(this);

@@ -12,6 +12,7 @@ import dev._2lstudios.advancedparties.messaging.packets.PartySendPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyUpdatePacket;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 
 public class RedisPubSub {
     private RedisHandler handler;
@@ -44,7 +45,7 @@ public class RedisPubSub {
         new Thread(() -> {
             try {
                 suscriber.subscribe(pubsub, channels);
-            } catch (Exception ignored) {}
+            } catch (JedisConnectionException ignored) { }
         }).start();
     }
 

@@ -62,7 +62,7 @@
         <dependency>
             <groupId>dev._2lstudios</groupId>
             <artifactId>InterfaceMaker</artifactId>
-            <version>0.0.4</version>
+            <version>0.0.5</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
