@@ -13,7 +13,8 @@ parties:
   max-members: 10
 
 requests:
-  expiration: 30
+  expiration: 300
+  deny-cooldown: 600
   actions:
     accept:
       text: "i18n:common.accept"

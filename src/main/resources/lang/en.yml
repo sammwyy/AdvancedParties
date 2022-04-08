@@ -36,8 +36,6 @@ help: |-
   &d/party invite <player> &8- &7Invite a player to your party.
   &d/party kick <player> &8- &7Kick a player from your party.
   &d/party leave &8- &7Leave your current party.
-  &d/party pending &8- &7Get pending invites you've sent.
-  &d/party requests &8- &7Get pending invites that have been sent to you.
   &d/party send <server> &8- &7Send all party members to other server.
   &7
 
@@ -46,6 +44,7 @@ invite:
   not-leader: "&cOnly the leader can invite players to the party."
   target-already-in-party: "&cThis player is already in a party."
   already-pending: "&cThis player already has a pending party request."
+  already-denied: "&cThis player previously rejected the request to join the party."
   limit-reached: "&cYou have reached the limit of members in the party"
   sent: "&aParty request sent to &b{target}&a."
   received: |-
@@ -61,6 +60,7 @@ kick:
   usage: "&7Usage: &d/party kick <player>&7."
   not-leader: "&cOnly the leader can kick players from the party."
   not-in-your-party: "&cThis player isn't in your party."
+  cannot-your-self: "&cYou cannot kick yourself from the party."
   kicked: "&eYou has kicked &b{player} &efrom the party."
   kick-notify: "&eYou has been kicked from the party."
   kick-notify-other: "&b{player} &ehas been kicked from the party."

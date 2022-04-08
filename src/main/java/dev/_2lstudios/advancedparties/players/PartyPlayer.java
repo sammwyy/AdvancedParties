@@ -2,7 +2,6 @@ package dev._2lstudios.advancedparties.players;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
-import java.util.List;
 
 import com.dotphin.milkshakeorm.utils.MapFactory;
 
@@ -12,7 +11,7 @@ import org.bukkit.entity.Player;
 import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.commands.CommandExecutor;
 import dev._2lstudios.advancedparties.parties.Party;
-import dev._2lstudios.advancedparties.requests.PartyRequest;
+import dev._2lstudios.advancedparties.requests.RequestStatus;
 import dev._2lstudios.advancedparties.utils.PacketUtils;
 
 import lib__net.md_5.bungee.api.chat.BaseComponent;
@@ -38,30 +37,12 @@ public class PartyPlayer extends CommandExecutor {
         return this.bukkitPlayer.getName().toLowerCase();
     }
 
-    public List<PartyRequest> getPendingRequests() {
-        return this.getPlugin().getRequestManager().getPendingByPlayer(this.getLowerName());
+    public RequestStatus getRequestTo(String player) {
+        return this.getPlugin().getRequestManager().getRequest(player, this.getPartyID());
     }
 
-    public List<PartyRequest> getRequests() {
-        return this.getPlugin().getRequestManager().getRequestsForPlayer(this.getLowerName());
-    }
-
-    public boolean hasAlreadyRequestTo(String player) {
-        for (PartyRequest request : this.getPendingRequests()) {
-            if (request.target.equalsIgnoreCase(player)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public PartyRequest getPendingRequestForParty(String party) {
-        for (PartyRequest request : this.getRequests()) {
-            if (request.party.equalsIgnoreCase(party)) {
-                return request;
-            }
-        }
-        return null;
+    public RequestStatus getPendingRequestFrom(String party) {
+        return this.getPlugin().getRequestManager().getRequest(this, party);
     }
 
     public void setParty(Party party) {

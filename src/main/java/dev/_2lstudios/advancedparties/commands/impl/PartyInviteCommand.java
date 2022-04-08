@@ -9,7 +9,7 @@ import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
 import dev._2lstudios.advancedparties.parties.Party;
 import dev._2lstudios.advancedparties.players.OfflinePlayer;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
-import dev._2lstudios.advancedparties.requests.PartyRequest;
+import dev._2lstudios.advancedparties.requests.RequestStatus;
 
 @Command(
   name = "invite",
@@ -27,10 +27,18 @@ public class PartyInviteCommand extends CommandListener {
         if (party != null) {
             if (!party.isLeader(player)) {
                 player.sendI18nMessage("invite.not-leader");
+                return;
             } else if (party.isMaxMembersReached()) {
                 player.sendI18nMessage("invite.limit-reached");
-            } else if (player.hasAlreadyRequestTo(targetName)) {
+                return;
+            }
+
+            RequestStatus status = plugin.getRequestManager().getRequest(targetName, party.getID());
+            
+            if (status == RequestStatus.PENDING) {
                 player.sendI18nMessage("invite.already-pending");
+            } else if (status == RequestStatus.DENIED) {
+                player.sendI18nMessage("invite.already-denied");
             } else {
                 OfflinePlayer target = new OfflinePlayer(plugin, targetName);
                 target.download();
@@ -43,9 +51,9 @@ public class PartyInviteCommand extends CommandListener {
                             .replace("{target}", targetName)
                     );
     
-                    PartyRequest request = plugin.getRequestManager().createRequest(party, targetName);
-                    PartyInvitePacket packet = new PartyInvitePacket(request);
+                    PartyInvitePacket packet = new PartyInvitePacket(party.getLeader(), targetName, party.getID());
                     plugin.getPubSub().publish(packet);
+                    plugin.getRequestManager().createRequest(party, targetName);
                 }
             }
         } else {

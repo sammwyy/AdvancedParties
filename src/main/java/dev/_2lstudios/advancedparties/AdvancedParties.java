@@ -8,6 +8,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev._2lstudios.advancedparties.api.PartyAPI;
+import dev._2lstudios.advancedparties.cache.CacheEngine;
+import dev._2lstudios.advancedparties.cache.impl.RedisCache;
 import dev._2lstudios.advancedparties.commands.CommandListener;
 import dev._2lstudios.advancedparties.commands.impl.PartyCommand;
 import dev._2lstudios.advancedparties.config.ConfigManager;
@@ -20,9 +22,7 @@ import dev._2lstudios.advancedparties.parties.PartyData;
 import dev._2lstudios.advancedparties.parties.PartyManager;
 import dev._2lstudios.advancedparties.players.PartyPlayerData;
 import dev._2lstudios.advancedparties.players.PartyPlayerManager;
-import dev._2lstudios.advancedparties.requests.PartyRequest;
 import dev._2lstudios.advancedparties.requests.PartyRequestManager;
-import dev._2lstudios.advancedparties.tasks.RequestExpirationTask;
 
 public class AdvancedParties extends JavaPlugin {
     private ConfigManager configManager;
@@ -32,10 +32,10 @@ public class AdvancedParties extends JavaPlugin {
     private PartyRequestManager requestManager;
 
     private RedisPubSub pubsub;
+    private CacheEngine cache;
 
     private Repository<PartyData> partyDataRepository;
     private Repository<PartyPlayerData> playerDataRepository;
-    private Repository<PartyRequest> requestsRepository;
 
     private void addCommand(CommandListener command) {
         command.register(this, false);
@@ -43,14 +43,6 @@ public class AdvancedParties extends JavaPlugin {
 
     private void addListener(Listener listener) {
         this.getServer().getPluginManager().registerEvents(listener, this);
-    }
-
-    private void addTaskTimer(Runnable task, long delay, long period) {
-        this.getServer().getScheduler().runTaskTimer(this, task, delay, period);
-    }
-
-    private void addTaskTimer(Runnable task, long period) {
-        this.addTaskTimer(task, 0, period);
     }
 
     private void registerOutgoingChannel(String channel) {
@@ -73,13 +65,13 @@ public class AdvancedParties extends JavaPlugin {
         this.requestManager = new PartyRequestManager(this);
         
         // Connect to redis.
+        this.cache = new RedisCache(this.getConfig().getString("settings.redis-uri"));
         this.pubsub = new RedisPubSub(this, this.getConfig().getString("settings.redis-uri"));
 
         // Connect to database.
         Provider provider = MilkshakeORM.connect(this.getConfig().getString("settings.mongo-uri"));
         this.partyDataRepository = MilkshakeORM.addRepository(PartyData.class, provider, "Parties");
         this.playerDataRepository = MilkshakeORM.addRepository(PartyPlayerData.class, provider, "PartyPlayers");
-        this.requestsRepository = MilkshakeORM.addRepository(PartyRequest.class, provider, "PartyRequests");
 
         // Load data.
         this.languageManager.loadLanguagesSafe();
@@ -91,9 +83,6 @@ public class AdvancedParties extends JavaPlugin {
 
         // Register commands.
         this.addCommand(new PartyCommand());
-
-        // Register tasks.
-        this.addTaskTimer(new RequestExpirationTask(this), 30 * 20);
     }
 
     @Override
@@ -124,6 +113,10 @@ public class AdvancedParties extends JavaPlugin {
     }
 
     // Redis getters
+    public CacheEngine getCache() {
+        return this.cache;
+    }
+
     public RedisPubSub getPubSub() {
         return this.pubsub;
     }
@@ -135,9 +128,5 @@ public class AdvancedParties extends JavaPlugin {
 
     public Repository<PartyPlayerData> getPlayerRepository() {
         return this.playerDataRepository;
-    }
-
-    public Repository<PartyRequest> getRequestsRepository() {
-        return this.requestsRepository;
     }
 }

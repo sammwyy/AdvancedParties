@@ -69,7 +69,7 @@ public class RedisHandler {
         for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
             if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
                 player.sendMessage(
-                    player.getI18nMessage("kick-notify-other")
+                    player.getI18nMessage("kick.kick-notify-other")
                         .replace("{player}", packet.getTargetName())  
                 );
             }

@@ -1,63 +1,46 @@
 package dev._2lstudios.advancedparties.requests;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.dotphin.milkshakeorm.utils.MapFactory;
-
 import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.parties.Party;
+import dev._2lstudios.advancedparties.players.PartyPlayer;
 
 public class PartyRequestManager {
     private AdvancedParties plugin;
-    private List<PartyRequest> queued;
     
     public PartyRequestManager(AdvancedParties plugin) {
         this.plugin = plugin;
-        this.queued = new ArrayList<>();
     }
 
-    public void handleExpiration() {
-        for(PartyRequest request : this.queued) {
-            if (request.getTimeAgo() > this.plugin.getConfig().getInt("requests.requests") * 1000) {
-                request.delete();
-            }
-        }
+    public RequestStatus getRequest(String player, String party) {
+        String raw = this.plugin.getCache().get(player.toLowerCase() + "_" + party);
+        return raw == null ? RequestStatus.NONE : RequestStatus.valueOf(raw.toUpperCase());
     }
 
-    public PartyRequest createRequest(Party party, String target) {
-        PartyRequest request = new PartyRequest();
-        request.party = party.getID();
-        request.source = party.getLeader().toLowerCase();
-        request.target = target.toLowerCase();
-        request.timestamp = System.currentTimeMillis();
-        request.save();
-
-        this.queued.add(request);
-        return request;
+    public RequestStatus getRequest(PartyPlayer player, String party) {
+        return this.getRequest(player.getBukkitPlayer().getName(), party);
     }
 
-    public List<PartyRequest> getPendingByPlayer(String player) {
-        List<PartyRequest> requests = new ArrayList<>();
-        for (PartyRequest request : this.plugin.getRequestsRepository().findMany(MapFactory.create("source", player.toLowerCase()))) {
-            if (request.getTimeAgo() > this.plugin.getConfig().getInt("requests.expiration") * 1000) {
-                request.delete();
-            } else {
-                requests.add(request);
-            }
-        }
-        return requests;
+    public void deleteRequest(String party, String target) {
+        this.plugin.getCache().delete(target.toLowerCase() + "_" + party);
     }
 
-    public List<PartyRequest> getRequestsForPlayer(String player) {
-        List<PartyRequest> requests = new ArrayList<>();
-        for (PartyRequest request : this.plugin.getRequestsRepository().findMany(MapFactory.create("target", player.toLowerCase()))) {
-            if (request.getTimeAgo() > this.plugin.getConfig().getInt("requests.expiration") * 1000) {
-                request.delete();
-            } else {
-                requests.add(request);
-            }
-        }
-        return requests;
+    public void denyRequest(String party, String target) {
+        this.plugin.getCache().set(
+            target.toLowerCase() + "_" + party, 
+            this.plugin.getConfig().getInt("requests.deny-cooldown"), 
+            "denied"
+        );
+    }
+
+    public void createRequest(String party, String target) {
+        this.plugin.getCache().set(
+            target.toLowerCase() + "_" + party, 
+            this.plugin.getConfig().getInt("requests.expiration"), 
+            "pending"
+        );
+    }
+
+    public void createRequest(Party party, String target) {
+        this.createRequest(party.getID(), target);
     }
 }

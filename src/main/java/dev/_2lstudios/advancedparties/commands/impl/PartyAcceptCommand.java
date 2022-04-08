@@ -6,7 +6,7 @@ import dev._2lstudios.advancedparties.commands.CommandContext;
 import dev._2lstudios.advancedparties.commands.CommandListener;
 import dev._2lstudios.advancedparties.parties.Party;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
-import dev._2lstudios.advancedparties.requests.PartyRequest;
+import dev._2lstudios.advancedparties.requests.RequestStatus;
 
 @Command(
   name = "accept",
@@ -23,9 +23,10 @@ public class PartyAcceptCommand extends CommandListener {
             player.sendI18nMessage("common.already-in-party");
             return;
         } 
+
+        RequestStatus status = player.getPendingRequestFrom(partyID);
         
-        PartyRequest request = player.getPendingRequestForParty(partyID);
-        if (request != null) {
+        if (status == RequestStatus.PENDING) {
             Party party = ctx.getPlugin().getPartyManager().getParty(partyID);
 
             if (party == null) {
@@ -40,7 +41,7 @@ public class PartyAcceptCommand extends CommandListener {
                 party.sendPartyUpdate();
                 party.announcePlayerJoin(player.getBukkitPlayer().getName());
 
-                request.delete();
+                this.plugin.getRequestManager().deleteRequest(partyID, player.getBukkitPlayer().getName());
             }
         } else {
             player.sendI18nMessage("common.invalid-or-expired");

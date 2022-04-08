@@ -1,17 +1,16 @@
 package dev._2lstudios.advancedparties.messaging.packets;
 
 import dev._2lstudios.advancedparties.messaging.RedisChannel;
-import dev._2lstudios.advancedparties.requests.PartyRequest;
 
 public class PartyInvitePacket implements Packet {
   private String source;
   private String target;
   private String party;
   
-  public PartyInvitePacket(PartyRequest request) {
-    this.source = request.source;
-    this.target = request.target;
-    this.party = request.party;
+  public PartyInvitePacket(String source, String target, String party) {
+    this.source = source;
+    this.target = target;
+    this.party = party;
   }
 
   public String getSourceName() {

@@ -23,7 +23,9 @@ public class PartyKickCommand extends CommandListener {
             Party party = player.getParty();
 
             if (party.isLeader(player)) {
-                if (party.getMembers().contains(target.toLowerCase())) {
+                if (player.getLowerName().equalsIgnoreCase(target)) {
+                    player.sendI18nMessage("kick.cannot-your-self");
+                } else if (party.getMembers().contains(target.toLowerCase())) {
                     party.removeMember(target.toLowerCase());
                     party.sendPartyUpdate();
                     player.sendMessage(
