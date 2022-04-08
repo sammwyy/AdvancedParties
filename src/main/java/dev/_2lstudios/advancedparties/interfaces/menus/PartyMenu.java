@@ -30,7 +30,7 @@ public class PartyMenu extends PageMenu {
 
         for (int i = skip; i < MAX_ENTRY_COUNT && i < playerNamesSize; i++) {
             String playerName = playerNames.get(i);
-            InterfaceItem item = new PartyHeadItem(playerName);
+            InterfaceItem item = new PartyHeadItem(partyPlayer, playerName);
 
             heads[i] = item;
         }

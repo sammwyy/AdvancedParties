@@ -76,3 +76,5 @@ send:
 
 menu:
   title: "&8Party Menu"
+  item-name: "&a%name%"
+  item-lore: "&7Kills: &c%thewalls_stats_kills_%name%%"
