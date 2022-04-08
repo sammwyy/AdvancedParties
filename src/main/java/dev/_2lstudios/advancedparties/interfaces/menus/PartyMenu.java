@@ -17,7 +17,7 @@ public class PartyMenu extends PageMenu {
         super(page);
         this.partyPlayer = partyPlayer;
         setRows(6);
-        setTitle("Party - Page " + page);
+        setTitle(partyPlayer.formatMessage(partyPlayer.getI18nMessage("menu.title")));
     }
 
     @Override

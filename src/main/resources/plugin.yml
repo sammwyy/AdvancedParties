@@ -5,7 +5,7 @@ main: ${mainClass}
 version: ${version}
 url: ${url}
 depends: ["Milkshake-Bukkit", "Jedis"]
-softdepends: ["PlaceholderAPI"]
+softdepends: ["PlaceholderAPI", "InterfaceMaker"]
 commands:
   advancedparties:
     aliases: ["party"]

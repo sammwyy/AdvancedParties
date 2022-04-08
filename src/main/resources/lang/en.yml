@@ -73,3 +73,6 @@ send:
   usage: "&7Usage: &d/party send <server>&7."
   not-leader: "&cOnly the leader can send members to others servers."
   sending: "&eSending you and your party members to &b{server}&e..."
+
+menu:
+  title: "&8Party Menu"
