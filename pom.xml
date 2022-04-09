@@ -29,6 +29,10 @@
             <url>https://ci.2lstudios.dev/plugin/repository/everything/</url>
         </repository>
         <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+        <repository>
             <id>iridiumdevelopment</id>
             <url>https://nexus.iridiumdevelopment.net/</url>
         </repository>
@@ -63,10 +67,17 @@
             <version>0.3-BETA</version>
             <scope>provided</scope>
         </dependency>
+        <!-- Plugin soft-dependencies -->
         <dependency>
             <groupId>dev._2lstudios</groupId>
             <artifactId>InterfaceMaker</artifactId>
             <version>0.0.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.clip</groupId>
+             <artifactId>placeholderapi</artifactId>
+             <version>2.11.1</version>
             <scope>provided</scope>
         </dependency>
         <!-- Built-in dependencies -->

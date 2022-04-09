@@ -18,6 +18,7 @@ import dev._2lstudios.advancedparties.utils.ServerUtils;
 import lib__net.md_5.bungee.api.chat.BaseComponent;
 import lib__net.md_5.bungee.api.chat.ComponentBuilder;
 import lib__net.md_5.bungee.chat.ComponentSerializer;
+import me.clip.placeholderapi.PlaceholderAPI;
 
 public class PartyPlayer extends CommandExecutor {
     private Player bukkitPlayer;
@@ -139,5 +140,16 @@ public class PartyPlayer extends CommandExecutor {
         } catch (Exception e) {
             this.getBukkitPlayer().sendMessage(ChatColor.RED + "Error when trying to connect to " + server);
         }
+    }
+
+    @Override
+    public String formatMessage(String message) {
+        String output = super.formatMessage(message);
+        
+        if (this.getPlugin().hasPlugin("PlaceholderAPI")) {
+            output = PlaceholderAPI.setPlaceholders(this.getBukkitPlayer(), output);
+        }
+
+        return output;
     }
 }
