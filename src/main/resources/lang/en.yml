@@ -54,6 +54,7 @@ invite:
   already-pending: "&cThis player already has a pending party request."
   already-denied: "&cThis player previously rejected the request to join the party."
   limit-reached: "&cYou have reached the limit of members in the party"
+  cannot-your-self: "&cCannot invite your self."
   sent: "&aParty request sent to &b{target}&a."
   received: |-
     &7
