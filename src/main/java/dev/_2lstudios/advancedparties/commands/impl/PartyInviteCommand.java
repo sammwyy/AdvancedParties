@@ -1,6 +1,7 @@
 package dev._2lstudios.advancedparties.commands.impl;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
+import dev._2lstudios.advancedparties.api.events.PartyInviteEvent;
 import dev._2lstudios.advancedparties.commands.Argument;
 import dev._2lstudios.advancedparties.commands.Command;
 import dev._2lstudios.advancedparties.commands.CommandContext;
@@ -55,8 +56,12 @@ public class PartyInviteCommand extends CommandListener {
                     );
     
                     PartyInvitePacket packet = new PartyInvitePacket(party.getLeader(), targetName, party.getID());
-                    plugin.getPubSub().publish(packet);
-                    plugin.getRequestManager().createRequest(party, targetName);
+                    PartyInviteEvent event = new PartyInviteEvent(packet, player);
+                    
+                    if (plugin.callEvent(event)) {
+                        plugin.getPubSub().publish(packet);
+                        plugin.getRequestManager().createRequest(party, targetName);
+                    }
                 }
             }
         } else {

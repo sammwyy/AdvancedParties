@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
+import dev._2lstudios.advancedparties.api.events.PartyChatEvent;
 import dev._2lstudios.advancedparties.messaging.packets.PartyChatPacket;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
 
@@ -22,7 +23,13 @@ public class AsyncChatListener implements Listener {
     
     if (player.isInParty() && player.getPartyChat()) {
       e.setCancelled(true);
-      this.plugin.getPubSub().publish(new PartyChatPacket(player.getPartyID(), player.getName(), e.getMessage()));
+
+      PartyChatPacket packet = new PartyChatPacket(player.getPartyID(), player.getName(), e.getMessage());
+      PartyChatEvent event = new PartyChatEvent(packet, player);
+      
+      if (this.plugin.callEvent(event)) {
+        this.plugin.getPubSub().publish(packet);
+      }
     }
   }
 }

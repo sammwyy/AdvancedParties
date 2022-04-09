@@ -12,6 +12,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev._2lstudios.advancedparties.api.PartyAPI;
+import dev._2lstudios.advancedparties.api.events.PartyEvent;
 import dev._2lstudios.advancedparties.cache.CacheEngine;
 import dev._2lstudios.advancedparties.cache.impl.RedisCache;
 import dev._2lstudios.advancedparties.commands.CommandListener;
@@ -56,6 +57,11 @@ public class AdvancedParties extends JavaPlugin {
 
     private void registerOutgoingChannel(String channel) {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, channel);
+    }
+    
+    public boolean callEvent(PartyEvent event) {
+        this.getServer().getPluginManager().callEvent(event);
+        return !event.isCancelled();
     }
     
     @Override

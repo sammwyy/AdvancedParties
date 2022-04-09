@@ -1,5 +1,6 @@
 package dev._2lstudios.advancedparties.commands.impl;
 
+import dev._2lstudios.advancedparties.api.events.PartyAcceptEvent;
 import dev._2lstudios.advancedparties.commands.Argument;
 import dev._2lstudios.advancedparties.commands.Command;
 import dev._2lstudios.advancedparties.commands.CommandContext;
@@ -34,14 +35,18 @@ public class PartyAcceptCommand extends CommandListener {
             } else if (party.isMaxMembersReached()) {
                 player.sendI18nMessage("accept.limit-reached");
             } else {
-                player.setParty(party);
-                player.sendI18nMessage("accept.accepted");
-
-                party.addMember(player);
-                party.sendPartyUpdate();
-                party.announcePlayerJoin(player.getBukkitPlayer().getName());
-
-                this.plugin.getRequestManager().deleteRequest(partyID, player.getBukkitPlayer().getName());
+                PartyAcceptEvent event = new PartyAcceptEvent(partyID, player);
+                
+                if (this.plugin.callEvent(event)) {
+                    player.setParty(party);
+                    player.sendI18nMessage("accept.accepted");
+    
+                    party.addMember(player);
+                    party.sendPartyUpdate();
+                    party.announcePlayerJoin(player.getBukkitPlayer().getName());
+    
+                    this.plugin.getRequestManager().deleteRequest(partyID, player.getBukkitPlayer().getName());
+                }
             }
         } else {
             player.sendI18nMessage("common.invalid-or-expired");

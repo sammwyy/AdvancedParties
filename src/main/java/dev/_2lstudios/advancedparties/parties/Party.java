@@ -27,9 +27,11 @@ public class Party {
     }
 
     public void disband(PartyDisbandReason reason) {
+        PartyDisbandPacket packet = new PartyDisbandPacket(this.getID(), reason);
+
         this.plugin.getPlayerRepository().deleteMany(MapFactory.create("party", this.getID()));
         this.data.delete();
-        this.plugin.getPubSub().publish(new PartyDisbandPacket(this.getID(), reason));
+        this.plugin.getPubSub().publish(packet);
     }
 
     public boolean hasMember(String player) {

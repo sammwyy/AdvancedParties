@@ -1,5 +1,6 @@
 package dev._2lstudios.advancedparties.commands.impl;
 
+import dev._2lstudios.advancedparties.api.events.PartyDisbandEvent;
 import dev._2lstudios.advancedparties.commands.Command;
 import dev._2lstudios.advancedparties.commands.CommandContext;
 import dev._2lstudios.advancedparties.commands.CommandListener;
@@ -18,9 +19,12 @@ public class PartyDisbandCommand extends CommandListener {
 
         if (party != null) {
             if (party.isLeader(player)) {
-                player.setParty(null);
-                party.disband(PartyDisbandReason.BY_LEADER);
-                player.sendI18nMessage("disband.disbanded");
+                PartyDisbandEvent event = new PartyDisbandEvent(party, player);
+                if (ctx.getPlugin().callEvent(event)) {
+                    player.setParty(null);
+                    party.disband(PartyDisbandReason.BY_LEADER);
+                    player.sendI18nMessage("disband.disbanded");
+                }
             } else {
                 player.sendI18nMessage("disband.not-leader");
             }

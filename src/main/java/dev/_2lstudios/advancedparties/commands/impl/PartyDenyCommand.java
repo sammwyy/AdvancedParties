@@ -1,5 +1,6 @@
 package dev._2lstudios.advancedparties.commands.impl;
 
+import dev._2lstudios.advancedparties.api.events.PartyDenyEvent;
 import dev._2lstudios.advancedparties.commands.Argument;
 import dev._2lstudios.advancedparties.commands.Command;
 import dev._2lstudios.advancedparties.commands.CommandContext;
@@ -27,8 +28,10 @@ public class PartyDenyCommand extends CommandListener {
             if (party == null) {
                 player.sendI18nMessage("common.invalid-or-expired");
             } else {
-                player.sendI18nMessage("deny.denied");
-                ctx.getPlugin().getRequestManager().denyRequest(partyID, player.getName());
+                if (ctx.getPlugin().callEvent(new PartyDenyEvent(partyID, player))) {
+                    player.sendI18nMessage("deny.denied");
+                    ctx.getPlugin().getRequestManager().denyRequest(partyID, player.getName());
+                }
             }
         } else {
             player.sendI18nMessage("common.invalid-or-expired");

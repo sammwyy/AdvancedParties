@@ -1,5 +1,6 @@
 package dev._2lstudios.advancedparties.commands.impl;
 
+import dev._2lstudios.advancedparties.api.events.PartyLeaveEvent;
 import dev._2lstudios.advancedparties.commands.Command;
 import dev._2lstudios.advancedparties.commands.CommandContext;
 import dev._2lstudios.advancedparties.commands.CommandListener;
@@ -20,12 +21,15 @@ public class PartyLeaveCommand extends CommandListener {
             if (party.isLeader(player)) {
                 player.sendI18nMessage("leave.leader-cannot-leave");
             } else {
-                player.setParty(null);
-                player.sendI18nMessage("leave.leaved");
+                PartyLeaveEvent event = new PartyLeaveEvent(party.getID(), player);
+                if (ctx.getPlugin().callEvent(event)) {
+                    player.setParty(null);
+                    player.sendI18nMessage("leave.leaved");
 
-                party.removeMember(player);
-                party.sendPartyUpdate();
-                party.announcePlayerLeave(player.getName());
+                    party.removeMember(player);
+                    party.sendPartyUpdate();
+                    party.announcePlayerLeave(player.getName());
+                }
             }
         } else {
             player.sendI18nMessage("common.not-in-party");
