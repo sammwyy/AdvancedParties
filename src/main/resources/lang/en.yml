@@ -70,6 +70,7 @@ kick:
 leave:
   leader-cannot-leave: "&cLeader cannot leave the party, use /party disband instead to delete it."
   leaved: "&aYou has leaved your current party."
+  leave-notify: "&b{player} &ehas leaved the party."
 
 send:
   usage: "&7Usage: &d/party send <server>&7."

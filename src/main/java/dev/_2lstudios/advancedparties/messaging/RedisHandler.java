@@ -7,6 +7,7 @@ import dev._2lstudios.advancedparties.messaging.packets.PartyDisbandPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyKickPacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyLeavePacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartySendPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyUpdatePacket;
 import dev._2lstudios.advancedparties.parties.Party;
@@ -21,6 +22,17 @@ public class RedisHandler {
 
     public RedisHandler(AdvancedParties plugin) {
         this.plugin = plugin;
+    }
+
+    public void handle(PartyLeavePacket packet) {
+        for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
+            if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
+                player.sendMessage(
+                    player.getI18nMessage("leave.leave-notify")
+                        .replace("{player}", packet.getPlayerName())  
+                );
+            }
+        }
     }
 
     public void handle(PartySendPacket packet) {

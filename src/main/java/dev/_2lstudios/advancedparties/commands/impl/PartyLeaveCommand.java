@@ -25,6 +25,7 @@ public class PartyLeaveCommand extends CommandListener {
 
                 party.removeMember(player);
                 party.sendPartyUpdate();
+                party.announcePlayerLeave(player.getName());
             }
         } else {
             player.sendI18nMessage("common.not-in-party");

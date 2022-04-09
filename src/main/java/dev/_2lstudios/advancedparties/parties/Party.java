@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.messaging.packets.PartyDisbandPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyLeavePacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartySendPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyUpdatePacket;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
@@ -112,6 +113,10 @@ public class Party {
 
     public void announcePlayerJoin(String playerName) {
         this.plugin.getPubSub().publish(new PartyJoinPacket(playerName, this.getID()));
+    }
+
+    public void announcePlayerLeave(String playerName) {
+        this.plugin.getPubSub().publish(new PartyLeavePacket(playerName, this.getID()));
     }
 
     public boolean isMaxMembersReached() {
