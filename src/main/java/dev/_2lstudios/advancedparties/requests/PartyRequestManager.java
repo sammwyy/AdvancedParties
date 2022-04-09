@@ -27,7 +27,7 @@ public class PartyRequestManager {
     public void denyRequest(String party, String target) {
         this.plugin.getCache().set(
             target.toLowerCase() + "_" + party, 
-            this.plugin.getConfig().getInt("requests.deny-cooldown"), 
+            this.plugin.getConfig().getInt("requests.cooldown-after-deny"), 
             "denied"
         );
     }

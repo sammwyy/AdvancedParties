@@ -1,6 +1,5 @@
 settings:
   default-lang: "en"
-  gc-time: 43200
   mongo-uri: "mongodb://localhost/minecraft"
   redis-uri: "redis://localhost:6379/0"
 
@@ -10,11 +9,12 @@ cache:
   time-after-write: 120
 
 parties:
+  disband-timeout: 5
   max-members: 10
 
 requests:
   expiration: 300
-  deny-cooldown: 600
+  cooldown-after-deny: 600
   actions:
     accept:
       text: "i18n:common.accept"

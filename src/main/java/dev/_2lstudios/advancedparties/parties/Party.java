@@ -25,14 +25,10 @@ public class Party {
         this.data = data;
     }
 
-    public void disband() {
-        for (PartyPlayer player : this.getPlayers()) {
-            player.setParty(null);
-        }
-
+    public void disband(PartyDisbandReason reason) {
         this.plugin.getPlayerRepository().deleteMany(MapFactory.create("party", this.getID()));
         this.data.delete();
-        this.plugin.getPubSub().publish(new PartyDisbandPacket(this.getID()));
+        this.plugin.getPubSub().publish(new PartyDisbandPacket(this.getID(), reason));
     }
 
     public boolean hasMember(String player) {

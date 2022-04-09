@@ -59,7 +59,7 @@ public class PartyPlayer extends CommandExecutor {
         } else {
             this.partyId = party.getID();
             this.data = new PartyPlayerData();
-            this.data.username = this.getName();
+            this.data.username = this.getLowerName();
             this.data.party = this.partyId;
             this.data.save();
         }

@@ -25,6 +25,8 @@ deny:
 disband:
   not-leader: "&cOnly the leader can disband the party."
   disbanded: "&aYou has disolved your party."
+  disbanded-by-leader: "&eThe leader has dissolved the party."
+  disbanded-by-timeout: "&eThe party leader has logged off and the party has disbanded."
 
 help: |-
   &7

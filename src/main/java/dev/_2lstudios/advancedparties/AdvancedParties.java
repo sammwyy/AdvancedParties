@@ -1,5 +1,8 @@
 package dev._2lstudios.advancedparties;
 
+import java.nio.charset.Charset;
+import java.util.Random;
+
 import com.dotphin.milkshakeorm.MilkshakeORM;
 import com.dotphin.milkshakeorm.providers.Provider;
 import com.dotphin.milkshakeorm.repository.Repository;
@@ -19,6 +22,7 @@ import dev._2lstudios.advancedparties.listeners.PlayerJoinListener;
 import dev._2lstudios.advancedparties.listeners.PlayerQuitListener;
 import dev._2lstudios.advancedparties.messaging.RedisPubSub;
 import dev._2lstudios.advancedparties.parties.PartyData;
+import dev._2lstudios.advancedparties.parties.PartyDisbandHandler;
 import dev._2lstudios.advancedparties.parties.PartyManager;
 import dev._2lstudios.advancedparties.players.PartyPlayerData;
 import dev._2lstudios.advancedparties.players.PartyPlayerManager;
@@ -27,6 +31,7 @@ import dev._2lstudios.advancedparties.requests.PartyRequestManager;
 public class AdvancedParties extends JavaPlugin {
     private ConfigManager configManager;
     private LanguageManager languageManager;
+    private PartyDisbandHandler partyDisband;
     private PartyManager partyManager;
     private PartyPlayerManager playerManager;
     private PartyRequestManager requestManager;
@@ -36,6 +41,8 @@ public class AdvancedParties extends JavaPlugin {
 
     private Repository<PartyData> partyDataRepository;
     private Repository<PartyPlayerData> playerDataRepository;
+
+    private String tempServerID = null;
 
     private void addCommand(CommandListener command) {
         command.register(this, false);
@@ -60,6 +67,7 @@ public class AdvancedParties extends JavaPlugin {
         // Instantiate managers.
         this.configManager = new ConfigManager(this);
         this.languageManager = new LanguageManager(this);
+        this.partyDisband = new PartyDisbandHandler(this);
         this.partyManager = new PartyManager(this);
         this.playerManager = new PartyPlayerManager(this);
         this.requestManager = new PartyRequestManager(this);
@@ -100,6 +108,10 @@ public class AdvancedParties extends JavaPlugin {
         return this.languageManager;
     }
 
+    public PartyDisbandHandler getPartyDisbandHandler() {
+        return this.partyDisband;
+    }
+
     public PartyManager getPartyManager() {
         return this.partyManager;
     }
@@ -128,5 +140,16 @@ public class AdvancedParties extends JavaPlugin {
 
     public Repository<PartyPlayerData> getPlayerRepository() {
         return this.playerDataRepository;
+    }
+
+    // Others getters
+    public String getTempServerID() {
+        if (this.tempServerID == null) {
+            byte[] array = new byte[15];
+            new Random().nextBytes(array);
+            this.tempServerID = new String(array, Charset.forName("UTF-8"));
+        }
+
+        return this.tempServerID;
     }
 }

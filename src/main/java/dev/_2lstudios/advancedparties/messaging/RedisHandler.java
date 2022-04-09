@@ -10,6 +10,7 @@ import dev._2lstudios.advancedparties.messaging.packets.PartyKickPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartySendPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyUpdatePacket;
 import dev._2lstudios.advancedparties.parties.Party;
+import dev._2lstudios.advancedparties.parties.PartyDisbandReason;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
 import dev._2lstudios.advancedparties.utils.ComponentUtils;
 
@@ -36,6 +37,12 @@ public class RedisHandler {
         for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
             if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
                 player.setParty(null);
+
+                if (packet.getReason() == PartyDisbandReason.BY_LEADER) {
+                    player.sendI18nMessage("disband.disbanded-by-leader");
+                } else if (packet.getReason() == PartyDisbandReason.TIMEOUT) {
+                    player.sendI18nMessage("disband.disbanded-by-timeout");
+                }
             }
         }
     }
