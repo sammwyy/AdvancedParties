@@ -5,6 +5,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
+import dev._2lstudios.advancedparties.parties.Party;
+import dev._2lstudios.advancedparties.players.PartyPlayer;
 
 public class PlayerQuitListener implements Listener {
   private AdvancedParties plugin;
@@ -15,6 +17,13 @@ public class PlayerQuitListener implements Listener {
   
   @EventHandler
   public void onPlayerQuit(PlayerQuitEvent e) {
-    this.plugin.getPlayerManager().removePlayer(e.getPlayer());
+    PartyPlayer player = this.plugin.getPlayerManager().removePlayer(e.getPlayer());
+
+    if (player.isInParty()) {
+      Party party = player.getParty();
+      if (party.isLeader(player)) {
+        this.plugin.getPartyDisbandHandler().addPartyToDisband(party);
+      }
+    }
   }
 }

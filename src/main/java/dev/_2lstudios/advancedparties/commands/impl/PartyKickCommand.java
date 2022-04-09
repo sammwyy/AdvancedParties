@@ -1,5 +1,6 @@
 package dev._2lstudios.advancedparties.commands.impl;
 
+import dev._2lstudios.advancedparties.api.events.PartyKickEvent;
 import dev._2lstudios.advancedparties.commands.Argument;
 import dev._2lstudios.advancedparties.commands.Command;
 import dev._2lstudios.advancedparties.commands.CommandContext;
@@ -23,14 +24,21 @@ public class PartyKickCommand extends CommandListener {
             Party party = player.getParty();
 
             if (party.isLeader(player)) {
-                if (party.getMembers().contains(target.toLowerCase())) {
-                    party.removeMember(target.toLowerCase());
-                    party.sendPartyUpdate();
-                    player.sendMessage(
-                        player.getI18nMessage("kick.kicked")
-                            .replace("{player}", target)  
-                    );
-                    ctx.getPlugin().getPubSub().publish(new PartyKickPacket(party.getID(), target.toLowerCase()));
+                if (player.getName().equalsIgnoreCase(target)) {
+                    player.sendI18nMessage("kick.cannot-your-self");
+                } else if (party.hasMember(target)) {
+                    PartyKickEvent event = new PartyKickEvent(party, player, target);
+                    if (ctx.getPlugin().callEvent(event)) {
+                        String memberRemoved = party.removeMember(target);
+                        if (memberRemoved != null) {
+                            party.sendPartyUpdate();
+                            player.sendMessage(
+                                player.getI18nMessage("kick.kicked")
+                                    .replace("{player}", memberRemoved)  
+                            );
+                            ctx.getPlugin().getPubSub().publish(new PartyKickPacket(party.getID(), memberRemoved));
+                        }
+                    }
                 } else {
                     player.sendI18nMessage("kick.not-in-your-party");
                 }

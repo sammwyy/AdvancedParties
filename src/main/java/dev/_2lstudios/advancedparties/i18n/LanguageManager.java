@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 
+import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.config.Configuration;
 import dev._2lstudios.advancedparties.utils.FileUtils;
 
@@ -23,6 +24,13 @@ public class LanguageManager {
         this.directory = directory;
 
         LanguageExtractor.extractAll(directory);
+    }
+
+    public LanguageManager(final AdvancedParties plugin) {
+        this(
+            plugin.getConfig().getString("settings.default-lang"), 
+            new File(plugin.getDataFolder(), "lang")
+        );
     }
 
     public void loadLanguage(final File file) throws IOException, InvalidConfigurationException {

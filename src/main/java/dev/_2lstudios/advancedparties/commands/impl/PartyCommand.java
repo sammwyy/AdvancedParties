@@ -10,6 +10,7 @@ import dev._2lstudios.advancedparties.commands.CommandListener;
 public class PartyCommand extends CommandListener {
   public PartyCommand() {
     this.addSubcommand(new PartyAcceptCommand());
+    this.addSubcommand(new PartyChatCommand());
     this.addSubcommand(new PartyCreateCommand());
     this.addSubcommand(new PartyDenyCommand());
     this.addSubcommand(new PartyDisbandCommand());
@@ -17,8 +18,6 @@ public class PartyCommand extends CommandListener {
     this.addSubcommand(new PartyInviteCommand());
     this.addSubcommand(new PartyKickCommand());
     this.addSubcommand(new PartyLeaveCommand());
-    this.addSubcommand(new PartyPendingCommand());
-    this.addSubcommand(new PartyRequestsCommand());
     this.addSubcommand(new PartySendCommand());
   }
 

@@ -2,7 +2,6 @@ package dev._2lstudios.advancedparties.players;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
-import java.util.List;
 
 import com.dotphin.milkshakeorm.utils.MapFactory;
 
@@ -12,12 +11,14 @@ import org.bukkit.entity.Player;
 import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.commands.CommandExecutor;
 import dev._2lstudios.advancedparties.parties.Party;
-import dev._2lstudios.advancedparties.requests.PartyRequest;
+import dev._2lstudios.advancedparties.requests.RequestStatus;
 import dev._2lstudios.advancedparties.utils.PacketUtils;
+import dev._2lstudios.advancedparties.utils.ServerUtils;
 
 import lib__net.md_5.bungee.api.chat.BaseComponent;
 import lib__net.md_5.bungee.api.chat.ComponentBuilder;
 import lib__net.md_5.bungee.chat.ComponentSerializer;
+import me.clip.placeholderapi.PlaceholderAPI;
 
 public class PartyPlayer extends CommandExecutor {
     private Player bukkitPlayer;
@@ -34,34 +35,20 @@ public class PartyPlayer extends CommandExecutor {
         return this.bukkitPlayer;
     }
 
+    public String getName() {
+        return this.bukkitPlayer.getName();
+    }
+
     public String getLowerName() {
-        return this.bukkitPlayer.getName().toLowerCase();
+        return this.getName().toLowerCase();
     }
 
-    public List<PartyRequest> getPendingRequests() {
-        return this.getPlugin().getRequestManager().getPendingByPlayer(this.getLowerName());
+    public RequestStatus getRequestTo(String player) {
+        return this.getPlugin().getRequestManager().getRequest(player, this.getPartyID());
     }
 
-    public List<PartyRequest> getRequests() {
-        return this.getPlugin().getRequestManager().getRequestsForPlayer(this.getLowerName());
-    }
-
-    public boolean hasAlreadyRequestTo(String player) {
-        for (PartyRequest request : this.getPendingRequests()) {
-            if (request.target.equalsIgnoreCase(player)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public PartyRequest getPendingRequestForParty(String party) {
-        for (PartyRequest request : this.getRequests()) {
-            if (request.party.equalsIgnoreCase(party)) {
-                return request;
-            }
-        }
-        return null;
+    public RequestStatus getPendingRequestFrom(String party) {
+        return this.getPlugin().getRequestManager().getRequest(this, party);
     }
 
     public void setParty(Party party) {
@@ -80,7 +67,7 @@ public class PartyPlayer extends CommandExecutor {
     }
 
     public void createParty() {
-        Party party = this.getPlugin().getPartyManager().createParty(this.getLowerName());
+        Party party = this.getPlugin().getPartyManager().createParty(this.getName());
         this.setParty(party);
     }
 
@@ -100,6 +87,15 @@ public class PartyPlayer extends CommandExecutor {
         return this.partyId != null;
     }
 
+    public boolean getPartyChat() {
+        return this.data.partyChat;
+    }
+
+    public void setPartyChat(boolean result) {
+        this.data.partyChat = result;
+        this.data.save();
+    }
+
     public void download() {
         this.data = this.getPlugin().getPlayerRepository().findOne(MapFactory.create("username", this.getLowerName()));
 
@@ -109,7 +105,11 @@ public class PartyPlayer extends CommandExecutor {
     }
 
     public void sendRawMessage(String component, byte type) {
-        PacketUtils.sendJSON(this.getBukkitPlayer(), component, type);
+        if (ServerUtils.hasChatComponentAPI()) {
+            this.bukkitPlayer.spigot().sendMessage(net.md_5.bungee.chat.ComponentSerializer.parse(component));
+        } else {
+            PacketUtils.sendJSON(this.getBukkitPlayer(), component, type);
+        }
     }
 
     public void sendRawMessage(String component) {
@@ -140,5 +140,16 @@ public class PartyPlayer extends CommandExecutor {
         } catch (Exception e) {
             this.getBukkitPlayer().sendMessage(ChatColor.RED + "Error when trying to connect to " + server);
         }
+    }
+
+    @Override
+    public String formatMessage(String message) {
+        String output = super.formatMessage(message);
+        
+        if (this.getPlugin().hasPlugin("PlaceholderAPI")) {
+            output = PlaceholderAPI.setPlaceholders(this.getBukkitPlayer(), output);
+        }
+
+        return output;
     }
 }

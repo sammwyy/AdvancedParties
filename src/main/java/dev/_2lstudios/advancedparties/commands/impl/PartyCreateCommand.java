@@ -1,5 +1,6 @@
 package dev._2lstudios.advancedparties.commands.impl;
 
+import dev._2lstudios.advancedparties.api.events.PartyCreateEvent;
 import dev._2lstudios.advancedparties.commands.Command;
 import dev._2lstudios.advancedparties.commands.CommandContext;
 import dev._2lstudios.advancedparties.commands.CommandListener;
@@ -16,8 +17,10 @@ public class PartyCreateCommand extends CommandListener {
         if (player.isInParty()) {
             player.sendI18nMessage("common.already-in-party");
         } else {
-            player.createParty();
-            player.sendI18nMessage("create.success");
+            if (ctx.getPlugin().callEvent(new PartyCreateEvent(player))) {
+                player.createParty();
+                player.sendI18nMessage("create.success");
+            }
         }
     }
 }

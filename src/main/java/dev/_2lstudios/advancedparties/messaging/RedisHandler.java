@@ -3,13 +3,16 @@ package dev._2lstudios.advancedparties.messaging;
 import org.bukkit.configuration.ConfigurationSection;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
+import dev._2lstudios.advancedparties.messaging.packets.PartyChatPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyDisbandPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyKickPacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyLeavePacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartySendPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyUpdatePacket;
 import dev._2lstudios.advancedparties.parties.Party;
+import dev._2lstudios.advancedparties.parties.PartyDisbandReason;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
 import dev._2lstudios.advancedparties.utils.ComponentUtils;
 
@@ -20,6 +23,29 @@ public class RedisHandler {
 
     public RedisHandler(AdvancedParties plugin) {
         this.plugin = plugin;
+    }
+
+    public void handle(PartyChatPacket packet) {
+        for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
+            if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
+                player.sendMessage(
+                    player.getI18nMessage("chat.format")
+                        .replace("{player}", packet.getPlayerName())  
+                        .replace("{message}", packet.getMessage())
+                );
+            }
+        }
+    }
+
+    public void handle(PartyLeavePacket packet) {
+        for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
+            if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
+                player.sendMessage(
+                    player.getI18nMessage("leave.leave-notify")
+                        .replace("{player}", packet.getPlayerName())  
+                );
+            }
+        }
     }
 
     public void handle(PartySendPacket packet) {
@@ -36,6 +62,12 @@ public class RedisHandler {
         for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
             if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
                 player.setParty(null);
+
+                if (packet.getReason() == PartyDisbandReason.BY_LEADER) {
+                    player.sendI18nMessage("disband.disbanded-by-leader");
+                } else if (packet.getReason() == PartyDisbandReason.TIMEOUT) {
+                    player.sendI18nMessage("disband.disbanded-by-timeout");
+                }
             }
         }
     }
@@ -69,7 +101,7 @@ public class RedisHandler {
         for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
             if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
                 player.sendMessage(
-                    player.getI18nMessage("kick-notify-other")
+                    player.getI18nMessage("kick.kick-notify-other")
                         .replace("{player}", packet.getTargetName())  
                 );
             }

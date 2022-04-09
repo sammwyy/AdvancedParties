@@ -1,12 +1,13 @@
 package dev._2lstudios.advancedparties.commands.impl;
 
+import dev._2lstudios.advancedparties.api.events.PartyAcceptEvent;
 import dev._2lstudios.advancedparties.commands.Argument;
 import dev._2lstudios.advancedparties.commands.Command;
 import dev._2lstudios.advancedparties.commands.CommandContext;
 import dev._2lstudios.advancedparties.commands.CommandListener;
 import dev._2lstudios.advancedparties.parties.Party;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
-import dev._2lstudios.advancedparties.requests.PartyRequest;
+import dev._2lstudios.advancedparties.requests.RequestStatus;
 
 @Command(
   name = "accept",
@@ -23,9 +24,10 @@ public class PartyAcceptCommand extends CommandListener {
             player.sendI18nMessage("common.already-in-party");
             return;
         } 
+
+        RequestStatus status = player.getPendingRequestFrom(partyID);
         
-        PartyRequest request = player.getPendingRequestForParty(partyID);
-        if (request != null) {
+        if (status == RequestStatus.PENDING) {
             Party party = ctx.getPlugin().getPartyManager().getParty(partyID);
 
             if (party == null) {
@@ -33,14 +35,18 @@ public class PartyAcceptCommand extends CommandListener {
             } else if (party.isMaxMembersReached()) {
                 player.sendI18nMessage("accept.limit-reached");
             } else {
-                player.setParty(party);
-                player.sendI18nMessage("accept.accepted");
-
-                party.addMember(player);
-                party.sendPartyUpdate();
-                party.announcePlayerJoin(player.getBukkitPlayer().getName());
-
-                request.delete();
+                PartyAcceptEvent event = new PartyAcceptEvent(partyID, player);
+                
+                if (this.plugin.callEvent(event)) {
+                    player.setParty(party);
+                    player.sendI18nMessage("accept.accepted");
+    
+                    party.addMember(player);
+                    party.sendPartyUpdate();
+                    party.announcePlayerJoin(player.getBukkitPlayer().getName());
+    
+                    this.plugin.getRequestManager().deleteRequest(partyID, player.getBukkitPlayer().getName());
+                }
             }
         } else {
             player.sendI18nMessage("common.invalid-or-expired");

@@ -1,6 +1,7 @@
 package dev._2lstudios.advancedparties.parties;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.dotphin.milkshakeorm.utils.MapFactory;
@@ -11,6 +12,7 @@ import org.bukkit.entity.Player;
 import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.messaging.packets.PartyDisbandPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyLeavePacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartySendPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyUpdatePacket;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
@@ -18,48 +20,64 @@ import dev._2lstudios.advancedparties.players.PartyPlayer;
 public class Party {
     private AdvancedParties plugin;
     private PartyData data;
-    private int disbandCount = 0;
 
     public Party(AdvancedParties plugin, PartyData data) {
         this.plugin = plugin;
         this.data = data;
     }
 
-    public void disband() {
-        for (PartyPlayer player : this.getPlayers()) {
-            player.setParty(null);
-        }
+    public void disband(PartyDisbandReason reason) {
+        PartyDisbandPacket packet = new PartyDisbandPacket(this.getID(), reason);
 
         this.plugin.getPlayerRepository().deleteMany(MapFactory.create("party", this.getID()));
         this.data.delete();
-        this.plugin.getPubSub().publish(new PartyDisbandPacket(this.getID()));
+        this.plugin.getPubSub().publish(packet);
     }
 
-    public void removeMember(String player) {
-        this.data.members.remove(player.toLowerCase());
+    public boolean hasMember(String player) {
+        Iterator<String> iterator = this.data.members.iterator();
+        while (iterator.hasNext()) {
+            String member = iterator.next();
+
+            if (member.equalsIgnoreCase(player)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasMember(PartyPlayer player) {
+        return this.hasMember(player.getBukkitPlayer().getName());
+    }
+
+    public String removeMember(String player) {
+        Iterator<String> iterator = this.data.members.iterator();
+        String member = null;
+
+        while (iterator.hasNext()) {
+            member = iterator.next();
+
+            if (member.equalsIgnoreCase(player)) {
+                iterator.remove();
+                break;
+            }
+        }
+
         this.data.save();
+        return member;
     }
 
-    public void removeMember(PartyPlayer player) {
-        this.removeMember(player.getBukkitPlayer().getName());
+    public String removeMember(PartyPlayer player) {
+        return this.removeMember(player.getBukkitPlayer().getName());
     }
 
     public void addMember(String player) {
-        this.data.members.add(player.toLowerCase());
+        this.data.members.add(player);
         this.data.save();
     }
 
     public void addMember(PartyPlayer player) {
         this.addMember(player.getBukkitPlayer().getName());
-    }
-
-    public int getDisbandCount() {
-        return this.disbandCount;
-    }
-
-    public int bumpDisbandCount() {
-        this.disbandCount++;
-        return this.disbandCount;
     }
 
     public String getID() {
@@ -72,6 +90,20 @@ public class Party {
 
     public List<String> getMembers() {
         return this.data.members;
+    }
+
+    public String getMembersAsString() {
+        String result = "";
+
+        for (String member : this.getMembers()) {
+            if (result != "") {
+                result += ", ";
+            }
+
+            result += member;
+        }
+
+        return result;
     }
 
     public List<PartyPlayer> getPlayers() {
@@ -87,16 +119,32 @@ public class Party {
         return result;
     }
 
+    public boolean isLeader(String playerName) {
+        return this.getLeader().equalsIgnoreCase(playerName);
+    }
+
     public boolean isLeader(PartyPlayer player) {
-        return player.getLowerName().equals(this.getLeader());
+        return this.isLeader(player.getName());
     }
 
     public void announcePlayerJoin(String playerName) {
         this.plugin.getPubSub().publish(new PartyJoinPacket(playerName, this.getID()));
     }
 
+    public void announcePlayerLeave(String playerName) {
+        this.plugin.getPubSub().publish(new PartyLeavePacket(playerName, this.getID()));
+    }
+
+    public int getMembersCount() {
+        return this.getMembers().size();
+    }
+
+    public int getMaxMembers() {
+        return this.plugin.getConfig().getInt("parties.max-members");
+    }
+
     public boolean isMaxMembersReached() {
-        return this.getMembers().size() >= this.plugin.getConfig().getInt("parties.max-members");
+        return this.getMembersCount() >= this.getMaxMembers();
     }
 
     public void sendPartyUpdate() {

@@ -17,7 +17,17 @@ public class PartyInfoCommand extends CommandListener {
         Party party = player.getParty();
 
         if (party != null) {
-            new PartyMenu(player, 1).build(player.getBukkitPlayer());
+            if (ctx.getPlugin().hasPlugin("InterfaceMaker")) {
+                new PartyMenu(player, 1).build(player.getBukkitPlayer());
+            } else {
+                player.sendMessage(
+                    player.getI18nMessage("info.as-text")
+                        .replace("{leader}", party.getLeader())
+                        .replace("{members}", party.getMembersAsString())  
+                        .replace("{memberscount}", party.getMembersCount() + "")
+                        .replace("{maxmembers}", party.getMaxMembers() + "")
+                );
+            }
         } else {
             player.sendI18nMessage("common.not-in-party");
         }

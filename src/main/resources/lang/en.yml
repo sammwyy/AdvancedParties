@@ -15,6 +15,11 @@ accept:
   accepted: "&aYou have accepted the invitation to the party!"
   join-notify: "&b{player} &ahas joined to the party."
 
+chat:
+  enabled: "&7You have &aenabled &7party chat. Now the messages you write can only be seen by members of the party."
+  disabled: "&7You have &cdisabled &7party chat. Now you're talking in the global chat."
+  format: "&8(&dParty&8) &b{player}&8: &7{message}"
+
 create:
   success: "&aYou has create a party, use &b/party invite <player> &ato invite others players to your party."
 
@@ -25,42 +30,55 @@ deny:
 disband:
   not-leader: "&cOnly the leader can disband the party."
   disbanded: "&aYou has disolved your party."
+  disbanded-by-leader: "&eThe leader has dissolved the party."
+  disbanded-by-timeout: "&eThe party leader has logged off and the party has disbanded."
 
 help: |-
-  &7
+  &7 &r
   &5=========== &d&lParties&r &5===========
-  &7
+  &7 &r
+  &d/party chat &8- &7Toggle party chat mode.
   &d/party create &8- &7Create a party.
   &d/party disband &8- &7Disolve your party.
   &d/party info &8- &7Get info about your party.
   &d/party invite <player> &8- &7Invite a player to your party.
   &d/party kick <player> &8- &7Kick a player from your party.
   &d/party leave &8- &7Leave your current party.
-  &d/party pending &8- &7Get pending invites you've sent.
-  &d/party requests &8- &7Get pending invites that have been sent to you.
   &d/party send <server> &8- &7Send all party members to other server.
-  &7
+  &7 &r
+
+info:
+  as-text: |-
+    &7 &r
+    &5========== &d&lYour Party&r &5==========
+    &7 &r
+    &dLeader: &7{leader}
+    &dMembers ({memberscount}/{maxmembers}): &7{members}
+    &7 &r
 
 invite:
   usage: "&7Usage: &d/party invite <player>&7."
   not-leader: "&cOnly the leader can invite players to the party."
   target-already-in-party: "&cThis player is already in a party."
   already-pending: "&cThis player already has a pending party request."
+  already-denied: "&cThis player previously rejected the request to join the party."
   limit-reached: "&cYou have reached the limit of members in the party"
+  cannot-your-self: "&cCannot invite your self."
   sent: "&aParty request sent to &b{target}&a."
   received: |-
-    &7
+    &7 &r
     &5=========== &d&lParties&r &5===========
-    &7
+    &7 &r
     &b{player} &7has invited you to his party.
-    &7
+    &7 &r
     &7What would you like to do? {actions}
-    &7
+    &7 &r
 
 kick:
   usage: "&7Usage: &d/party kick <player>&7."
   not-leader: "&cOnly the leader can kick players from the party."
   not-in-your-party: "&cThis player isn't in your party."
+  cannot-your-self: "&cYou cannot kick yourself from the party."
   kicked: "&eYou has kicked &b{player} &efrom the party."
   kick-notify: "&eYou has been kicked from the party."
   kick-notify-other: "&b{player} &ehas been kicked from the party."
@@ -68,6 +86,7 @@ kick:
 leave:
   leader-cannot-leave: "&cLeader cannot leave the party, use /party disband instead to delete it."
   leaved: "&aYou has leaved your current party."
+  leave-notify: "&b{player} &ehas leaved the party."
 
 send:
   usage: "&7Usage: &d/party send <server>&7."
@@ -76,5 +95,5 @@ send:
 
 menu:
   title: "&8Party Menu"
-  item-name: "&a%name%"
-  item-lore: "&7Kills: &c%thewalls_stats_kills_%name%%"
+  item-name: "&a{member}"
+  item-lore: "&7Click to kick"

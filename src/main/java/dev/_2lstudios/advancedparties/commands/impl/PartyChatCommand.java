@@ -4,17 +4,24 @@ import dev._2lstudios.advancedparties.commands.Command;
 import dev._2lstudios.advancedparties.commands.CommandContext;
 import dev._2lstudios.advancedparties.commands.CommandListener;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
-import dev._2lstudios.advancedparties.requests.PartyRequest;
 
 @Command(
-  name = "requests"
+  name = "chat"
 )
-public class PartyRequestsCommand extends CommandListener {
+public class PartyChatCommand extends CommandListener {
     @Override
     public void onExecuteByPlayer(CommandContext ctx) {
         PartyPlayer player = ctx.getPlayer();
-        for (PartyRequest request : player.getRequests()) {
-            player.sendMessage(request.party);
+
+        if (player.isInParty()) {
+            player.setPartyChat(!player.getPartyChat());
+            if (player.getPartyChat()) {
+                player.sendI18nMessage("chat.enabled");
+            } else {
+                player.sendI18nMessage("chat.disabled");
+            }
+        } else {
+            player.sendI18nMessage("common.not-in-party");
         }
     }
 }
