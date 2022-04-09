@@ -34,9 +34,9 @@ disband:
   disbanded-by-timeout: "&eThe party leader has logged off and the party has disbanded."
 
 help: |-
-  &7
+  &7 &r
   &5=========== &d&lParties&r &5===========
-  &7
+  &7 &r
   &d/party chat &8- &7Toggle party chat mode.
   &d/party create &8- &7Create a party.
   &d/party disband &8- &7Disolve your party.
@@ -45,7 +45,16 @@ help: |-
   &d/party kick <player> &8- &7Kick a player from your party.
   &d/party leave &8- &7Leave your current party.
   &d/party send <server> &8- &7Send all party members to other server.
-  &7
+  &7 &r
+
+info:
+  as-text: |-
+    &7 &r
+    &5========== &d&lYour Party&r &5==========
+    &7 &r
+    &dLeader: &7{leader}
+    &dMembers ({memberscount}/{maxmembers}): &7{members}
+    &7 &r
 
 invite:
   usage: "&7Usage: &d/party invite <player>&7."
@@ -57,13 +66,13 @@ invite:
   cannot-your-self: "&cCannot invite your self."
   sent: "&aParty request sent to &b{target}&a."
   received: |-
-    &7
+    &7 &r
     &5=========== &d&lParties&r &5===========
-    &7
+    &7 &r
     &b{player} &7has invited you to his party.
-    &7
+    &7 &r
     &7What would you like to do? {actions}
-    &7
+    &7 &r
 
 kick:
   usage: "&7Usage: &d/party kick <player>&7."

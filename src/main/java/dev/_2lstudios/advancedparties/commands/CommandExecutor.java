@@ -3,7 +3,7 @@ package dev._2lstudios.advancedparties.commands;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
 
-import com.iridium.iridiumcolorapi.IridiumColorAPI;
+// import com.iridium.iridiumcolorapi.IridiumColorAPI;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -19,10 +19,10 @@ public class CommandExecutor {
     }
 
     public String formatMessage(String message) {
-        return IridiumColorAPI.process(
-            ChatColor.translateAlternateColorCodes('&', message)
+        return /*IridiumColorAPI.process(
+            */ ChatColor.translateAlternateColorCodes('&', message)
                 .replace("{plugin_version}", this.plugin.getDescription().getVersion())
-        );
+        /*)*/;
     }
 
     public String getLang() {

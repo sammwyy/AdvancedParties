@@ -90,6 +90,20 @@ public class Party {
         return this.data.members;
     }
 
+    public String getMembersAsString() {
+        String result = "";
+
+        for (String member : this.getMembers()) {
+            if (result != "") {
+                result += ", ";
+            }
+
+            result += member;
+        }
+
+        return result;
+    }
+
     public List<PartyPlayer> getPlayers() {
         List<PartyPlayer> result = new ArrayList<>();
 
@@ -119,8 +133,16 @@ public class Party {
         this.plugin.getPubSub().publish(new PartyLeavePacket(playerName, this.getID()));
     }
 
+    public int getMembersCount() {
+        return this.getMembers().size();
+    }
+
+    public int getMaxMembers() {
+        return this.plugin.getConfig().getInt("parties.max-members");
+    }
+
     public boolean isMaxMembersReached() {
-        return this.getMembers().size() >= this.plugin.getConfig().getInt("parties.max-members");
+        return this.getMembersCount() >= this.getMaxMembers();
     }
 
     public void sendPartyUpdate() {

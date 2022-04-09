@@ -8,6 +8,7 @@ import com.dotphin.milkshakeorm.providers.Provider;
 import com.dotphin.milkshakeorm.repository.Repository;
 
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev._2lstudios.advancedparties.api.PartyAPI;
@@ -153,5 +154,10 @@ public class AdvancedParties extends JavaPlugin {
         }
 
         return this.tempServerID;
+    }
+
+    public boolean hasPlugin(String pluginName) {
+        Plugin plugin = this.getServer().getPluginManager().getPlugin(pluginName);
+        return plugin != null && plugin.isEnabled();
     }
 }

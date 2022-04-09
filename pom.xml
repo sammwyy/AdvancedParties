@@ -70,11 +70,13 @@
             <scope>provided</scope>
         </dependency>
         <!-- Built-in dependencies -->
+        <!-- 
         <dependency>
             <groupId>com.iridium</groupId>
             <artifactId>IridiumColorAPI</artifactId>
             <version>LATEST</version>
         </dependency>
+        -->
     </dependencies>
 
     <build>
