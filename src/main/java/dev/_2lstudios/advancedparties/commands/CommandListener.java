@@ -41,7 +41,7 @@ public abstract class CommandListener implements CommandExecutor {
   protected void onBadUsage(CommandContext ctx) {
       String key = command.usageKey();
       if (key == null || key.isEmpty()) {
-          key = command.name().toLowerCase() + ".usage";
+          key = command.name() + ".usage";
       }
 
       ctx.getExecutor().sendI18nMessage(key);

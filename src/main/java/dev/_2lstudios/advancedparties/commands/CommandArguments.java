@@ -102,7 +102,7 @@ public class CommandArguments {
             }
 
             else if (type == Argument.ONLINE_PLAYER) {
-                Player player = Bukkit.getServer().getPlayerExact(arg.toLowerCase());
+                Player player = Bukkit.getServer().getPlayerExact(arg);
                 if (player.isOnline()) {
                     value = this.plugin.getPlayerManager().getPlayer(player);
                 } else {

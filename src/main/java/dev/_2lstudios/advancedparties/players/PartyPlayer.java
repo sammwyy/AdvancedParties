@@ -14,6 +14,7 @@ import dev._2lstudios.advancedparties.parties.Party;
 import dev._2lstudios.advancedparties.requests.RequestStatus;
 import dev._2lstudios.advancedparties.utils.PacketUtils;
 import dev._2lstudios.advancedparties.utils.ServerUtils;
+
 import lib__net.md_5.bungee.api.chat.BaseComponent;
 import lib__net.md_5.bungee.api.chat.ComponentBuilder;
 import lib__net.md_5.bungee.chat.ComponentSerializer;
@@ -33,8 +34,12 @@ public class PartyPlayer extends CommandExecutor {
         return this.bukkitPlayer;
     }
 
+    public String getName() {
+        return this.bukkitPlayer.getName();
+    }
+
     public String getLowerName() {
-        return this.bukkitPlayer.getName().toLowerCase();
+        return this.getName().toLowerCase();
     }
 
     public RequestStatus getRequestTo(String player) {
@@ -54,14 +59,14 @@ public class PartyPlayer extends CommandExecutor {
         } else {
             this.partyId = party.getID();
             this.data = new PartyPlayerData();
-            this.data.username = this.getLowerName();
+            this.data.username = this.getName();
             this.data.party = this.partyId;
             this.data.save();
         }
     }
 
     public void createParty() {
-        Party party = this.getPlugin().getPartyManager().createParty(this.getLowerName());
+        Party party = this.getPlugin().getPartyManager().createParty(this.getName());
         this.setParty(party);
     }
 
@@ -91,7 +96,7 @@ public class PartyPlayer extends CommandExecutor {
 
     public void sendRawMessage(String component, byte type) {
         if (ServerUtils.hasChatComponentAPI()) {
-            this.bukkitPlayer.spigot().sendMessage( net.md_5.bungee.chat.ComponentSerializer.parse(component));
+            this.bukkitPlayer.spigot().sendMessage(net.md_5.bungee.chat.ComponentSerializer.parse(component));
         } else {
             PacketUtils.sendJSON(this.getBukkitPlayer(), component, type);
         }

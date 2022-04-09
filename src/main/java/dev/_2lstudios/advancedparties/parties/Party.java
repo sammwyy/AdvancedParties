@@ -1,6 +1,7 @@
 package dev._2lstudios.advancedparties.parties;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.dotphin.milkshakeorm.utils.MapFactory;
@@ -18,7 +19,6 @@ import dev._2lstudios.advancedparties.players.PartyPlayer;
 public class Party {
     private AdvancedParties plugin;
     private PartyData data;
-    private int disbandCount = 0;
 
     public Party(AdvancedParties plugin, PartyData data) {
         this.plugin = plugin;
@@ -35,31 +35,50 @@ public class Party {
         this.plugin.getPubSub().publish(new PartyDisbandPacket(this.getID()));
     }
 
-    public void removeMember(String player) {
-        this.data.members.remove(player.toLowerCase());
-        this.data.save();
+    public boolean hasMember(String player) {
+        Iterator<String> iterator = this.data.members.iterator();
+        while (iterator.hasNext()) {
+            String member = iterator.next();
+
+            if (member.equalsIgnoreCase(player)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void removeMember(PartyPlayer player) {
-        this.removeMember(player.getBukkitPlayer().getName());
+    public boolean hasMember(PartyPlayer player) {
+        return this.hasMember(player.getBukkitPlayer().getName());
+    }
+
+    public String removeMember(String player) {
+        Iterator<String> iterator = this.data.members.iterator();
+        String member = null;
+
+        while (iterator.hasNext()) {
+            member = iterator.next();
+
+            if (member.equalsIgnoreCase(player)) {
+                iterator.remove();
+                break;
+            }
+        }
+
+        this.data.save();
+        return member;
+    }
+
+    public String removeMember(PartyPlayer player) {
+        return this.removeMember(player.getBukkitPlayer().getName());
     }
 
     public void addMember(String player) {
-        this.data.members.add(player.toLowerCase());
+        this.data.members.add(player);
         this.data.save();
     }
 
     public void addMember(PartyPlayer player) {
         this.addMember(player.getBukkitPlayer().getName());
-    }
-
-    public int getDisbandCount() {
-        return this.disbandCount;
-    }
-
-    public int bumpDisbandCount() {
-        this.disbandCount++;
-        return this.disbandCount;
     }
 
     public String getID() {
@@ -87,8 +106,12 @@ public class Party {
         return result;
     }
 
+    public boolean isLeader(String playerName) {
+        return this.getLeader().equalsIgnoreCase(playerName);
+    }
+
     public boolean isLeader(PartyPlayer player) {
-        return player.getLowerName().equals(this.getLeader());
+        return this.isLeader(player.getName());
     }
 
     public void announcePlayerJoin(String playerName) {

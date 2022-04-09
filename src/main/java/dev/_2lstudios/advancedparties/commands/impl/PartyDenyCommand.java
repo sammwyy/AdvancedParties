@@ -28,7 +28,7 @@ public class PartyDenyCommand extends CommandListener {
                 player.sendI18nMessage("common.invalid-or-expired");
             } else {
                 player.sendI18nMessage("deny.denied");
-                ctx.getPlugin().getRequestManager().denyRequest(partyID, player.getLowerName());
+                ctx.getPlugin().getRequestManager().denyRequest(partyID, player.getName());
             }
         } else {
             player.sendI18nMessage("common.invalid-or-expired");

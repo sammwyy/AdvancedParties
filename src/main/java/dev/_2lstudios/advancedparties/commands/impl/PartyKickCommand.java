@@ -23,16 +23,19 @@ public class PartyKickCommand extends CommandListener {
             Party party = player.getParty();
 
             if (party.isLeader(player)) {
-                if (player.getLowerName().equalsIgnoreCase(target)) {
+                if (player.getName().equalsIgnoreCase(target)) {
                     player.sendI18nMessage("kick.cannot-your-self");
-                } else if (party.getMembers().contains(target.toLowerCase())) {
-                    party.removeMember(target.toLowerCase());
-                    party.sendPartyUpdate();
-                    player.sendMessage(
-                        player.getI18nMessage("kick.kicked")
-                            .replace("{player}", target)  
-                    );
-                    ctx.getPlugin().getPubSub().publish(new PartyKickPacket(party.getID(), target.toLowerCase()));
+                } else if (party.hasMember(target)) {
+                    String memberRemoved = party.removeMember(target);
+                    if (memberRemoved != null) {
+                        party.sendPartyUpdate();
+                        player.sendMessage(
+                            player.getI18nMessage("kick.kicked")
+                                .replace("{player}", memberRemoved)  
+                        );
+                        ctx.getPlugin().getPubSub().publish(new PartyKickPacket(party.getID(), memberRemoved));
+                    }
+                    
                 } else {
                     player.sendI18nMessage("kick.not-in-your-party");
                 }

@@ -28,6 +28,10 @@
             <id>2lstudios-repo</id>
             <url>https://ci.2lstudios.dev/plugin/repository/everything/</url>
         </repository>
+        <repository>
+            <id>iridiumdevelopment</id>
+            <url>https://nexus.iridiumdevelopment.net/</url>
+        </repository>
     </repositories>
 
     <!-- Dependencies imports -->
@@ -64,6 +68,12 @@
             <artifactId>InterfaceMaker</artifactId>
             <version>0.0.5</version>
             <scope>provided</scope>
+        </dependency>
+        <!-- Built-in dependencies -->
+        <dependency>
+            <groupId>com.iridium</groupId>
+            <artifactId>IridiumColorAPI</artifactId>
+            <version>LATEST</version>
         </dependency>
     </dependencies>
 
