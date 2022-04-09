@@ -13,7 +13,7 @@ import dev._2lstudios.advancedparties.commands.CommandExecutor;
 import dev._2lstudios.advancedparties.parties.Party;
 import dev._2lstudios.advancedparties.requests.RequestStatus;
 import dev._2lstudios.advancedparties.utils.PacketUtils;
-
+import dev._2lstudios.advancedparties.utils.ServerUtils;
 import lib__net.md_5.bungee.api.chat.BaseComponent;
 import lib__net.md_5.bungee.api.chat.ComponentBuilder;
 import lib__net.md_5.bungee.chat.ComponentSerializer;
@@ -90,7 +90,11 @@ public class PartyPlayer extends CommandExecutor {
     }
 
     public void sendRawMessage(String component, byte type) {
-        PacketUtils.sendJSON(this.getBukkitPlayer(), component, type);
+        if (ServerUtils.hasChatComponentAPI()) {
+            this.bukkitPlayer.spigot().sendMessage( net.md_5.bungee.chat.ComponentSerializer.parse(component));
+        } else {
+            PacketUtils.sendJSON(this.getBukkitPlayer(), component, type);
+        }
     }
 
     public void sendRawMessage(String component) {
