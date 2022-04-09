@@ -15,6 +15,11 @@ accept:
   accepted: "&aYou have accepted the invitation to the party!"
   join-notify: "&b{player} &ahas joined to the party."
 
+chat:
+  enabled: "&7You have &aenabled &7party chat. Now the messages you write can only be seen by members of the party."
+  disabled: "&7You have &cdisabled &7party chat. Now you're talking in the global chat."
+  format: "&8(&dParty&8) &b{player}&8: &7{message}"
+
 create:
   success: "&aYou has create a party, use &b/party invite <player> &ato invite others players to your party."
 
@@ -32,6 +37,7 @@ help: |-
   &7
   &5=========== &d&lParties&r &5===========
   &7
+  &d/party chat &8- &7Toggle party chat mode.
   &d/party create &8- &7Create a party.
   &d/party disband &8- &7Disolve your party.
   &d/party info &8- &7Get info about your party.

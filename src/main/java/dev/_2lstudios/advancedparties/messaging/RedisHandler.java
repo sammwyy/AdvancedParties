@@ -3,6 +3,7 @@ package dev._2lstudios.advancedparties.messaging;
 import org.bukkit.configuration.ConfigurationSection;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
+import dev._2lstudios.advancedparties.messaging.packets.PartyChatPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyDisbandPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
@@ -22,6 +23,18 @@ public class RedisHandler {
 
     public RedisHandler(AdvancedParties plugin) {
         this.plugin = plugin;
+    }
+
+    public void handle(PartyChatPacket packet) {
+        for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
+            if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
+                player.sendMessage(
+                    player.getI18nMessage("chat.format")
+                        .replace("{player}", packet.getPlayerName())  
+                        .replace("{message}", packet.getMessage())
+                );
+            }
+        }
     }
 
     public void handle(PartyLeavePacket packet) {

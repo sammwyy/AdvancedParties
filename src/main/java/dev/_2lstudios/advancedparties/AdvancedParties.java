@@ -18,6 +18,7 @@ import dev._2lstudios.advancedparties.commands.impl.PartyCommand;
 import dev._2lstudios.advancedparties.config.ConfigManager;
 import dev._2lstudios.advancedparties.config.Configuration;
 import dev._2lstudios.advancedparties.i18n.LanguageManager;
+import dev._2lstudios.advancedparties.listeners.AsyncChatListener;
 import dev._2lstudios.advancedparties.listeners.PlayerJoinListener;
 import dev._2lstudios.advancedparties.listeners.PlayerQuitListener;
 import dev._2lstudios.advancedparties.messaging.RedisPubSub;
@@ -86,6 +87,7 @@ public class AdvancedParties extends JavaPlugin {
         this.playerManager.addAll();
 
         // Register listeners.
+        this.addListener(new AsyncChatListener(this));
         this.addListener(new PlayerJoinListener(this));
         this.addListener(new PlayerQuitListener(this));
 

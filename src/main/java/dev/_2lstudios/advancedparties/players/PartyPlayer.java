@@ -86,6 +86,15 @@ public class PartyPlayer extends CommandExecutor {
         return this.partyId != null;
     }
 
+    public boolean getPartyChat() {
+        return this.data.partyChat;
+    }
+
+    public void setPartyChat(boolean result) {
+        this.data.partyChat = result;
+        this.data.save();
+    }
+
     public void download() {
         this.data = this.getPlugin().getPlayerRepository().findOne(MapFactory.create("username", this.getLowerName()));
 
