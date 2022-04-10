@@ -48,6 +48,12 @@ help: |-
   &7 &r
 
 info:
+  # Require InterfaceMaker plugin as dependency (optional)
+  as-gui:
+    title: "&8Party Menu"
+    item-name: "&a{member}"
+    item-lore: "&7Click to kick"
+  # If InterfaceMaker is not installed then the information will be displayed in the chat.
   as-text: |-
     &7 &r
     &5========== &d&lYour Party&r &5==========
@@ -92,8 +98,3 @@ send:
   usage: "&7Usage: &d/party send <server>&7."
   not-leader: "&cOnly the leader can send members to others servers."
   sending: "&eSending you and your party members to &b{server}&e..."
-
-menu:
-  title: "&8Party Menu"
-  item-name: "&a{member}"
-  item-lore: "&7Click to kick"
