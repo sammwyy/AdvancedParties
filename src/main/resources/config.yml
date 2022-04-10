@@ -17,6 +17,8 @@ settings:
   mongo-uri: "mongodb://localhost/minecraft"
   # This plugin requires Redis to send data across different servers.
   redis-uri: "redis://localhost:6379/0"
+  # Use redis pool (Creates a connection for each operation, making it connection error-proof)
+  use-redis-pool: false
 
 # Cache settings.
 cache:

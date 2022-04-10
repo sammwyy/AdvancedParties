@@ -15,6 +15,7 @@ import dev._2lstudios.advancedparties.api.PartyAPI;
 import dev._2lstudios.advancedparties.api.events.PartyEvent;
 import dev._2lstudios.advancedparties.cache.CacheEngine;
 import dev._2lstudios.advancedparties.cache.impl.RedisCache;
+import dev._2lstudios.advancedparties.cache.impl.RedisPoolCache;
 import dev._2lstudios.advancedparties.commands.CommandListener;
 import dev._2lstudios.advancedparties.commands.impl.PartyCommand;
 import dev._2lstudios.advancedparties.config.ConfigManager;
@@ -81,8 +82,11 @@ public class AdvancedParties extends JavaPlugin {
         this.requestManager = new PartyRequestManager(this);
         
         // Connect to redis.
-        this.cache = new RedisCache(this.getConfig().getString("settings.redis-uri"));
-        this.pubsub = new RedisPubSub(this, this.getConfig().getString("settings.redis-uri"));
+        String uri = this.getConfig().getString("settings.redis-uri");
+        boolean useRedisPool = this.getConfig().getBoolean("settings.use-redis-pool");
+        
+        this.cache = useRedisPool ? new RedisPoolCache(uri) : new RedisCache(uri);
+        this.pubsub = new RedisPubSub(this, uri);
 
         // Connect to database.
         Provider provider = MilkshakeORM.connect(this.getConfig().getString("settings.mongo-uri"));
