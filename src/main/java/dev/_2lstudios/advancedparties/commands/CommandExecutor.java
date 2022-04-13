@@ -30,7 +30,16 @@ public class CommandExecutor {
     }
 
     public String getI18nMessage(String key) {
-        return this.plugin.getLanguageManager().getLanguage(this.getLang()).getString(key);
+        String lang = this.getLang();
+        String message = this.plugin.getLanguageManager()
+            .getLanguage(lang)
+            .getString(key);
+
+        if (message == null) {
+            return "<missing translation key \"" + key + "\"> in lang " + lang + ">";
+        } else {
+            return message;
+        }
     }
 
     public void sendMessage(String message) {
