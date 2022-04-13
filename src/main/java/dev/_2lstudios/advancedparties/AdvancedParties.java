@@ -3,9 +3,9 @@ package dev._2lstudios.advancedparties;
 import java.nio.charset.Charset;
 import java.util.Random;
 
-import com.dotphin.milkshakeorm.MilkshakeORM;
-import com.dotphin.milkshakeorm.providers.Provider;
-import com.dotphin.milkshakeorm.repository.Repository;
+import com.dotphin.milkshake.Milkshake;
+import com.dotphin.milkshake.Provider;
+import com.dotphin.milkshake.Repository;
 
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -89,9 +89,9 @@ public class AdvancedParties extends JavaPlugin {
         this.pubsub = new RedisPubSub(this, uri);
 
         // Connect to database.
-        Provider provider = MilkshakeORM.connect(this.getConfig().getString("settings.mongo-uri"));
-        this.partyDataRepository = MilkshakeORM.addRepository(PartyData.class, provider, "Parties");
-        this.playerDataRepository = MilkshakeORM.addRepository(PartyPlayerData.class, provider, "PartyPlayers");
+        Provider provider = Milkshake.connect(this.getConfig().getString("settings.mongo-uri"));
+        this.partyDataRepository = Milkshake.addRepository(PartyData.class, provider, "Parties");
+        this.playerDataRepository = Milkshake.addRepository(PartyPlayerData.class, provider, "PartyPlayers");
 
         // Load data.
         this.languageManager.loadLanguagesSafe();

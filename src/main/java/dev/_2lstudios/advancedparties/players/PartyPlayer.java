@@ -3,7 +3,7 @@ package dev._2lstudios.advancedparties.players;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 
-import com.dotphin.milkshakeorm.utils.MapFactory;
+import com.dotphin.milkshake.find.FindFilter;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -98,7 +98,7 @@ public class PartyPlayer extends CommandExecutor {
     }
 
     public void download() {
-        this.data = this.getPlugin().getPlayerRepository().findOne(MapFactory.create("username", this.getLowerName()));
+        this.data = this.getPlugin().getPlayerRepository().findOne(new FindFilter("username", this.getLowerName()));
 
         if (this.data != null) {
             this.partyId = this.data.party;
