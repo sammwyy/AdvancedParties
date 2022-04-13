@@ -41,13 +41,15 @@ public class LanguageManager {
         this.languages.put(name, lang);
     }
 
-    public Configuration getLanguage(final String name) {
+    public Configuration getLanguage(String name) {
+        name = name.toLowerCase();
+
         if (languages.containsKey(name)) {
             return languages.get(name);
         } else if (languages.containsKey(name)) {
             return languages.get(name);
-        } else if (languages.containsKey(name.split("[-]")[0])) {
-            return languages.get(name.split("[-]")[0]);
+        } else if (languages.containsKey(name.split("[_]")[0])) {
+            return languages.get(name.split("[_]")[0]);
         } else {
             return languages.get(this.getDefaultLocale());
         }
