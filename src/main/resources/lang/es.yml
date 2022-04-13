@@ -1,0 +1,100 @@
+# Common messages
+common:
+  no-permission: "&cNo tienes permisos para usar este comando."
+  no-by-console: "&cEste comando no puede ser ejecutado en la consola."
+  already-in-party: "&cYa te encuentras en una Party."
+  not-in-party: "&cNo estás en ninguna Party."
+  invalid-or-expired: "&cLa invitación a esta Party ha expirado o es invalida."
+  accept: "&8[&a&lAceptar&8]"
+  deny: "&8[&c&lRechazar&8]"
+
+# Commands messages
+accept:
+  usage: "&7Uso: &d/party accept <party>&7."
+  limit-reached: "&cEsta Party ya se encuentra llena."
+  accepted: "&aHas aceptado la invitación a la Party"
+  join-notify: "&b{player} &ase ha unido a la Party."
+
+chat:
+  enabled: "&7Has &aactivado &7el chat de Party. Ahora los mensajes que envies los podrán ver únicamente los miembros de esta."
+  disabled: "&7Has &cdesactivado &7el chat de Party. Cualquier jugador puede leer tus mensajes ahora."
+  format: "&8(&dParty&8) &b{player}&8: &7{message}"
+
+create:
+  success: "&a¡Has creado una party! usa &b/party invite <player> &apara invitar a otros jugadores."
+
+deny:
+  usage: "&7Uso: &d/party deny <party>&7."
+  denied: "&eHas rechazado la invitación a esta Party."
+
+disband:
+  not-leader: "&cSolo el lider puede deshacer la Party."
+  disbanded: "&eHas disuelto tu Party."
+  disbanded-by-leader: "&eLa Party donde estabas fue disuelta por su lider."
+  disbanded-by-timeout: "&eLa Party donde estabas fue disuelta debido a que su lider se ha desconectado del servidor."
+
+help: |-
+  &7 &r
+  &5=========== &d&lParties&r &5===========
+  &7 &r
+  &d/party chat &8- &7Activar el chat de Party.
+  &d/party create &8- &7Crear una Party.
+  &d/party disband &8- &7Disolver tu Party.
+  &d/party info &8- &7Información de tu Party.
+  &d/party invite <player> &8- &7Invitar a un jugador.
+  &d/party kick <player> &8- &7Expulsar a un jugador.
+  &d/party leave &8- &7Dejar la Party actual.
+  &d/party send <server> &8- &7Enviar a todos los miembros a un servidor.
+  &7 &r
+
+info:
+  # Require InterfaceMaker plugin as dependency (optional)
+  as-gui:
+    title: "&8Menu de Party"
+    item-name: "&a{member}"
+    item-lore: "&7Click para expulsar"
+  # If InterfaceMaker is not installed then the information will be displayed in the chat.
+  as-text: |-
+    &7 &r
+    &5========== &d&lTu Party&r &5==========
+    &7 &r
+    &dLider: &7{leader}
+    &dMiembros ({memberscount}/{maxmembers}): &7{members}
+    &7 &r
+
+invite:
+  usage: "&7Uso: &d/party invite <jugador>&7."
+  not-leader: "&cSolo el lider puede invitar a mas jugadores a la Party."
+  target-already-in-party: "&cEste jugador ya se encuentra en una Party."
+  already-pending: "&cEste jugador ya tiene pendiente una invitación a esta Party."
+  already-denied: "&cEl jugador ha rechazado tu invitación. No puedes volver a enviarle otra."
+  limit-reached: "&cYa has alcanzado el límite de miembros en tu Party."
+  cannot-your-self: "&cNo te puedes invitar a ti mismo."
+  sent: "&aHas invitado a &b{target} &aa tu Party. Ahora debes esperar a que el jugador acepte la invitación."
+  received: |-
+    &7 &r
+    &5=========== &d&lParties&r &5===========
+    &7 &r
+    &b{player} &7te ha invitado a su Party.
+    &7 &r
+    &7¿Que deseas hacer? {actions}
+    &7 &r
+
+kick:
+  usage: "&7Uso: &d/party kick <jugador>&7."
+  not-leader: "&cSolo el lider puede expulsar a miembros de la Party."
+  not-in-your-party: "&cEste jugador no se encuentra en tu Party."
+  cannot-your-self: "&cNo te puedes expulsar a ti mismo de la Party."
+  kicked: "&eHas expulsado al jugador &b{player} &ede la Party."
+  kick-notify: "&eHas sido expulsado de la Party."
+  kick-notify-other: "&b{player} &eha sido expulsado de la Party."
+
+leave:
+  leader-cannot-leave: "&cEl lider no puede abandonar la Party, usa /party disband para eliminarla."
+  leaved: "&eHas abandonado la Party actual."
+  leave-notify: "&b{player} &eha abandonado la Party."
+
+send:
+  usage: "&7Uso: &d/party send <servidor>&7."
+  not-leader: "&cSolo el lider puede enviar a los miembros a otro servidor."
+  sending: "&eConectandote al servidor &b{server}&e..."

@@ -11,7 +11,7 @@ common:
 # Commands messages
 accept:
   usage: "&7Usage: &d/party accept <party>&7."
-  limit-reached: "This party has already exceeded the limit of possible members."
+  limit-reached: "&cThis party has already exceeded the limit of possible members."
   accepted: "&aYou have accepted the invitation to the party!"
   join-notify: "&b{player} &ahas joined to the party."
 
@@ -25,11 +25,11 @@ create:
 
 deny:
   usage: "&7Usage: &d/party deny <party>&7."
-  denied: "&aYou has denied the party invitation."
+  denied: "&eYou has denied the party invitation."
 
 disband:
   not-leader: "&cOnly the leader can disband the party."
-  disbanded: "&aYou has disolved your party."
+  disbanded: "&eYou has disolved your party."
   disbanded-by-leader: "&eThe leader has dissolved the party."
   disbanded-by-timeout: "&eThe party leader has logged off and the party has disbanded."
 

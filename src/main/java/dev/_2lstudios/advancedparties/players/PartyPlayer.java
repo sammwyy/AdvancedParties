@@ -13,6 +13,7 @@ import dev._2lstudios.advancedparties.commands.CommandExecutor;
 import dev._2lstudios.advancedparties.parties.Party;
 import dev._2lstudios.advancedparties.requests.RequestStatus;
 import dev._2lstudios.advancedparties.utils.PacketUtils;
+import dev._2lstudios.advancedparties.utils.PlayerUtils;
 import dev._2lstudios.advancedparties.utils.ServerUtils;
 
 import lib__net.md_5.bungee.api.chat.BaseComponent;
@@ -152,5 +153,18 @@ public class PartyPlayer extends CommandExecutor {
         }
 
         return output;
+    }
+
+    @Override
+    public String getLang() {
+        String lang = null;
+
+        if (ServerUtils.hasPlayerGetLocaleAPI()) {
+            lang = this.getBukkitPlayer().getLocale();
+        } else {
+            lang = PlayerUtils.getPlayerLocaleInLegacyWay(this.bukkitPlayer);
+        }
+
+        return lang == null ? super.getLang() : lang;
     }
 }
