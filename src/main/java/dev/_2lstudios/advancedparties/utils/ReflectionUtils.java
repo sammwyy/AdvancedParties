@@ -1,5 +1,7 @@
 package dev._2lstudios.advancedparties.utils;
 
+import java.lang.reflect.Method;
+
 import org.bukkit.Bukkit;
 
 public class ReflectionUtils {
@@ -19,5 +21,14 @@ public class ReflectionUtils {
         } catch (ClassNotFoundException e) {
             return null;
         }
+    }
+
+    public static Method getMethod(String name, Class<?> clazz) {
+        for (Method m : clazz.getDeclaredMethods()) {
+            if (m.getName().equals(name))
+                return m;
+        }
+
+        return null;
     }
 }

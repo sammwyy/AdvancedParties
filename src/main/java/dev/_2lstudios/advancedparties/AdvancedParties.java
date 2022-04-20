@@ -3,9 +3,9 @@ package dev._2lstudios.advancedparties;
 import java.nio.charset.Charset;
 import java.util.Random;
 
-import com.dotphin.milkshakeorm.MilkshakeORM;
-import com.dotphin.milkshakeorm.providers.Provider;
-import com.dotphin.milkshakeorm.repository.Repository;
+import com.dotphin.milkshake.Milkshake;
+import com.dotphin.milkshake.Provider;
+import com.dotphin.milkshake.Repository;
 
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -15,6 +15,7 @@ import dev._2lstudios.advancedparties.api.PartyAPI;
 import dev._2lstudios.advancedparties.api.events.PartyEvent;
 import dev._2lstudios.advancedparties.cache.CacheEngine;
 import dev._2lstudios.advancedparties.cache.impl.RedisCache;
+import dev._2lstudios.advancedparties.cache.impl.RedisPoolCache;
 import dev._2lstudios.advancedparties.commands.CommandListener;
 import dev._2lstudios.advancedparties.commands.impl.PartyCommand;
 import dev._2lstudios.advancedparties.config.ConfigManager;
@@ -81,13 +82,16 @@ public class AdvancedParties extends JavaPlugin {
         this.requestManager = new PartyRequestManager(this);
         
         // Connect to redis.
-        this.cache = new RedisCache(this.getConfig().getString("settings.redis-uri"));
-        this.pubsub = new RedisPubSub(this, this.getConfig().getString("settings.redis-uri"));
+        String uri = this.getConfig().getString("settings.redis-uri");
+        boolean useRedisPool = this.getConfig().getBoolean("settings.use-redis-pool");
+        
+        this.cache = useRedisPool ? new RedisPoolCache(uri) : new RedisCache(uri);
+        this.pubsub = new RedisPubSub(this, uri);
 
         // Connect to database.
-        Provider provider = MilkshakeORM.connect(this.getConfig().getString("settings.mongo-uri"));
-        this.partyDataRepository = MilkshakeORM.addRepository(PartyData.class, provider, "Parties");
-        this.playerDataRepository = MilkshakeORM.addRepository(PartyPlayerData.class, provider, "PartyPlayers");
+        Provider provider = Milkshake.connect(this.getConfig().getString("settings.mongo-uri"));
+        this.partyDataRepository = Milkshake.addRepository(PartyData.class, provider, "Parties");
+        this.playerDataRepository = Milkshake.addRepository(PartyPlayerData.class, provider, "PartyPlayers");
 
         // Load data.
         this.languageManager.loadLanguagesSafe();

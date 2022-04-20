@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.dotphin.milkshakeorm.utils.MapFactory;
+import com.dotphin.milkshake.find.FindFilter;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -29,7 +29,7 @@ public class Party {
     public void disband(PartyDisbandReason reason) {
         PartyDisbandPacket packet = new PartyDisbandPacket(this.getID(), reason);
 
-        this.plugin.getPlayerRepository().deleteMany(MapFactory.create("party", this.getID()));
+        this.plugin.getPlayerRepository().deleteMany(new FindFilter("party", this.getID()));
         this.data.delete();
         this.plugin.getPubSub().publish(packet);
     }
@@ -81,7 +81,7 @@ public class Party {
     }
 
     public String getID() {
-        return this.data.id;
+        return this.data.getID();
     }
 
     public String getLeader() {

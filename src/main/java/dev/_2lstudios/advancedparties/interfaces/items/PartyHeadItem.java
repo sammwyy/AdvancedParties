@@ -20,8 +20,8 @@ public class PartyHeadItem extends InterfaceItem {
         }
 
         this.setType(material);
-        this.setName(Formatter.format(partyPlayer.getBukkitPlayer(), partyPlayer.getI18nMessage("menu.item-name").replace("{member}", playerName)));
-        this.setLore(Formatter.format(partyPlayer.getBukkitPlayer(), partyPlayer.getI18nMessage("menu.item-lore").replace("{member}", playerName)));
+        this.setName(Formatter.format(partyPlayer.getBukkitPlayer(), partyPlayer.getI18nMessage("info.as-gui.item-name").replace("{member}", playerName)));
+        this.setLore(Formatter.format(partyPlayer.getBukkitPlayer(), partyPlayer.getI18nMessage("info.as-gui.item-lore").replace("{member}", playerName)));
     }
 
     @Override

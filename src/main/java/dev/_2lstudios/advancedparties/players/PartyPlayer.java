@@ -3,7 +3,7 @@ package dev._2lstudios.advancedparties.players;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 
-import com.dotphin.milkshakeorm.utils.MapFactory;
+import com.dotphin.milkshake.find.FindFilter;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -13,11 +13,13 @@ import dev._2lstudios.advancedparties.commands.CommandExecutor;
 import dev._2lstudios.advancedparties.parties.Party;
 import dev._2lstudios.advancedparties.requests.RequestStatus;
 import dev._2lstudios.advancedparties.utils.PacketUtils;
+import dev._2lstudios.advancedparties.utils.PlayerUtils;
 import dev._2lstudios.advancedparties.utils.ServerUtils;
 
 import lib__net.md_5.bungee.api.chat.BaseComponent;
 import lib__net.md_5.bungee.api.chat.ComponentBuilder;
 import lib__net.md_5.bungee.chat.ComponentSerializer;
+
 import me.clip.placeholderapi.PlaceholderAPI;
 
 public class PartyPlayer extends CommandExecutor {
@@ -97,7 +99,7 @@ public class PartyPlayer extends CommandExecutor {
     }
 
     public void download() {
-        this.data = this.getPlugin().getPlayerRepository().findOne(MapFactory.create("username", this.getLowerName()));
+        this.data = this.getPlugin().getPlayerRepository().findOne(new FindFilter("username", this.getLowerName()));
 
         if (this.data != null) {
             this.partyId = this.data.party;
@@ -151,5 +153,18 @@ public class PartyPlayer extends CommandExecutor {
         }
 
         return output;
+    }
+
+    @Override
+    public String getLang() {
+        String lang = null;
+
+        if (ServerUtils.hasPlayerGetLocaleAPI()) {
+            lang = this.getBukkitPlayer().getLocale();
+        } else {
+            lang = PlayerUtils.getPlayerLocaleInLegacyWay(this.bukkitPlayer);
+        }
+
+        return lang == null ? super.getLang() : lang;
     }
 }
