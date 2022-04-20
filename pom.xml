@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
+
     <!-- Project information -->
     <groupId>dev._2lstudios</groupId>
     <artifactId>AdvancedParties</artifactId>
@@ -18,7 +18,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-   <!-- External repositories -->
+    <!-- External repositories -->
     <repositories>
         <repository>
             <id>spigot-repo</id>
@@ -32,10 +32,6 @@
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
-        <repository>
-            <id>iridiumdevelopment</id>
-            <url>https://nexus.iridiumdevelopment.net/</url>
-        </repository>
     </repositories>
 
     <!-- Dependencies imports -->
@@ -46,6 +42,11 @@
             <artifactId>lombok</artifactId>
             <version>1.18.22</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.iridium</groupId>
+            <artifactId>IridiumColorAPI</artifactId>
+            <version>1.0.6</version>
         </dependency>
         <!-- Spigot/Bukkit API -->
         <dependency>
@@ -71,23 +72,15 @@
         <dependency>
             <groupId>dev._2lstudios</groupId>
             <artifactId>InterfaceMaker</artifactId>
-            <version>0.0.5</version>
+            <version>0.0.6</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>
-             <artifactId>placeholderapi</artifactId>
-             <version>2.11.1</version>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.1</version>
             <scope>provided</scope>
         </dependency>
-        <!-- Built-in dependencies -->
-        <!-- 
-        <dependency>
-            <groupId>com.iridium</groupId>
-            <artifactId>IridiumColorAPI</artifactId>
-            <version>LATEST</version>
-        </dependency>
-        -->
     </dependencies>
 
     <build>
