@@ -3,8 +3,10 @@ package dev._2lstudios.advancedparties.hooks.impl;
 import com.walrusone.skywarsreloaded.SkyWarsReloaded;
 import com.walrusone.skywarsreloaded.events.SkyWarsJoinEvent;
 import com.walrusone.skywarsreloaded.game.GameMap;
+import com.walrusone.skywarsreloaded.game.TeamCard;
 import com.walrusone.skywarsreloaded.utilities.SWRServer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -46,7 +48,7 @@ public class SkywarsReloadedHook implements Hook, Listener {
     public void onSkywarsJoin(SkyWarsJoinEvent e) {
         PartyPlayer player = this.plugin.getPlayerManager().getPlayer(e.getPlayer());
         
-        if (player.isInParty()) {
+        if (player.isInParty() && player.getParty().isLeader(player)) {
             GameMap game = e.getGame();
             this.publishPacket(player, "join::" + game.getName());
         }
@@ -58,30 +60,40 @@ public class SkywarsReloadedHook implements Hook, Listener {
 
         SWRServer server = null;
         GameMap map = null;
+        TeamCard team = null;
 
-        if (this.plugin.getConfig().getBoolean("hooks.bungee-arena")) {
+        if (SkyWarsReloaded.getCfg().bungeeMode()) {
             server = SWRServer.getServer(arg);
         } else {
             map = SkyWarsReloaded.getAPI().getGameAPI().getGame(arg);
+            if (map.getTeamSize() != 1) {
+                team = map.getTeamCardFromName(sender);
+            }
         }
 
         for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
-            if (player.getPartyID().equals(partyID) && !player.getName().equalsIgnoreCase(sender)) {
-                if (server != null && server.canAddPlayer()) {
-                    server.setPlayerCount(server.getPlayerCount() + 1);
-                    server.updateSigns();
-                    SkyWarsReloaded.get().sendBungeeMsg(player.getBukkitPlayer(), "Connect", server.getServerName());
-                }
+            GameMap currentGame = SkyWarsReloaded.getAPI().getGameAPI().getGame(player.getBukkitPlayer());
+            if (currentGame == null) {
+                if (player.isInParty() && player.getPartyID().equals(partyID) && !player.getName().equalsIgnoreCase(sender)) {
+                    if (server != null && server.canAddPlayer()) {
+                        server.setPlayerCount(server.getPlayerCount() + 1);
+                        server.updateSigns();
+                        SkyWarsReloaded.get().sendBungeeMsg(player.getBukkitPlayer(), "Connect", server.getServerName());
+                    }
 
-                else if (map != null && map.canAddPlayer()) {
-                    map.addPlayers(null, player.getBukkitPlayer());
+                    else if (map != null && map.canAddPlayer()) {
+                        if (team != null  && team.getPlayersSize() < team.getSize()) {
+                            map.addPlayers(team, player.getBukkitPlayer());
+                        } else {
+                            map.addPlayers(null, player.getBukkitPlayer());
+                        }
+                    }
                 }
             }
         }
     }
 
-    @Override
-    public void handlePacket(PartyHookPacket packet) {
+    public void handleSyncPacket(PartyHookPacket packet) {
         String message = packet.getMessage();
         String action = message.split("::")[0];
         String arg = message.split("::")[1];
@@ -93,5 +105,12 @@ public class SkywarsReloadedHook implements Hook, Listener {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void handlePacket(PartyHookPacket packet) {
+        Bukkit.getScheduler().runTask(this.plugin, () -> {
+            this.handleSyncPacket(packet);
+        });
     }
 }

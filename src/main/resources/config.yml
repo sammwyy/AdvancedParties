@@ -20,9 +20,11 @@ settings:
   # Use redis pool (Creates a connection for each operation, making it connection error-proof)
   use-redis-pool: false
 
+# Experimental feature.
+# Available hooks:
+#  - Skywars Reloaded
 hooks:
   enabled: true
-  bungee-arena: true
 
 # Cache settings.
 cache:
