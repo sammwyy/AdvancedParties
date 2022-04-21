@@ -20,6 +20,8 @@ import dev._2lstudios.advancedparties.commands.CommandListener;
 import dev._2lstudios.advancedparties.commands.impl.PartyCommand;
 import dev._2lstudios.advancedparties.config.ConfigManager;
 import dev._2lstudios.advancedparties.config.Configuration;
+import dev._2lstudios.advancedparties.hooks.HookManager;
+import dev._2lstudios.advancedparties.hooks.impl.SkywarsReloadedHook;
 import dev._2lstudios.advancedparties.i18n.LanguageManager;
 import dev._2lstudios.advancedparties.listeners.AsyncChatListener;
 import dev._2lstudios.advancedparties.listeners.PlayerJoinListener;
@@ -35,6 +37,7 @@ import dev._2lstudios.advancedparties.requests.PartyRequestManager;
 public class AdvancedParties extends JavaPlugin {
     private ConfigManager configManager;
     private LanguageManager languageManager;
+    private HookManager hookManager;
     private PartyDisbandHandler partyDisband;
     private PartyManager partyManager;
     private PartyPlayerManager playerManager;
@@ -76,6 +79,7 @@ public class AdvancedParties extends JavaPlugin {
         // Instantiate managers.
         this.configManager = new ConfigManager(this);
         this.languageManager = new LanguageManager(this);
+        this.hookManager = new HookManager(this);
         this.partyDisband = new PartyDisbandHandler(this);
         this.partyManager = new PartyManager(this);
         this.playerManager = new PartyPlayerManager(this);
@@ -97,6 +101,12 @@ public class AdvancedParties extends JavaPlugin {
         this.languageManager.loadLanguagesSafe();
         this.playerManager.addAll();
 
+        // Load Hooks.
+        if (this.getConfig().getBoolean("hooks.enabled")) {
+            this.hookManager.registerHook(new SkywarsReloadedHook());
+            this.hookManager.load();
+        }
+
         // Register listeners.
         this.addListener(new AsyncChatListener(this));
         this.addListener(new PlayerJoinListener(this));
@@ -117,6 +127,10 @@ public class AdvancedParties extends JavaPlugin {
     }
 
     // Managers getters
+    public HookManager getHookManager() {
+        return this.hookManager;
+    }
+
     public LanguageManager getLanguageManager() {
         return this.languageManager;
     }

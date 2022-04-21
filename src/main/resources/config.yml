@@ -20,6 +20,10 @@ settings:
   # Use redis pool (Creates a connection for each operation, making it connection error-proof)
   use-redis-pool: false
 
+hooks:
+  enabled: true
+  bungee-arena: true
+
 # Cache settings.
 cache:
   # Parties in the database can be cached to reduce the number of queries.

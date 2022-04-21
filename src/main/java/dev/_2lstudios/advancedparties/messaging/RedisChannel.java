@@ -11,4 +11,5 @@ public class RedisChannel {
   public static String PARTY_SEND = prefix + "send";
   public static String PARTY_LEAVE = prefix + "leave";
   public static String PARTY_CHAT = prefix + "chat";
+  public static String PARTY_HOOK = prefix + "hook";
 }

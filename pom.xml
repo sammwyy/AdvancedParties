@@ -32,6 +32,10 @@
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+        <repository>
+            <id>gcnt</id>
+            <url>https://nexuslite.gcnt.net/repos/gcnt</url>
+        </repository>
     </repositories>
 
     <!-- Dependencies imports -->
@@ -79,6 +83,13 @@
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.11.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Plugin Hooks -->
+        <dependency>
+            <groupId>net.gcnt</groupId>
+            <artifactId>skywarsreloaded</artifactId>
+            <version>5.6.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
