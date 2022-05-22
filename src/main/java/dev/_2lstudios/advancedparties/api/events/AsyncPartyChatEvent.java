@@ -6,13 +6,14 @@ import dev._2lstudios.advancedparties.messaging.packets.PartyChatPacket;
 import dev._2lstudios.advancedparties.parties.Party;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
 
-public class PartyChatEvent extends PartyEvent {
+public class AsyncPartyChatEvent extends PartyEvent {
     private static final HandlerList handlers = new HandlerList();
 
     private PartyChatPacket packet;
     private PartyPlayer player;
 
-    public PartyChatEvent(PartyChatPacket packet, PartyPlayer player) {
+    public AsyncPartyChatEvent(PartyChatPacket packet, PartyPlayer player) {
+        super(true);
         this.packet = packet;
         this.player = player;
     }
