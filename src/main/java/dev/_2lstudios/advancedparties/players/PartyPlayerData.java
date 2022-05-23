@@ -12,4 +12,7 @@ public class PartyPlayerData extends Entity {
 
     @Prop
     public boolean partyChat = false;
+
+    @Prop
+    public boolean leader = false;
 }

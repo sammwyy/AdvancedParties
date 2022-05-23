@@ -123,7 +123,12 @@ public class RedisHandler {
             if (header.contains("{actions}")) {
                 String[] parts = header.split("\\{actions\\}");
                 header = parts[0];
-                footer = parts[1];
+                
+                if (parts.length > 1) {
+                    footer = parts[1];
+                } else {
+                    footer = "";
+                }
             }
 
             if (footer == null) {

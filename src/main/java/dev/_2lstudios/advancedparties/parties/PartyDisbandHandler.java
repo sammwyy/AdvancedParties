@@ -22,8 +22,6 @@ public class PartyDisbandHandler {
         String server = this.plugin.getTempServerID();
         String key = "party_" + id + "_disband";
 
-        this.plugin.getCache().set(key, timeout * 10, server);
-
         this.parties.put(
             id,
             this.plugin.getServer().getScheduler().runTaskLater(this.plugin, () -> {
@@ -35,13 +33,15 @@ public class PartyDisbandHandler {
     }
 
     public void removePartyDisband(Party party) {
-        String id = party.getID();
-        String key = "party_" + id + "_disband";
-        this.plugin.getCache().delete(key);
-
-        BukkitTask task = this.parties.remove(id);
-        if (task != null) {
-            task.cancel();
-        }
+        this.plugin.getServer().getScheduler().runTaskLater(this.plugin, () -> {
+            String id = party.getID();
+            String key = "party_" + id + "_disband";
+            this.plugin.getCache().delete(key);
+    
+            BukkitTask task = this.parties.remove(id);
+            if (task != null) {
+                task.cancel();
+            }
+        }, 3 * 20L);
     }
 }

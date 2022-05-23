@@ -33,6 +33,7 @@ import dev._2lstudios.advancedparties.parties.PartyManager;
 import dev._2lstudios.advancedparties.players.PartyPlayerData;
 import dev._2lstudios.advancedparties.players.PartyPlayerManager;
 import dev._2lstudios.advancedparties.requests.PartyRequestManager;
+import dev._2lstudios.advancedparties.tasks.ServerPartySyncTask;
 
 public class AdvancedParties extends JavaPlugin {
     private ConfigManager configManager;
@@ -114,6 +115,9 @@ public class AdvancedParties extends JavaPlugin {
 
         // Register commands.
         this.addCommand(new PartyCommand());
+        
+        // Register tasks.
+        this.getServer().getScheduler().runTaskTimerAsynchronously(this, new ServerPartySyncTask(this), 20 * 5, 20 * 5);
     }
 
     @Override

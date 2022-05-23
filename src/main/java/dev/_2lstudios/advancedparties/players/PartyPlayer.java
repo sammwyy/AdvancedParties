@@ -64,6 +64,9 @@ public class PartyPlayer extends CommandExecutor {
             this.data = new PartyPlayerData();
             this.data.username = this.getLowerName();
             this.data.party = this.partyId;
+            if (party.isLeader(this)) {
+                this.data.leader = true;
+            }
             this.data.save();
         }
     }
@@ -87,6 +90,10 @@ public class PartyPlayer extends CommandExecutor {
 
     public boolean isInParty() {
         return this.partyId != null;
+    }
+
+    public boolean isPartyLeader() {
+        return this.data.leader;
     }
 
     public boolean getPartyChat() {
