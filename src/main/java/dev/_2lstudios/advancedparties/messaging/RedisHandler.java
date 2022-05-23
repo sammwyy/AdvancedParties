@@ -18,6 +18,7 @@ import dev._2lstudios.advancedparties.players.PartyPlayer;
 import dev._2lstudios.advancedparties.utils.ComponentUtils;
 
 import lib__net.md_5.bungee.api.chat.ComponentBuilder;
+import lib__net.md_5.bungee.api.chat.TextComponent;
 
 public class RedisHandler {
     private AdvancedParties plugin;
@@ -135,7 +136,7 @@ public class RedisHandler {
                 target.sendMessage(header);
             } else {
                 ComponentBuilder builder = new ComponentBuilder();
-                builder.append(header);
+                builder.append(TextComponent.fromLegacyText(header));
 
                 ConfigurationSection section = plugin.getConfig().getConfigurationSection("requests.actions");
                 for (String key : section.getKeys(false)) {
@@ -157,7 +158,7 @@ public class RedisHandler {
                     builder.append(" ");
                 }
                 
-                builder.append(footer);
+                builder.append(TextComponent.fromLegacyText(footer));
                 target.sendMessage(builder.create());
             }
         }

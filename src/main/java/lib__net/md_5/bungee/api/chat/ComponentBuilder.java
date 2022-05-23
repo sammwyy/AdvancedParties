@@ -40,7 +40,7 @@ public final class ComponentBuilder
     private final List<BaseComponent> parts = new ArrayList<BaseComponent>();
     private BaseComponent dummy;
 
-    private ComponentBuilder(BaseComponent[] parts)
+    public ComponentBuilder(BaseComponent[] parts)
     {
         for ( BaseComponent baseComponent : parts )
         {
