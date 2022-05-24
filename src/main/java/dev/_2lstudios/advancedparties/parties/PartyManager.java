@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import com.dotphin.milkshake.find.FindFilter;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -62,5 +63,9 @@ public class PartyManager {
 
     public void delete(String id) {
         this.cache.invalidate(id);
+    }
+
+    public Party getPartyByLeader(String leaderName) {
+        return new Party(plugin, plugin.getPartyRepository().findOne(new FindFilter("leader", leaderName)));
     }
 }

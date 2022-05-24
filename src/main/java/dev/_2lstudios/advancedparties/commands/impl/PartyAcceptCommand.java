@@ -15,6 +15,27 @@ import dev._2lstudios.advancedparties.requests.RequestStatus;
   minArguments = 1
 )
 public class PartyAcceptCommand extends CommandListener {
+    private void accept(PartyPlayer player, Party party) {
+        if (party == null) {
+            player.sendI18nMessage("common.invalid-or-expired");
+        } else if (party.isMaxMembersReached()) {
+            player.sendI18nMessage("accept.limit-reached");
+        } else {
+            PartyAcceptEvent event = new PartyAcceptEvent(party.getID(), player);
+            
+            if (this.plugin.callEvent(event)) {
+                player.setParty(party);
+                player.sendI18nMessage("accept.accepted");
+
+                party.addMember(player);
+                party.sendPartyUpdate();
+                party.announcePlayerJoin(player.getBukkitPlayer().getName());
+
+                this.plugin.getRequestManager().deleteRequest(party.getID(), player.getBukkitPlayer().getName());
+            }
+        }
+    }
+
     @Override
     public void onExecuteByPlayer(CommandContext ctx) {
         PartyPlayer player = ctx.getPlayer();
@@ -25,31 +46,26 @@ public class PartyAcceptCommand extends CommandListener {
             return;
         } 
 
-        RequestStatus status = player.getPendingRequestFrom(partyID);
-        
-        if (status == RequestStatus.PENDING) {
-            Party party = ctx.getPlugin().getPartyManager().getParty(partyID);
+        if (partyID.length() > 16) {
+            RequestStatus status = player.getPendingRequestFrom(partyID);
+            
+            if (status == RequestStatus.PENDING) {
+                Party party = ctx.getPlugin().getPartyManager().getParty(partyID);
 
-            if (party == null) {
-                player.sendI18nMessage("common.invalid-or-expired");
-            } else if (party.isMaxMembersReached()) {
-                player.sendI18nMessage("accept.limit-reached");
+                accept(player, party);
             } else {
-                PartyAcceptEvent event = new PartyAcceptEvent(partyID, player);
-                
-                if (this.plugin.callEvent(event)) {
-                    player.setParty(party);
-                    player.sendI18nMessage("accept.accepted");
-    
-                    party.addMember(player);
-                    party.sendPartyUpdate();
-                    party.announcePlayerJoin(player.getBukkitPlayer().getName());
-    
-                    this.plugin.getRequestManager().deleteRequest(partyID, player.getBukkitPlayer().getName());
-                }
+                player.sendI18nMessage("common.invalid-or-expired");
             }
         } else {
-            player.sendI18nMessage("common.invalid-or-expired");
+            RequestStatus status = player.getPendingRequestsFromByPartyOwner(partyID);
+
+            if (status == RequestStatus.PENDING) {
+                Party party = ctx.getPlugin().getPartyManager().getPartyByLeader(partyID);
+
+                accept(player, party);
+            } else {
+                player.sendI18nMessage("common.invalid-or-expired");
+            }
         }
     }
 }

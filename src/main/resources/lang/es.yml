@@ -37,6 +37,7 @@ help: |-
   &7 &r
   &5=========== &d&lParties&r &5===========
   &7 &r
+  &d/party accept <player> &8- &7Acepta una invitacion.
   &d/party chat &8- &7Activar el chat de Party.
   &d/party create &8- &7Crear una Party.
   &d/party disband &8- &7Disolver tu Party.

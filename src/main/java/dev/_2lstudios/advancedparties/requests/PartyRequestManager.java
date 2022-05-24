@@ -1,7 +1,10 @@
 package dev._2lstudios.advancedparties.requests;
 
+import com.dotphin.milkshake.find.FindFilter;
+
 import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.parties.Party;
+import dev._2lstudios.advancedparties.parties.PartyData;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
 
 public class PartyRequestManager {
@@ -42,5 +45,11 @@ public class PartyRequestManager {
 
     public void createRequest(Party party, String target) {
         this.createRequest(party.getID(), target);
+    }
+
+    public RequestStatus getRequestByLeader(PartyPlayer player, String leader) {
+        PartyData partyData = plugin.getPartyRepository().findOne(new FindFilter("leader", leader));
+
+        return getRequest(player, partyData.getID());
     }
 }

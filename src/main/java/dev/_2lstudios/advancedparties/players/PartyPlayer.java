@@ -174,4 +174,8 @@ public class PartyPlayer extends CommandExecutor {
 
         return lang == null ? super.getLang() : lang;
     }
+
+    public RequestStatus getPendingRequestsFromByPartyOwner(String partyOwner) {
+        return this.getPlugin().getRequestManager().getRequestByLeader(this, partyOwner);
+    }
 }
