@@ -1,11 +1,14 @@
 package dev._2lstudios.advancedparties.commands.impl;
 
+import dev._2lstudios.advancedparties.commands.Argument;
 import dev._2lstudios.advancedparties.commands.Command;
 import dev._2lstudios.advancedparties.commands.CommandContext;
 import dev._2lstudios.advancedparties.commands.CommandListener;
+import dev._2lstudios.advancedparties.players.PartyPlayer;
 
 @Command(
-  name = "party"
+  name = "party",
+  arguments = { Argument.STRING }
 )
 public class PartyCommand extends CommandListener {
   public PartyCommand() {
@@ -23,6 +26,17 @@ public class PartyCommand extends CommandListener {
 
   @Override
   public void onExecute(CommandContext ctx) {
-    ctx.getExecutor().sendI18nMessage("help");
+    PartyPlayer player = ctx.getPlayer();
+    String playerName = ctx.getArguments().getString(0);
+
+    if (playerName == null) {
+      ctx.getExecutor().sendI18nMessage("help");
+    } else {
+      if (!player.isInParty()) {
+        player.createParty();
+      }
+
+     player.getBukkitPlayer().chat(("/party invite " + playerName));
+    }
   }
 }
