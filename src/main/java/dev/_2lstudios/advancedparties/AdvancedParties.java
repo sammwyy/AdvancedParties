@@ -33,6 +33,7 @@ import dev._2lstudios.advancedparties.parties.PartyManager;
 import dev._2lstudios.advancedparties.players.PartyPlayerData;
 import dev._2lstudios.advancedparties.players.PartyPlayerManager;
 import dev._2lstudios.advancedparties.requests.PartyRequestManager;
+import dev._2lstudios.advancedparties.tasks.RedisPingTask;
 import dev._2lstudios.advancedparties.tasks.ServerPartySyncTask;
 
 public class AdvancedParties extends JavaPlugin {
@@ -117,6 +118,7 @@ public class AdvancedParties extends JavaPlugin {
         this.addCommand(new PartyCommand());
         
         // Register tasks.
+        this.getServer().getScheduler().runTaskTimerAsynchronously(this, new RedisPingTask(this), 15, 15);
         this.getServer().getScheduler().runTaskTimerAsynchronously(this, new ServerPartySyncTask(this), 20 * 5, 20 * 5);
     }
 

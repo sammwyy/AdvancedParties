@@ -94,4 +94,14 @@ public class RedisPubSub {
         this.publisher.close();
         this.suscriber.close();
     }
+
+    public void ping() {
+        if (this.suscriber != null) {
+            this.suscriber.ping();
+        }
+
+        if (publisher != null) {
+            publisher.ping();
+        }
+    }
 }
