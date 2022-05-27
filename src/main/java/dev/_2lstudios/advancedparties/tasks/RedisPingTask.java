@@ -1,6 +1,7 @@
 package dev._2lstudios.advancedparties.tasks;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
+import dev._2lstudios.advancedparties.messaging.packets.KeepAlivePacket;
 
 public class RedisPingTask implements Runnable {
     private AdvancedParties advancedParties;
@@ -11,6 +12,6 @@ public class RedisPingTask implements Runnable {
 
     @Override
     public void run() {
-        advancedParties.getPubSub().ping();
+        advancedParties.getPubSub().publish(new KeepAlivePacket());
     }
 }
