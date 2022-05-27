@@ -1,0 +1,98 @@
+# Common messages
+common:
+  no-permission: "&cVocê não tem permissão para executar este comando."
+  no-by-console: "&cEste comando não pode ser executado no console."
+  already-in-party: "&cVocê já está em uma party."
+  not-in-party: "&cVocê não está em uma party."
+  invalid-or-expired: "&cO convite para a party é invávido ou já expirou."
+  accept: "&8[&a&lAceitar&8]"
+  deny: "&8[&c&lRecusar&8]"
+
+# Commands messages
+accept:
+  usage: "&7Uso: &d/party accept <party>&7."
+  limit-reached: "&cEsta party já ultrapassou o limite de membros possíveis."
+  accepted: "&aVocê aceitou o convite para a party!"
+  join-notify: "&b{player} &ajuntou-se a party."
+
+chat:
+  enabled: "&7Você &aativou &7o chat da party. Agora as mensagens que você enviar só podem ser vistas pelos membros da party."
+  disabled: "&7Você &cdesativou &7o chat da party. Agora você está falando no chat global."
+  format: "&8(&dParty&8) &b{player}&8: &7{message}"
+
+create:
+  success: "&aVocê criou uma party, use &b/party invite <jogador> &apara convidar outros jogadores para sua party."
+
+deny:
+  usage: "&7Uso: &d/party deny <party>&7."
+  denied: "&eVocê recusou o convite da party."
+
+disband:
+  not-leader: "&cApenas o líder pode desfazer a party."
+  disbanded: "&eVocê desfez sua party."
+  disbanded-by-leader: "&eO líder desfez a party."
+  disbanded-by-timeout: "&eO líder da party deslogou e a party foi desfeita."
+
+help: |-
+  &7 &r
+  &5=========== &d&lParties&r &5===========
+  &7 &r
+  &d/party accept <jogador> &8- &7Aceitar um convite para a party.
+  &d/party chat &8- &7Alternar entre o chat da party e o chat global.
+  &d/party create &8- &7Criar uma party.
+  &d/party disband &8- &7Desfazer sua party.
+  &d/party info &8- &7Consultar informações sobre sua party.
+  &d/party invite <jogador> &8- &7Convidar um jogador para sua party.
+  &d/party kick <jogador> &8- &7Expulsar um jogador de sua party.
+  &d/party leave &8- &7Sair de sua party atual.
+  &d/party send <servidor> &8- &7Enviar os membros da party para um servidor.
+  &7 &r
+info:
+  # Require InterfaceMaker plugin as dependency (optional)
+  as-gui:
+    title: "&8Menu da Party"
+    item-name: "&a{member}"
+    item-lore: "&7Clique para expulsar"
+  # If InterfaceMaker is not installed then the information will be displayed in the chat.
+  as-text: |-
+    &7 &r
+    &5========== &d&lSua Party&r &5==========
+    &7 &r
+    &dLíder: &7{leader}
+    &dMembros ({memberscount}/{maxmembers}): &7{members}
+    &7 &r
+invite:
+  usage: "&7Uso: &d/party invite <jogador>&7."
+  not-leader: "&cApenas o líder pode convidar jogadores para a party."
+  target-already-in-party: "&cEste jogador já está em uma party."
+  already-pending: "&cEste jogador já tem um pedido de party pendente."
+  already-denied: "&cEste jogador recusou anteriormente o pedido para se juntar a party."
+  limit-reached: "&cVocê atingiu o limite de membros da party."
+  cannot-your-self: "&cNão é possível convidar você mesmo."
+  sent: "&aSolicitação de party enviada para &b{target}&a."
+  received: |-
+    &7 &r
+    &5=========== &d&lParties&r &5===========
+    &7 &r
+    &b{player} &7convidou você para a party dele.
+    &7 &r
+    &7O que você gostaria de fazer? {actions}
+    &7 &r
+kick:
+  usage: "&7Uso: &d/party kick <jogador>&7."
+  not-leader: "&cApenas o líder pode expulsar jogadores da party."
+  not-in-your-party: "&cEste jogador não está em sua party."
+  cannot-your-self: "&cVocê não pode se expulsar da party."
+  kicked: "&eVocê expulsou &b{player} &ede sua party."
+  kick-notify: "&eVocê foi retirado de sua party."
+  kick-notify-other: "&b{player} &efoi expulso da party."
+
+leave:
+  leader-cannot-leave: "&cO líder não pode sair da party, use /party disband para desfazê-la."
+  leaved: "&aVocê saiu de sua party atual."
+  leave-notify: "&b{player} &esaiu da party."
+
+send:
+  usage: "&7Uso: &d/party send <servidor>&7."
+  not-leader: "&cApenas o líder pode enviar os membros para outro servidor."
+  sending: "&eEnviando você e os membros da party para &b{server}&e..."
