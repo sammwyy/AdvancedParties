@@ -42,6 +42,7 @@ help: |-
   &d/party create &8- &7Crear una Party.
   &d/party disband &8- &7Disolver tu Party.
   &d/party info &8- &7Información de tu Party.
+  &d/party open &8- &7Allow others join without invitation.
   &d/party invite <player> &8- &7Invitar a un jugador.
   &d/party kick <player> &8- &7Expulsar a un jugador.
   &d/party leave &8- &7Dejar la Party actual.
