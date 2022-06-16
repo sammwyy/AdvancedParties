@@ -67,7 +67,7 @@ public class PartyManager {
     }
 
     public Party getPartyByLeader(String leaderName) {
-        PartyData data = plugin.getPartyRepository().findOne(new FindFilter("leader", leaderName));
+        PartyData data = plugin.getPartyRepository().findOne(new FindFilter("leader", leaderName.toLowerCase()));
 
         if (data == null)
             return null;

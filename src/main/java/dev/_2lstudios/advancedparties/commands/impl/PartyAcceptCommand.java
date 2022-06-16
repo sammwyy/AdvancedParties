@@ -94,7 +94,7 @@ public class PartyAcceptCommand extends CommandListener {
 
         @Override
         public Party getPartyInstance(String partyID) {
-            return partyManager.getPartyIfCached(partyID);
+            return partyManager.lookupParty(partyID);
         }
     }
 

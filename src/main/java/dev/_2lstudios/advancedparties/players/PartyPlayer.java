@@ -72,7 +72,7 @@ public class PartyPlayer extends CommandExecutor {
     }
 
     public void createParty() {
-        Party party = this.getPlugin().getPartyManager().createParty(this.getName());
+        Party party = this.getPlugin().getPartyManager().createParty(this.getLowerName());
         this.setParty(party);
     }
 
@@ -154,7 +154,7 @@ public class PartyPlayer extends CommandExecutor {
     @Override
     public String formatMessage(String message) {
         String output = super.formatMessage(message);
-        
+
         if (this.getPlugin().hasPlugin("PlaceholderAPI")) {
             output = PlaceholderAPI.setPlaceholders(this.getBukkitPlayer(), output);
         }
