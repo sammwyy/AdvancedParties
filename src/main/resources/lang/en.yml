@@ -10,7 +10,7 @@ common:
 
 # Commands messages
 accept:
-  usage: "&7Usage: &d/party accept <party>&7."
+  usage: "&7Usage: &d/party [accept | join] <party>&7."
   limit-reached: "&cThis party has already exceeded the limit of possible members."
   accepted: "&aYou have accepted the invitation to the party!"
   join-notify: "&b{player} &ahas joined to the party."
@@ -37,7 +37,7 @@ help: |-
   &7 &r
   &5=========== &d&lParties&r &5===========
   &7 &r
-  &d/party accept <player> &8- &7Accept a party invite.
+  &d/party [accept | join] <player> &8- &7Accept a party invite.
   &d/party chat &8- &7Toggle party chat mode.
   &d/party create &8- &7Create a party.
   &d/party disband &8- &7Disolve your party.
