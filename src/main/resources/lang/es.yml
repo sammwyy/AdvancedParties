@@ -45,6 +45,7 @@ help: |-
   &d/party invite <player> &8- &7Invitar a un jugador.
   &d/party kick <player> &8- &7Expulsar a un jugador.
   &d/party leave &8- &7Dejar la Party actual.
+  &d/party warp &8- &7Send all party members to user server.
   &d/party send <server> &8- &7Enviar a todos los miembros a un servidor.
   &7 &r
 
