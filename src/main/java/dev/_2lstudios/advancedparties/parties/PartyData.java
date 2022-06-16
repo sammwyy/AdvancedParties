@@ -11,4 +11,7 @@ public class PartyData extends Entity {
 
     @Prop
     public List<String> members;
+
+    @Prop
+    public boolean open;
 }

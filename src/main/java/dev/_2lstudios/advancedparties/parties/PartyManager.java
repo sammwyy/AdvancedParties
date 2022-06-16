@@ -41,6 +41,7 @@ public class PartyManager {
         data.leader = leader;
         data.members = new ArrayList<>();
         data.members.add(leader);
+        data.open = false;
         data.save();
 
         Party party = new Party(this.plugin, data);
