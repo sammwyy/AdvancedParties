@@ -7,6 +7,7 @@ import com.dotphin.milkshake.Milkshake;
 import com.dotphin.milkshake.Provider;
 import com.dotphin.milkshake.Repository;
 
+import io.github.leonardosnt.bungeechannelapi.BungeeChannelApi;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -48,6 +49,8 @@ public class AdvancedParties extends JavaPlugin {
     private RedisPubSub pubsub;
     private CacheEngine cache;
 
+    private BungeeChannelApi bungeeChannelApi;
+
     private Repository<PartyData> partyDataRepository;
     private Repository<PartyPlayerData> playerDataRepository;
 
@@ -64,12 +67,12 @@ public class AdvancedParties extends JavaPlugin {
     private void registerOutgoingChannel(String channel) {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, channel);
     }
-    
+
     public boolean callEvent(PartyEvent event) {
         this.getServer().getPluginManager().callEvent(event);
         return !event.isCancelled();
     }
-    
+
     @Override
     public void onEnable () {
         // Initialize API
@@ -79,6 +82,7 @@ public class AdvancedParties extends JavaPlugin {
         this.registerOutgoingChannel("BungeeCord");
 
         // Instantiate managers.
+        this.bungeeChannelApi = new BungeeChannelApi(this);
         this.configManager = new ConfigManager(this);
         this.languageManager = new LanguageManager(this);
         this.hookManager = new HookManager(this);
@@ -86,11 +90,11 @@ public class AdvancedParties extends JavaPlugin {
         this.partyManager = new PartyManager(this);
         this.playerManager = new PartyPlayerManager(this);
         this.requestManager = new PartyRequestManager(this);
-        
+
         // Connect to redis.
         String uri = this.getConfig().getString("settings.redis-uri");
         boolean useRedisPool = this.getConfig().getBoolean("settings.use-redis-pool");
-        
+
         this.cache = useRedisPool ? new RedisPoolCache(uri) : new RedisCache(uri);
         this.pubsub = new RedisPubSub(this, uri);
 
@@ -116,7 +120,7 @@ public class AdvancedParties extends JavaPlugin {
 
         // Register commands.
         this.addCommand(new PartyCommand());
-        
+
         // Register tasks.
         this.getServer().getScheduler().runTaskTimerAsynchronously(this, new RedisPingTask(this), 15, 15);
         this.getServer().getScheduler().runTaskTimerAsynchronously(this, new ServerPartySyncTask(this), 20 * 5, 20 * 5);
@@ -164,6 +168,10 @@ public class AdvancedParties extends JavaPlugin {
 
     public RedisPubSub getPubSub() {
         return this.pubsub;
+    }
+
+    public BungeeChannelApi getBungeeChannelApi() {
+        return bungeeChannelApi;
     }
 
     // Repository getters
