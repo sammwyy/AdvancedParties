@@ -99,3 +99,9 @@ send:
   usage: "&7Usage: &d/party send <server>&7."
   not-leader: "&cOnly the leader can send members to others servers."
   sending: "&eSending you and your party members to &b{server}&e..."
+
+open:
+  usage: "&7Usage: &d/party open&7."
+  not-leader: "&cOnly the leader can toggle public party."
+  enabled: "&7You have &aenabled &7public party. Now others can join without invitation."
+  disabled: "&7You have &cdisabled &7public party."
