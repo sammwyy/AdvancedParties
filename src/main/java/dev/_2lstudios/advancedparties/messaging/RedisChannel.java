@@ -7,6 +7,7 @@ public class RedisChannel {
   public static String PARTY_KICK = prefix + "kick";
   public static String PARTY_JOIN = prefix + "join";
   public static String PARTY_UPDATE = prefix + "update";
+  public static String PARTY_PROMOTE = prefix + "promote";
   public static String PARTY_DISBAND = prefix + "disband";
   public static String PARTY_SEND = prefix + "send";
   public static String PARTY_LEAVE = prefix + "leave";

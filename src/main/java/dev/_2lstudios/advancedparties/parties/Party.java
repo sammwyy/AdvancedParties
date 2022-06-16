@@ -134,6 +134,10 @@ public class Party {
         this.plugin.getPubSub().publish(new PartyLeavePacket(playerName, this.getID()));
     }
 
+    public void announcePlayerPromoted(String playerName) {
+        this.plugin.getPubSub().publish(new PartyPromotePacket(playerName, this.getID()));
+    }
+
     public int getMembersCount() {
         return this.getMembers().size();
     }

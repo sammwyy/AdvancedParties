@@ -41,6 +41,7 @@ help: |-
   &d/party chat &8- &7Toggle party chat mode.
   &d/party create &8- &7Create a party.
   &d/party disband &8- &7Disolve your party.
+  &d/party promote <player> &8- &7Promote a member as an new leader.
   &d/party info &8- &7Get info about your party.
   &d/party invite <player> &8- &7Invite a player to your party.
   &d/party kick <player> &8- &7Kick a player from your party.
@@ -99,3 +100,10 @@ send:
   usage: "&7Usage: &d/party send <server>&7."
   not-leader: "&cOnly the leader can send members to others servers."
   sending: "&eSending you and your party members to &b{server}&e..."
+
+promote:
+  usage: "&7Usage: &d/party promote <player>&7."
+  not-leader: "&cOnly the leader can promote others."
+  target-not-in-party: "&cThis player is not in your party."
+  cant-promote-self: "&cYou can't promote yourself."
+  promoted: "&b{player} &eis now the new leader of the party."
