@@ -67,6 +67,11 @@ public class PartyManager {
     }
 
     public Party getPartyByLeader(String leaderName) {
-        return new Party(plugin, plugin.getPartyRepository().findOne(new FindFilter("leader", leaderName)));
+        PartyData data = plugin.getPartyRepository().findOne(new FindFilter("leader", leaderName));
+
+        if (data == null)
+            return null;
+
+        return new Party(plugin, data);
     }
 }
