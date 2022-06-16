@@ -6,6 +6,7 @@ import dev._2lstudios.advancedparties.commands.Command;
 import dev._2lstudios.advancedparties.commands.CommandContext;
 import dev._2lstudios.advancedparties.commands.CommandListener;
 import dev._2lstudios.advancedparties.parties.Party;
+import dev._2lstudios.advancedparties.parties.PartyManager;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
 import dev._2lstudios.advancedparties.requests.RequestStatus;
 
@@ -22,7 +23,7 @@ public class PartyAcceptCommand extends CommandListener {
             player.sendI18nMessage("accept.limit-reached");
         } else {
             PartyAcceptEvent event = new PartyAcceptEvent(party.getID(), player);
-            
+
             if (this.plugin.callEvent(event)) {
                 player.setParty(party);
                 player.sendI18nMessage("accept.accepted");
@@ -40,32 +41,79 @@ public class PartyAcceptCommand extends CommandListener {
     public void onExecuteByPlayer(CommandContext ctx) {
         PartyPlayer player = ctx.getPlayer();
         String partyID = ctx.getArguments().getString(0);
+        InviteAccepting accepting = getInviteAccepting(ctx, partyID);
+        Party party = accepting.getPartyInstance(partyID);
 
         if (player.isInParty()) {
             player.sendI18nMessage("common.already-in-party");
             return;
-        } 
+        }
 
-        if (partyID.length() > 16) {
-            RequestStatus status = player.getPendingRequestFrom(partyID);
-            
-            if (status == RequestStatus.PENDING) {
-                Party party = ctx.getPlugin().getPartyManager().getParty(partyID);
+        if (party == null) {
+            player.sendI18nMessage("common.invalid-or-expired");
+            return;
+        }
 
-                accept(player, party);
-            } else {
-                player.sendI18nMessage("common.invalid-or-expired");
-            }
-        } else {
-            RequestStatus status = player.getPendingRequestsFromByPartyOwner(partyID);
+        if (party.isOpen()) {
+            accept(player, party);
+            return;
+        }
 
-            if (status == RequestStatus.PENDING) {
-                Party party = ctx.getPlugin().getPartyManager().getPartyByLeader(partyID);
+        if (accepting.hasPendingInvite(partyID, player))
+            accept(player, party);
+        else
+            player.sendI18nMessage("common.invalid-or-expired");
+    }
 
-                accept(player, party);
-            } else {
-                player.sendI18nMessage("common.invalid-or-expired");
-            }
+    private InviteAccepting getInviteAccepting(CommandContext ctx, String partyID) {
+        PartyManager partyManager = ctx.getPlugin().getPartyManager();
+
+        if (partyID.length() > 16)
+            return new PartyIdInviteAccepting(partyManager);
+        else
+            return new PlayerNameInviteAccepting(partyManager);
+    }
+
+    interface InviteAccepting {
+        boolean hasPendingInvite(String partyID, PartyPlayer player);
+
+        Party getPartyInstance(String partyID);
+    }
+
+    class PartyIdInviteAccepting implements InviteAccepting {
+        private PartyManager partyManager;
+
+        public PartyIdInviteAccepting(PartyManager partyManager) {
+            this.partyManager = partyManager;
+        }
+
+        @Override
+        public boolean hasPendingInvite(String partyID, PartyPlayer player) {
+            return player.getPendingRequestFrom(partyID) == RequestStatus.PENDING;
+        }
+
+        @Override
+        public Party getPartyInstance(String partyID) {
+            return partyManager.getPartyIfCached(partyID);
+        }
+    }
+
+    class PlayerNameInviteAccepting implements InviteAccepting {
+
+        private PartyManager partyManager;
+
+        public PlayerNameInviteAccepting(PartyManager partyManager) {
+            this.partyManager = partyManager;
+        }
+
+        @Override
+        public boolean hasPendingInvite(String partyID, PartyPlayer player) {
+            return player.getPendingRequestsFromByPartyOwner(partyID) == RequestStatus.PENDING;
+        }
+
+        @Override
+        public Party getPartyInstance(String partyID) {
+            return partyManager.getPartyByLeader(partyID);
         }
     }
 }
