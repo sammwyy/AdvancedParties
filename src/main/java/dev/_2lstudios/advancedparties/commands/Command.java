@@ -12,6 +12,8 @@ public @interface Command {
 
     public String usageKey() default "";
 
+    public String[] alias() default {};
+
     public String permission() default "";
 
     public Argument[] arguments() default {};
