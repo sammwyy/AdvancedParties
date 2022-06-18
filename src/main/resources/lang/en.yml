@@ -10,7 +10,7 @@ common:
 
 # Commands messages
 accept:
-  usage: "&7Usage: &d/party accept <party>&7."
+  usage: "&7Usage: &d/party [accept | join] <party>&7."
   limit-reached: "&cThis party has already exceeded the limit of possible members."
   accepted: "&aYou have accepted the invitation to the party!"
   join-notify: "&b{player} &ahas joined to the party."
@@ -37,7 +37,7 @@ help: |-
   &7 &r
   &5=========== &d&lParties&r &5===========
   &7 &r
-  &d/party accept <player> &8- &7Accept a party invite.
+  &d/party [accept | join] <player> &8- &7Accept a party invite.
   &d/party chat &8- &7Toggle party chat mode.
   &d/party create &8- &7Create a party.
   &d/party disband &8- &7Disolve your party.
@@ -46,6 +46,7 @@ help: |-
   &d/party invite <player> &8- &7Invite a player to your party.
   &d/party kick <player> &8- &7Kick a player from your party.
   &d/party leave &8- &7Leave your current party.
+  &d/party warp &8- &7Send all party members to user server.
   &d/party send <server> &8- &7Send all party members to other server.
   &7 &r
 
@@ -106,3 +107,9 @@ open:
   not-leader: "&cOnly the leader can toggle public party."
   enabled: "&7You have &aenabled &7public party. Now others can join without invitation."
   disabled: "&7You have &cdisabled &7public party."
+
+warp:
+  usage: "&7Usage: &d/party warp&7."
+  finding-server: "&7Finding current server name..."
+  not-leader: "&cOnly the leader can use warp players."
+  sending: "&eSending you and your party members to &b{server}&e..."

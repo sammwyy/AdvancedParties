@@ -12,6 +12,7 @@ import dev._2lstudios.advancedparties.requests.RequestStatus;
 
 @Command(
   name = "accept",
+  alias = {"join"},
   arguments = { Argument.STRING },
   minArguments = 1
 )

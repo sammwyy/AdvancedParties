@@ -23,6 +23,7 @@ public class PartyCommand extends CommandListener {
     this.addSubcommand(new PartyLeaveCommand());
     this.addSubcommand(new PartySendCommand());
     this.addSubcommand(new PartyOpenCommand());
+    this.addSubcommand(new PartyWarpCommand());
   }
 
   @Override
