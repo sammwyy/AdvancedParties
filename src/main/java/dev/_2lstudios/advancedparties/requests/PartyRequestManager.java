@@ -9,7 +9,7 @@ import dev._2lstudios.advancedparties.players.PartyPlayer;
 
 public class PartyRequestManager {
     private AdvancedParties plugin;
-    
+
     public PartyRequestManager(AdvancedParties plugin) {
         this.plugin = plugin;
     }
@@ -29,16 +29,16 @@ public class PartyRequestManager {
 
     public void denyRequest(String party, String target) {
         this.plugin.getCache().set(
-            target.toLowerCase() + "_" + party, 
-            this.plugin.getConfig().getInt("requests.cooldown-after-deny"), 
+            target.toLowerCase() + "_" + party,
+            this.plugin.getConfig().getInt("requests.cooldown-after-deny"),
             "denied"
         );
     }
 
     public void createRequest(String party, String target) {
         this.plugin.getCache().set(
-            target.toLowerCase() + "_" + party, 
-            this.plugin.getConfig().getInt("requests.expiration"), 
+            target.toLowerCase() + "_" + party,
+            this.plugin.getConfig().getInt("requests.expiration"),
             "pending"
         );
     }
@@ -49,6 +49,9 @@ public class PartyRequestManager {
 
     public RequestStatus getRequestByLeader(PartyPlayer player, String leader) {
         PartyData partyData = plugin.getPartyRepository().findOne(new FindFilter("leader", leader));
+
+        if (partyData == null)
+            return RequestStatus.NONE;
 
         return getRequest(player, partyData.getID());
     }
