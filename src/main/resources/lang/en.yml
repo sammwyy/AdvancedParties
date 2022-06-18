@@ -45,6 +45,7 @@ help: |-
   &d/party invite <player> &8- &7Invite a player to your party.
   &d/party kick <player> &8- &7Kick a player from your party.
   &d/party leave &8- &7Leave your current party.
+  &d/party warp &8- &7Send all party members to user server.
   &d/party send <server> &8- &7Send all party members to other server.
   &7 &r
 
@@ -98,4 +99,10 @@ leave:
 send:
   usage: "&7Usage: &d/party send <server>&7."
   not-leader: "&cOnly the leader can send members to others servers."
+  sending: "&eSending you and your party members to &b{server}&e..."
+
+warp:
+  usage: "&7Usage: &d/party warp&7."
+  finding-server: "&7Finding current server name..."
+  not-leader: "&cOnly the leader can use warp players."
   sending: "&eSending you and your party members to &b{server}&e..."
