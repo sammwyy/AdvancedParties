@@ -1,6 +1,15 @@
 package dev._2lstudios.advancedparties.messaging;
 
-import dev._2lstudios.advancedparties.messaging.packets.*;
+import dev._2lstudios.advancedparties.messaging.packets.PartyChatPacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyDisbandPacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyHookPacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyKickPacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyLeavePacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyPromotePacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartySendPacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyUpdatePacket;
 import org.bukkit.configuration.ConfigurationSection;
 
 import dev._2lstudios.advancedparties.AdvancedParties;
