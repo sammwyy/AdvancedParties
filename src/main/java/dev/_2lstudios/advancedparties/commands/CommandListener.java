@@ -1,8 +1,10 @@
 package dev._2lstudios.advancedparties.commands;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
@@ -21,7 +23,7 @@ public abstract class CommandListener implements CommandExecutor {
   protected void onExecuteByPlayer(CommandContext ctx) {
       ctx.getExecutor().sendI18nMessage("common.no-by-player");
   }
-  
+
   protected void onExecuteByConsole(CommandContext ctx) {
       ctx.getExecutor().sendI18nMessage("common.no-by-console");
   }
@@ -58,9 +60,16 @@ public abstract class CommandListener implements CommandExecutor {
 
   public CommandListener getSubCommand(String name) {
       for (CommandListener subCommand : this.subCommands) {
-          if (subCommand.getCommandInfo().name().equalsIgnoreCase(name)) {
+          Command cmdInfo = subCommand.getCommandInfo();
+
+          if (cmdInfo.name().equalsIgnoreCase(name)) {
               return subCommand;
           }
+
+          if (Arrays.stream(cmdInfo.alias()).anyMatch(alia -> alia.equalsIgnoreCase(name))){
+              return subCommand;
+          }
+
       }
 
       return null;
