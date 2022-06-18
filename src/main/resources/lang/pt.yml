@@ -10,7 +10,7 @@ common:
 
 # Commands messages
 accept:
-  usage: "&7Uso: &d/party accept <party>&7."
+  usage: "&7Uso: &d/party [accept | join] <party>&7."
   limit-reached: "&cEsta party já ultrapassou o limite de membros possíveis."
   accepted: "&aVocê aceitou o convite para a party!"
   join-notify: "&b{player} &ajuntou-se a party."
@@ -37,7 +37,7 @@ help: |-
   &7 &r
   &5=========== &d&lParties&r &5===========
   &7 &r
-  &d/party accept <jogador> &8- &7Aceitar um convite para a party.
+  &d/party [accept | join] <jogador> &8- &7Aceitar um convite para a party.
   &d/party chat &8- &7Alternar entre o chat da party e o chat global.
   &d/party create &8- &7Criar uma party.
   &d/party disband &8- &7Desfazer sua party.
@@ -46,6 +46,7 @@ help: |-
   &d/party invite <jogador> &8- &7Convidar um jogador para sua party.
   &d/party kick <jogador> &8- &7Expulsar um jogador de sua party.
   &d/party leave &8- &7Sair de sua party atual.
+  &d/party warp &8- &7Send all party members to user server.
   &d/party send <servidor> &8- &7Enviar os membros da party para um servidor.
   &7 &r
 info:

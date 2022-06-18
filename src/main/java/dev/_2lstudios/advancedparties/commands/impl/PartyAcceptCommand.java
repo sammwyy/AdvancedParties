@@ -11,6 +11,7 @@ import dev._2lstudios.advancedparties.requests.RequestStatus;
 
 @Command(
   name = "accept",
+  alias = {"join"},
   arguments = { Argument.STRING },
   minArguments = 1
 )
@@ -22,7 +23,7 @@ public class PartyAcceptCommand extends CommandListener {
             player.sendI18nMessage("accept.limit-reached");
         } else {
             PartyAcceptEvent event = new PartyAcceptEvent(party.getID(), player);
-            
+
             if (this.plugin.callEvent(event)) {
                 player.setParty(party);
                 player.sendI18nMessage("accept.accepted");
@@ -44,11 +45,11 @@ public class PartyAcceptCommand extends CommandListener {
         if (player.isInParty()) {
             player.sendI18nMessage("common.already-in-party");
             return;
-        } 
+        }
 
         if (partyID.length() > 16) {
             RequestStatus status = player.getPendingRequestFrom(partyID);
-            
+
             if (status == RequestStatus.PENDING) {
                 Party party = ctx.getPlugin().getPartyManager().getParty(partyID);
 
