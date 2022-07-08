@@ -41,6 +41,7 @@ help: |-
   &d/party chat &8- &7Activar el chat de Party.
   &d/party create &8- &7Crear una Party.
   &d/party disband &8- &7Disolver tu Party.
+  &d/party promote <player> &8- &7Promote a member as an new leader.
   &d/party info &8- &7Información de tu Party.
   &d/party invite <player> &8- &7Invitar a un jugador.
   &d/party kick <player> &8- &7Expulsar a un jugador.

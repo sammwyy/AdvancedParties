@@ -1,8 +1,5 @@
 package dev._2lstudios.advancedparties.messaging;
 
-import org.bukkit.configuration.ConfigurationSection;
-
-import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.messaging.packets.PartyChatPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyDisbandPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyHookPacket;
@@ -10,8 +7,12 @@ import dev._2lstudios.advancedparties.messaging.packets.PartyInvitePacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyKickPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyLeavePacket;
+import dev._2lstudios.advancedparties.messaging.packets.PartyPromotePacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartySendPacket;
 import dev._2lstudios.advancedparties.messaging.packets.PartyUpdatePacket;
+import org.bukkit.configuration.ConfigurationSection;
+
+import dev._2lstudios.advancedparties.AdvancedParties;
 import dev._2lstudios.advancedparties.parties.Party;
 import dev._2lstudios.advancedparties.parties.PartyDisbandReason;
 import dev._2lstudios.advancedparties.players.PartyPlayer;
@@ -36,8 +37,19 @@ public class RedisHandler {
             if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
                 player.sendMessage(
                     player.getI18nMessage("chat.format")
-                        .replace("{player}", packet.getPlayerName())  
+                        .replace("{player}", packet.getPlayerName())
                         .replace("{message}", packet.getMessage())
+                );
+            }
+        }
+    }
+
+    public void handle(PartyPromotePacket packet) {
+        for (PartyPlayer player : this.plugin.getPlayerManager().getPlayers()) {
+            if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
+                player.sendMessage(
+                  player.getI18nMessage("promote.promoted")
+                    .replace("{player}", packet.getPlayerName())
                 );
             }
         }
@@ -48,7 +60,7 @@ public class RedisHandler {
             if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
                 player.sendMessage(
                     player.getI18nMessage("leave.leave-notify")
-                        .replace("{player}", packet.getPlayerName())  
+                        .replace("{player}", packet.getPlayerName())
                 );
             }
         }
@@ -90,7 +102,7 @@ public class RedisHandler {
             if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
                 player.sendMessage(
                     player.getI18nMessage("accept.join-notify")
-                        .replace("{player}", packet.getPlayerName())  
+                        .replace("{player}", packet.getPlayerName())
                 );
             }
         }
@@ -108,7 +120,7 @@ public class RedisHandler {
             if (player.isInParty() && player.getPartyID().equals(packet.getPartyID())) {
                 player.sendMessage(
                     player.getI18nMessage("kick.kick-notify-other")
-                        .replace("{player}", packet.getTargetName())  
+                        .replace("{player}", packet.getTargetName())
                 );
             }
         }
@@ -124,7 +136,7 @@ public class RedisHandler {
             if (header.contains("{actions}")) {
                 String[] parts = header.split("\\{actions\\}");
                 header = parts[0];
-                
+
                 if (parts.length > 1) {
                     footer = parts[1];
                 } else {
@@ -157,7 +169,7 @@ public class RedisHandler {
                     builder.append(ComponentUtils.createClickeableText(target.formatMessage(text), command));
                     builder.append(" ");
                 }
-                
+
                 builder.append(TextComponent.fromLegacyText(footer));
                 target.sendMessage(builder.create());
             }
