@@ -1,21 +1,15 @@
 package dev._2lstudios.advancedparties.parties;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import com.dotphin.milkshake.find.FindFilter;
-
+import dev._2lstudios.advancedparties.AdvancedParties;
+import dev._2lstudios.advancedparties.messaging.packets.*;
+import dev._2lstudios.advancedparties.players.PartyPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import dev._2lstudios.advancedparties.AdvancedParties;
-import dev._2lstudios.advancedparties.messaging.packets.PartyDisbandPacket;
-import dev._2lstudios.advancedparties.messaging.packets.PartyJoinPacket;
-import dev._2lstudios.advancedparties.messaging.packets.PartyLeavePacket;
-import dev._2lstudios.advancedparties.messaging.packets.PartySendPacket;
-import dev._2lstudios.advancedparties.messaging.packets.PartyUpdatePacket;
-import dev._2lstudios.advancedparties.players.PartyPlayer;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Party {
     private AdvancedParties plugin;
@@ -145,6 +139,15 @@ public class Party {
 
     public boolean isMaxMembersReached() {
         return this.getMembersCount() >= this.getMaxMembers();
+    }
+
+    public boolean isOpen() {
+        return this.data.open;
+    }
+
+    public void setOpen(boolean b) {
+        this.data.open = b;
+        this.data.save();
     }
 
     public void sendPartyUpdate() {

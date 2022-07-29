@@ -42,6 +42,7 @@ help: |-
   &d/party create &8- &7Create a party.
   &d/party disband &8- &7Disolve your party.
   &d/party info &8- &7Get info about your party.
+  &d/party open &8- &7Allow others join without invitation.
   &d/party invite <player> &8- &7Invite a player to your party.
   &d/party kick <player> &8- &7Kick a player from your party.
   &d/party leave &8- &7Leave your current party.
@@ -100,6 +101,12 @@ send:
   usage: "&7Usage: &d/party send <server>&7."
   not-leader: "&cOnly the leader can send members to others servers."
   sending: "&eSending you and your party members to &b{server}&e..."
+
+open:
+  usage: "&7Usage: &d/party open&7."
+  not-leader: "&cOnly the leader can toggle public party."
+  enabled: "&7You have &aenabled &7public party. Now others can join without invitation."
+  disabled: "&7You have &cdisabled &7public party."
 
 warp:
   usage: "&7Usage: &d/party warp&7."

@@ -38,7 +38,7 @@ public class PartyInviteCommand extends CommandListener {
             }
 
             RequestStatus status = plugin.getRequestManager().getRequest(targetName, party.getID());
-            
+
             if (status == RequestStatus.PENDING) {
                 player.sendI18nMessage("invite.already-pending");
             } else if (status == RequestStatus.DENIED) {
@@ -46,7 +46,7 @@ public class PartyInviteCommand extends CommandListener {
             } else {
                 OfflinePlayer target = new OfflinePlayer(plugin, targetName);
                 target.download();
-                
+
                 if (target.isInParty()) {
                     player.sendI18nMessage("invite.target-already-in-party");
                 } else {
@@ -54,13 +54,14 @@ public class PartyInviteCommand extends CommandListener {
                         player.getI18nMessage("invite.sent")
                             .replace("{target}", targetName)
                     );
-    
-                    PartyInvitePacket packet = new PartyInvitePacket(party.getLeader(), targetName, party.getID());
+
+                    PartyInvitePacket packet = new PartyInvitePacket(player.getName(), targetName, party.getID());
                     PartyInviteEvent event = new PartyInviteEvent(packet, player);
-                    
+
                     if (plugin.callEvent(event)) {
                         plugin.getPubSub().publish(packet);
                         plugin.getRequestManager().createRequest(party, targetName);
+                        party.sendPartyUpdate();
                     }
                 }
             }

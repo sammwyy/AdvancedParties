@@ -43,6 +43,7 @@ help: |-
   &d/party disband &8- &7Desfazer sua party.
   &d/party info &8- &7Consultar informações sobre sua party.
   &d/party invite <jogador> &8- &7Convidar um jogador para sua party.
+  &d/party open &8- &7Allow others join without invitation.
   &d/party kick <jogador> &8- &7Expulsar um jogador de sua party.
   &d/party leave &8- &7Sair de sua party atual.
   &d/party warp &8- &7Send all party members to user server.

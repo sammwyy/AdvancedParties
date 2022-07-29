@@ -41,6 +41,7 @@ public class PartyManager {
         data.leader = leader;
         data.members = new ArrayList<>();
         data.members.add(leader);
+        data.open = false;
         data.save();
 
         Party party = new Party(this.plugin, data);
@@ -66,6 +67,11 @@ public class PartyManager {
     }
 
     public Party getPartyByLeader(String leaderName) {
-        return new Party(plugin, plugin.getPartyRepository().findOne(new FindFilter("leader", leaderName)));
+        PartyData data = plugin.getPartyRepository().findOne(new FindFilter("leader", leaderName.toLowerCase()));
+
+        if (data == null)
+            return null;
+
+        return new Party(plugin, data);
     }
 }

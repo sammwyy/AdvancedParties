@@ -48,7 +48,7 @@ public class PartyRequestManager {
     }
 
     public RequestStatus getRequestByLeader(PartyPlayer player, String leader) {
-        PartyData partyData = plugin.getPartyRepository().findOne(new FindFilter("leader", leader));
+        PartyData partyData = plugin.getPartyRepository().findOne(new FindFilter("leader", leader.toLowerCase()));
 
         if (partyData == null)
             return RequestStatus.NONE;
